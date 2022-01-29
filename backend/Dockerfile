@@ -5,9 +5,9 @@ RUN apt remove cmdtest
 RUN apt remove yarn
 RUN npm install -g yarn
 RUN npm install -g npm@latest
-WORKDIR /myapp
-COPY Gemfile /myapp/Gemfile
-COPY Gemfile.lock /myapp/Gemfile.lock
+WORKDIR /tfg
+COPY Gemfile /tfg/Gemfile
+COPY Gemfile.lock /tfg/Gemfile.lock
 RUN bundle install
 
 # Add a script to be executed every time the container starts.

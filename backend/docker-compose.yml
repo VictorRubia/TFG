@@ -1,16 +1,15 @@
 version: "3.9"
 services:
   db:
-    image: mysql:5.7
+    image: mysql
     command: --max_connections=10000
     container_name: db
     environment:
       MYSQL_ROOT_PASSWORD: admin
-      #MYSQL_DATABASE: tfg
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     volumes:
-      - ./data/db:/var/lib/mysql
+      - ./mysql/:/var/lib/mysql
     ports:
       - "6033:3306"
   phpmyadmin:
