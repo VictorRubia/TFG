@@ -17,7 +17,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       defaults format: :json do
-        resources :patients
+        resources :patients, only: [:index]
+        get 'patients/get_api_key', to: 'patients#get_api_key'
         resources :measures, only: [:index, :create, :show, :update, :destroy]
       end
     end
