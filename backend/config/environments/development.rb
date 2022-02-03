@@ -14,6 +14,9 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
+  # Don't fallback to assets pipeline if a precompiled asset is missed
+  config.assets.compile = true
+
   # Enable server timing
   config.server_timing = true
 
@@ -68,6 +71,6 @@ Rails.application.configure do
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'mail', port: 25 }
 
 end

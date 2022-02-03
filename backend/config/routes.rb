@@ -1,8 +1,26 @@
 Rails.application.routes.draw do
-  constraints Rodauth::Rails.authenticated do
-    get "dashboard/index"
-  end
-  get 'welcome/index'
-
+  resources :measures
   root "welcome#index"
+  constraints Rodauth::Rails.authenticated do
+    get '/dashboard/index'
+    get '/dashboard', to: 'dashboard#index'
+    #get '/dashboard/create_patient' => 'dashboard#create_patient'
+    get '/dashboard/create_patient' => 'dashboard#create_patient', as: :dashboard_create_patient
+    resources :patients
+  end
+
+  get '/welcome/index'
+  namespace :patient do
+    resource :private_api_keys, only: :update
+  end
+
+  namespace :api do
+    namespace :v1 do
+      defaults format: :json do
+        resources :patients
+        resources :measures, only: [:index, :create, :show, :update, :destroy]
+      end
+    end
+  end
+
 end

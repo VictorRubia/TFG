@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  patient: one
+  hr: 1
+  grades: 9.99
+  minutes: 9.99
+  seconds: 9.99
+  steps: 1
+  accelerometer_X: 1.5
+  accelerometer_Y: 1.5
+  accelerometer_Z: 1.5
+  gyroscope_X: 1.5
+  gyroscope_Y: 1.5
+  gyroscope_Z: 1.5
+
+two:
+  patient: two
+  hr: 1
+  grades: 9.99
+  minutes: 9.99
+  seconds: 9.99
+  steps: 1
+  accelerometer_X: 1.5
+  accelerometer_Y: 1.5
+  accelerometer_Z: 1.5
+  gyroscope_X: 1.5
+  gyroscope_Y: 1.5
+  gyroscope_Z: 1.5

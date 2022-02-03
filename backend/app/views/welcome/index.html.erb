@@ -1,29 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="">Home</a>
-      <%= link_to "Dashboard", dashboard_index_path, class: "nav-item nav-link" %>
-    </div>
-  </div>
-  <% if rodauth.logged_in? %>
-  <span class="navbar-text">
-    <%= link_to "Sign out", rodauth.logout_path, method: :post %>
-  </span>
-  <% else %>
-      <span class="navbar-text">
-      <%= link_to "Sign in", rodauth.login_path %>
-      </span>
-    <span class="navbar-text">
-      <%= link_to "Sign up", rodauth.create_account_path %>
-    </span>
-  <% end %>
-
-</nav>
-
+<%= render "layouts/navbar" %>
 <main>
   <section class="py-5 text-center container">
     <div class="row py-lg-5">
@@ -33,7 +8,6 @@
         <p>
           <a href="#" class="btn btn-primary my-2">Main call to action</a>
           <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-
           <button type="button"
                   class="btn btn-lg btn-danger"
                   data-bs-toggle="popover"

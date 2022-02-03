@@ -24,9 +24,12 @@ services:
     restart: always
     ports:
       - 8081:80
+  mail:
+    image: bytemark/smtp
+    restart: always
   web:
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec bin/rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && rake assets:precompile && bundle exec bin/rails s -p 3000 -b '0.0.0.0'"
     container_name: rails
     volumes:
       - .:/tfg

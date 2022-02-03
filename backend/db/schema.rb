@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_31_103721) do
+ActiveRecord::Schema.define(version: 2022_02_03_081954) do
 
   create_table "account_login_change_keys", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "key", null: false
@@ -45,9 +45,50 @@ ActiveRecord::Schema.define(version: 2022_01_31_103721) do
     t.index ["email"], name: "index_accounts_on_email", unique: true
   end
 
+  create_table "measures", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "patient_id", null: false
+    t.integer "hr"
+    t.decimal "grades", precision: 10
+    t.decimal "minutes", precision: 10
+    t.decimal "seconds", precision: 10
+    t.integer "steps"
+    t.float "accelerometer_X"
+    t.float "accelerometer_Y"
+    t.float "accelerometer_Z"
+    t.float "gyroscope_X"
+    t.float "gyroscope_Y"
+    t.float "gyroscope_Z"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["patient_id"], name: "index_measures_on_patient_id"
+  end
+
+  create_table "patients", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "surname"
+    t.string "username"
+    t.string "password_hash"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "private_api_key_ciphertext"
+    t.string "private_api_key_bidx"
+    t.index ["private_api_key_bidx"], name: "index_patients_on_private_api_key_bidx", unique: true
+  end
+
+  create_table "posts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "patient_id", null: false
+    t.string "title"
+    t.text "body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["patient_id"], name: "index_posts_on_patient_id"
+  end
+
   add_foreign_key "account_login_change_keys", "accounts", column: "id"
   add_foreign_key "account_password_hashes", "accounts", column: "id"
   add_foreign_key "account_password_reset_keys", "accounts", column: "id"
   add_foreign_key "account_remember_keys", "accounts", column: "id"
   add_foreign_key "account_verification_keys", "accounts", column: "id"
+  add_foreign_key "measures", "patients"
+  add_foreign_key "posts", "patients"
 end

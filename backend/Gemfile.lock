@@ -71,8 +71,12 @@ GEM
     after_commit_everywhere (1.1.0)
       activerecord (>= 4.2)
       activesupport
+    argon2-kdf (0.1.7)
     bcrypt (3.1.16)
     bindex (0.8.1)
+    blind_index (2.3.0)
+      activesupport (>= 5.2)
+      argon2-kdf (>= 0.1.1)
     bootsnap (1.10.2)
       msgpack (~> 1.2)
     bootstrap-icons (1.0.11)
@@ -113,6 +117,7 @@ GEM
       activesupport (>= 5.0.0)
     jsbundling-rails (1.0.0)
       railties (>= 6.0.0)
+    lockbox (0.6.8)
     loofah (2.13.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -240,6 +245,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  blind_index (~> 2.3)
   bootsnap
   bootstrap-icons-helper
   capybara
@@ -247,6 +253,7 @@ DEPENDENCIES
   debug
   jbuilder
   jsbundling-rails
+  lockbox (~> 0.6.8)
   mysql2 (~> 0.5)
   puma (~> 5.0)
   rails (~> 7.0.1)

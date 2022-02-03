@@ -1,0 +1,2 @@
+module Patient::PrivateApiKeysHelper
+end

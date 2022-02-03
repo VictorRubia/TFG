@@ -1,0 +1,29 @@
+<header class="p-3 bg-dark text-white">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+        <%= image_tag ("logos/dibujo.svg"), class: "bi me-2", width: 200%>
+      </a>
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+      <% if current_page?(root_path) or current_page?(welcome_index_path) %>
+      <li><a href="/" class="nav-link px-2 text-white">Inicio</a></li>
+      <li><%= link_to "Panel de control", dashboard_path, class: "nav-link px-2 text-secondary" %></li>
+      <% else %>
+      <li><a href="/" class="nav-link px-2 text-secondary">Inicio</a></li>
+      <li><%= link_to "Panel de control", dashboard_path, class: "nav-link px-2 text-white" %></li>
+      <% end %>
+      </ul>
+
+      <div class="text-end">
+        <% if rodauth.logged_in? %>
+          <%= link_to "Salir", rodauth.logout_path, method: :post, class: "btn btn-warning"%>
+        <% else %>
+          <%= link_to "Entrar", rodauth.login_path, class:"btn btn-outline-light me-2" %>
+          <%= link_to "Registrarse", rodauth.create_account_path, class:"btn btn-warning" %>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+</header>
