@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   constraints Rodauth::Rails.authenticated do
     get '/dashboard/index'
     get '/dashboard', to: 'dashboard#index'
-    #get '/dashboard/create_patient' => 'dashboard#create_patient'
     get '/dashboard/create_patient' => 'dashboard#create_patient', as: :dashboard_create_patient
     resources :patients
   end

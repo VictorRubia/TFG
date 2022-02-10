@@ -1,5 +1,6 @@
 class Api::V1::PatientsController < ApplicationController
-  before_action :test_password, only: [:index, :get_api_key]
+  before_action :test_password, only: [:index,:get_api_key]
+
   # GET /patients
   def index
     @patients = Patient.find_by( username: params[:username])
@@ -50,10 +51,16 @@ class Api::V1::PatientsController < ApplicationController
   def patient_params
     params.require(:patient).permit(:name, :surname, :username, :password)
   end
+
   def test_password
-    @patients = Patient.find_by( username: params[:username])
+    authenticate_with_http_token do |token, options|
+      @patient ||= Patient.find_by(private_api_key: token)
+    end
+    @patients = Patient.find_by(username: params[:username])
     if !@patients.nil?
       render json: { message: "No autorizado" }, status: :unauthorized unless @patients.password_hash == params[:password_hash]
+    elsif !@patient.nil?
+      render json: @patient, status: 200
     else
       render json: { message: "No autorizado" }, status: :unauthorized
     end

@@ -7,7 +7,6 @@ class Patient < ApplicationRecord
   validates :private_api_key, uniqueness: true, allow_blank: true
 
   has_many :measures, dependent: :destroy
-  has_many :posts, dependent: :destroy
 
   private
     def set_private_api_key
