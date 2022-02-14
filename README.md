@@ -6,4 +6,4 @@ La explicación del proyecto se puede encontrar en el siguiente [enlace 📔](do
 
 ## Herramientas y lenguajes a utilizar
 
-Las herramientas, lenguajes y tecnologías de desarrollo a utilizar se encuentran en el siguiente [enlace 🛠️](doc/herramientasLenguajes)
+Las herramientas, lenguajes y tecnologías de desarrollo a utilizar se encuentran en el siguiente [enlace 🛠️](doc/herramientasLenguajes.md)
