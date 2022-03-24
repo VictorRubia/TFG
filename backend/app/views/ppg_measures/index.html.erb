@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Ppg measures</h1>
+
+<div id="ppg_measures">
+  <% @ppg_measures.each do |ppg_measure| %>
+    <%= render ppg_measure %>
+    <p>
+      <%= link_to "Show this ppg measure", ppg_measure %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New ppg measure", new_ppg_measure_path %>

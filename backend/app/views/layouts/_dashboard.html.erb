@@ -13,12 +13,16 @@
       <% else %>
         <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="<%= dashboard_url %>" role="tab" aria-controls="nav-home" aria-selected="false"><span data-feather="home"></span> Panel de Control</a>
       <% end %>
-      <% if current_page?(dashboard_create_patient_path)%>
-        <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="<%= dashboard_create_patient_url %>" role="tab" aria-controls="nav-profile" aria-selected="true"><span data-feather="users"></span> Pacientes</a>
+      <% if current_page?(dashboard_create_user_path)%>
+        <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="<%= dashboard_create_user_url %>" role="tab" aria-controls="nav-profile" aria-selected="true"><span data-feather="users"></span> Usuarios</a>
       <% else %>
-        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="<%= dashboard_create_patient_url %>" role="tab" aria-controls="nav-profile" aria-selected="true"><span data-feather="users"></span> Pacientes</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="<%= dashboard_create_user_url %>" role="tab" aria-controls="nav-profile" aria-selected="false"><span data-feather="users"></span> Usuarios</a>
       <% end %>
-      <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false"><span data-feather="bar-chart-2"></span> Informes</a>
+      <% if current_page?(dashboard_activity_user_path)%>
+        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="<%= dashboard_activity_user_url %>" role="tab" aria-controls="nav-contact" aria-selected="true"><span data-feather="bar-chart-2"></span> Actividades</a>
+      <% else %>
+        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="<%= dashboard_activity_user_url %>" role="tab" aria-controls="nav-contact" aria-selected="false"><span data-feather="bar-chart-2"></span> Actividades</a>
+      <% end %>
     </div>
   </nav>
 </div>
@@ -42,23 +46,30 @@
             <% end %>
           </li>
           <li class="nav-item">
-            <% if current_page?(root_path) or current_page?(dashboard_path) or current_page?(dashboard_index_path) %>
-              <%= link_to dashboard_create_patient_path, class: "nav-link" do %>
+            <% if current_page?(dashboard_create_user_path) %>
+              <%= link_to dashboard_create_user_path, class: "nav-link active" do %>
                 <span data-feather="users"></span>
-                Pacientes
+                Usuarios
               <% end %>
             <% else %>
-              <%= link_to dashboard_create_patient_path, class: "nav-link active" do %>
+              <%= link_to dashboard_create_user_path, class: "nav-link" do %>
                 <span data-feather="users"></span>
-                Pacientes
+                Usuarios
               <% end %>
             <% end %>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="bar-chart-2"></span>
-              Informes
-            </a>
+            <% if current_page?(dashboard_activity_user_path) %>
+              <%= link_to dashboard_activity_user_path, class: "nav-link active" do %>
+                <span data-feather="bar-chart-2"></span>
+                Actividades
+              <% end %>
+            <% else %>
+              <%= link_to dashboard_activity_user_path, class: "nav-link" do %>
+                <span data-feather="bar-chart-2"></span>
+                Actividades
+              <% end %>
+            <% end %>
           </li>
         </ul>
       </div>

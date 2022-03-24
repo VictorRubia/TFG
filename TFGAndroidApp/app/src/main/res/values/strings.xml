@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">TFG</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="page_title">Acerca de</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="help">Ayuda</string>
+    <string name="content_description_search">Obtener instrucciones de uso de la aplicación</string>
+
+    <string name="apellidos">Apellido1 Apellido2</string>
+    <string name="nombre">Nombre1 Nombre2</string>
+    <string name="connection_status">Estado de la conexión con el reloj: : </string>
+    <string name="boton_entrar">Entrar</string>
+    <string name="hint_email">Correo electrónico</string>
+    <string name="hint_password">Contraseña</string>
+
+</resources>

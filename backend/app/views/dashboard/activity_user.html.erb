@@ -1,0 +1,47 @@
+<%= render "layouts/dashboard" %>
+<%= stylesheet_link_tag 'create_user' %>
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Actividades</h1>
+  </div>
+
+  <h3>Seleccione un usuario</h3>
+  <div class="input-group">
+    <input class="form-control border-end-0 border" placeholder="Buscar usuario" id="example-search-input">
+    <span class="input-group-append">
+                    <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5" type="button">
+                        <i data-feather="search"></i>
+                    </button>
+                </span>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>
+        </th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellidos</th>
+        <th scope="col">Actividades</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% User.all.each do |user| %>
+        <tr>
+          <td>
+          </td>
+          <td><%= user.name %></td>
+          <td><%= user.surname %></td>
+          <td>
+            <%= link_to dashboard_view_activity_url(user), :class => 'btn btn-outline-primary' do%>
+              <i data-feather="eye" class="icon icon-show"></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</main>
+

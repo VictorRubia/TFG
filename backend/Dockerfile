@@ -1,10 +1,11 @@
 # syntax=docker/dockerfile:1
-FROM ruby:3.1
-RUN apt-get update -qq && apt-get install -y build-essential npm nodejs default-mysql-client default-libmysqlclient-dev
-RUN apt remove cmdtest
-RUN apt remove yarn
-RUN npm install -g yarn
+FROM ruby:3.1.0
+RUN apt-get update -qq && apt-get install -y build-essential npm yarn nodejs default-mysql-client default-libmysqlclient-dev pip
+RUN apt remove cmdtest -y
+RUN python3 -m pip install pandas matplotlib
+RUN python3 -m pip install -U scikit-learn
 RUN npm install -g npm@latest
+RUN npm install -g yarn
 WORKDIR /tfg
 COPY Gemfile /tfg/Gemfile
 COPY Gemfile.lock /tfg/Gemfile.lock

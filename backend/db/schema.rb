@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_03_081954) do
+ActiveRecord::Schema.define(version: 2022_03_24_163428) do
 
   create_table "account_login_change_keys", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "key", null: false
@@ -45,6 +45,16 @@ ActiveRecord::Schema.define(version: 2022_02_03_081954) do
     t.index ["email"], name: "index_accounts_on_email", unique: true
   end
 
+  create_table "activities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.datetime "start_d", precision: 6
+    t.datetime "end_d", precision: 6
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_activities_on_user_id"
+  end
+
   create_table "measures", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "patient_id", null: false
     t.integer "hr"
@@ -75,13 +85,25 @@ ActiveRecord::Schema.define(version: 2022_02_03_081954) do
     t.index ["private_api_key_bidx"], name: "index_patients_on_private_api_key_bidx", unique: true
   end
 
-  create_table "posts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "patient_id", null: false
-    t.string "title"
-    t.text "body"
+  create_table "ppg_measures", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.json "measurement"
+    t.bigint "activity_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["patient_id"], name: "index_posts_on_patient_id"
+    t.index ["activity_id"], name: "index_ppg_measures_on_activity_id"
+  end
+
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "surname"
+    t.string "email"
+    t.text "password_digest"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "private_api_key_ciphertext"
+    t.string "private_api_key_bidx"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["private_api_key_bidx"], name: "index_users_on_private_api_key_bidx", unique: true
   end
 
   add_foreign_key "account_login_change_keys", "accounts", column: "id"
@@ -89,6 +111,7 @@ ActiveRecord::Schema.define(version: 2022_02_03_081954) do
   add_foreign_key "account_password_reset_keys", "accounts", column: "id"
   add_foreign_key "account_remember_keys", "accounts", column: "id"
   add_foreign_key "account_verification_keys", "accounts", column: "id"
+  add_foreign_key "activities", "users"
   add_foreign_key "measures", "patients"
-  add_foreign_key "posts", "patients"
+  add_foreign_key "ppg_measures", "activities"
 end

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ThemeOverlay_MyApp_DynamicColors_DayNight"></style>
+    <style name="Skeleton">
+        <item name="skeletonShimmerRayColor">@color/red</item>
+    </style>
+
+    <style name="SkeletonBone">
+        <item name="skeletonBoneColor">@color/red</item>
+    </style>
+</resources>

@@ -5,36 +5,44 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore bundler config.
-/.bundle
+backend/.bundle
+.env
 
 # Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
+backend/log/*
+backend/tmp/*
 !/log/.keep
 !/tmp/.keep
 
 # Ignore pidfiles, but keep the directory.
-/tmp/pids/*
+backend/tmp/pids/*
 !/tmp/pids/
 !/tmp/pids/.keep
 
 # Ignore uploaded files in development.
-/storage/*
+backend/storage/*
 !/storage/.keep
-/tmp/storage/*
+backend/tmp/storage/*
 !/tmp/storage/
 !/tmp/storage/.keep
 
-/public/assets
+backend/public/assets
 
 # Ignore master key for decrypting credentials and more.
-/config/master.key
+backend/config/master.key
 
-/app/assets/builds/*
+backend/app/assets/builds/*
 !/app/assets/builds/.keep
 
-/node_modules
+backend/node_modules
 
-/config/credentials/development.key
+backend/lib/python/model.pickle
+backend/lib/python/heartpy/*
+backend/lib/python/hrv dataset/*
 
-/config/credentials/test.key
+backend/data/*
+
+backend/config/credentials/development.key
+
+backend/config/credentials/test.key
+backend/data/

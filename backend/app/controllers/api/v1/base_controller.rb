@@ -12,7 +12,7 @@ class Api::V1::BaseController < ApplicationController
 
   def authenticate_user_with_token
     authenticate_with_http_token do |token, options|
-      @patient ||= Patient.find_by(private_api_key: token)
+      @user ||= User.find_by(private_api_key: token)
     end
   end
 

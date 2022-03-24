@@ -62,6 +62,11 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
+  #Suprimir los logs
+  config.log_level = :debug # In any environment initializer, or fatal
+
+  config.assets.debug = false
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
@@ -71,6 +76,17 @@ Rails.application.configure do
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 
-  config.action_mailer.default_url_options = { host: 'mail', port: 25 }
+  config.action_mailer.delivery_method = :smtp
+  host = 'victorrubia.com' #replace with your own url
+  config.action_mailer.default_url_options = { host: host }
 
+  # SMTP settings for gmail
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :user_name            => "tfgestrestransportes@gmail.com",
+    :password             => "ochqfkfpgjktxgpw",
+    :authentication       => "plain",
+    :enable_starttls_auto => true
+  }
 end

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @ppg_measure %>
+
+<div>
+  <%= link_to "Edit this ppg measure", edit_ppg_measure_path(@ppg_measure) %> |
+  <%= link_to "Back to ppg measures", ppg_measures_path %>
+
+  <%= button_to "Destroy this ppg measure", @ppg_measure, method: :delete %>
+</div>

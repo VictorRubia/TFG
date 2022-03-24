@@ -1,0 +1,37 @@
+<%= render "layouts/dashboard" %>
+<%= stylesheet_link_tag 'create_user' %>
+
+<% @activity = activity_details %>
+<% @user = User.find(params[:id]) %>
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
+    <h2>Actividad de <%= @user.name %></h2>
+  </div>
+  <h3>Nombre: <%= @activity.name %></h3>
+
+  <!--  <div class="col-md-3">-->
+  <!--    <div class="h-100 p-5 bg-light border rounded-3">-->
+  <!--      <h2><%#= activity.name %></h2>-->
+  <!--      <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>-->
+  <!--      <button class="btn btn-outline-secondary" type="button">Example button</button>-->
+  <!--    </div>-->
+  <!--  </div>-->
+
+        <div class="card text-center">
+          <div class="card-header">
+            Ejecución Procesamiento
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Output</h5>
+            <%= simple_format(`python3 lib/python/prueba.py #{@activity.id}`) %>
+            <p class="card-text"></p>
+            <a href="/activities/<%= @activity.id %>/export.csv" class="btn btn-primary">Descargar CSV</a>
+          </div>
+        </div>
+
+
+  </div>
+</main>
+
