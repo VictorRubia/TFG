@@ -8,14 +8,26 @@
         android:padding="16dp"
         tools:context="com.victorrubia.tfg.MainActivity">
 
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/recoverbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/password_recover_text"
+            app:layout_constraintTop_toBottomOf="@+id/password_box"
+            app:layout_constraintStart_toStartOf="@+id/password_box"
+            app:icon="@drawable/ic_baseline_key_24"
+            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+            android:layout_marginTop="10dp"
+            android:onClick="passwordRecoveryPage"/>
+
     <Button
             android:text="@string/boton_entrar"
             android:layout_width="309dp"
             android:layout_height="68dp"
             android:id="@+id/boton"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="48dp"
-            app:layout_constraintTop_toBottomOf="@+id/password_box"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/recoverbutton"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -77,24 +89,14 @@
             android:id="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="180dp"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-    <ProgressBar
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progreso"
-            app:layout_constraintTop_toBottomOf="@+id/boton"
-            android:layout_marginTop="64dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="130dp"
             app:layout_constraintStart_toStartOf="parent"/>
 
     <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animationView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/progreso"
+            app:layout_constraintTop_toBottomOf="@+id/boton"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -104,5 +106,6 @@
             app:lottie_rawRes="@raw/lf30_editor_so5kip5m"
             app:lottie_autoPlay="false"
             app:lottie_loop="false"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

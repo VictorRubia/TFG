@@ -8,7 +8,6 @@ import kotlinx.coroutines.launch
 
 class LoadingViewModelFactory(private val apiKey: String) : ViewModelProvider.Factory {
 
-    // 2
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return LoadingViewModel(apiKey) as T
     }

@@ -2,7 +2,6 @@ package com.victorrubia.tfg
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.victorrubia.tfg.R
 import com.victorrubia.tfg.databinding.ActivityAboutBinding
 import com.google.android.material.color.DynamicColors
 

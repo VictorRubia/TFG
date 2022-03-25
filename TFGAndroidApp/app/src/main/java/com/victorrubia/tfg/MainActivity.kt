@@ -10,6 +10,7 @@ import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
@@ -62,16 +63,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 binding.password.error = "Contraseña no válida"
             }
         }
-        binding.progreso.visibility = View.GONE
 
         dataClient = Wearable.WearableOptions.Builder().setLooper(Looper.myLooper()).build().let { options ->
             Wearable.getMessageClient(this.applicationContext, options)
         }
-
-
-        //binding.animationView?.setMinAndMaxFrame(59, 89)
-        //binding.animationView?.setMinAndMaxFrame(90, 138)
-//        binding.animationView?.pr
 
     }
 
@@ -125,6 +120,11 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         startActivity(intent)
     }
 
+    fun passwordRecoveryPage(view: View) {
+        val intent = Intent(this, PasswordRecoveryActivity::class.java)
+        startActivity(intent)
+    }
+
     fun isValidEmail(target: CharSequence?): Boolean {
         Log.d("EMAIL TEST", (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()).toString())
         return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
@@ -143,11 +143,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         binding.animationView?.playAnimation()
         binding.animationView?.loop(true)
 
-        val spinner = binding.progreso
-
-        spinner.visibility = View.GONE
-
-
         // Request a string response from the provided URL.
         val stringRequest = StringRequest(Request.Method.GET, url,
             { response ->
@@ -155,12 +150,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 binding.animationView?.setMinAndMaxFrame(59, 89)
                 binding.animationView?.loop(false)
 
-//                Snackbar.make(
-//                    contextView,
-//                    "Clave API es: ${response}",
-//                    Snackbar.LENGTH_LONG
-//                ).show()
-                spinner.visibility = View.GONE
                 val intent = Intent(this, LoggedActivity::class.java)
                 with (sharedPref!!.edit()) {
                     putString("tfg_estres_api_key", response)
@@ -191,13 +180,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 // Custom animation speed or duration.
                 binding.animationView?.setMinAndMaxFrame(90, 138)
                 binding.animationView?.loop(false)
-                Snackbar.make(
-                    contextView,
-                    "Usuario no encontrado!",
-                    Snackbar.LENGTH_LONG
-                ).show()
-                spinner.visibility = View.GONE
-
+                Toast.makeText(this@MainActivity, "Usuario no encontrado!.", Toast.LENGTH_LONG).show()
             })
 
         // Add the request to the RequestQueue.

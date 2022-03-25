@@ -63,7 +63,7 @@ Rails.application.configure do
   config.assets.quiet = true
 
   #Suprimir los logs
-  config.log_level = :fatal # In any environment initializer, or fatal or debug
+  config.log_level = :debug # In any environment initializer, or fatal
 
   config.assets.debug = false
 
@@ -84,8 +84,8 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     :address              => "smtp.gmail.com",
     :port                 => 587,
-    :user_name            => "tfgestrestransportes@gmail.com",
-    :password             => "ochqfkfpgjktxgpw",
+    :user_name            => "admin@victorrubia.com",
+    :password             => ENV['GMAIL_PASS'],
     :authentication       => "plain",
     :enable_starttls_auto => true
   }

@@ -12,6 +12,8 @@
 
     <color name="text_color">#505050</color>
 
+    <color name="system_background">#fffffbfe</color>
+
     <color name="bone_ray_color">#D7BEBEBE</color>
     <color name="bone_ray_color_alt">#ffffff</color>
 

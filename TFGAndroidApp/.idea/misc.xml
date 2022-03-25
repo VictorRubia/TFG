@@ -3,7 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/victo/GDrive/TFG/TFGAndroidApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/victo/GDrive/TFG/TFGAndroidApp/app/src/main/res/drawable/background.xml" value="0.25982905982905985" />
+        <entry key="..\:/Users/victo/GDrive/TFG/TFGAndroidApp/app/src/main/res/drawable/ic_baseline_check_circle_outline_24.xml" value="0.16623931623931623" />
+        <entry key="..\:/Users/victo/GDrive/TFG/TFGAndroidApp/app/src/main/res/layout-land/activity_main.xml" value="0.11155202821869488" />
+        <entry key="..\:/Users/victo/GDrive/TFG/TFGAndroidApp/app/src/main/res/layout/activity_about.xml" value="0.24230072463768115" />
+        <entry key="..\:/Users/victo/GDrive/TFG/TFGAndroidApp/app/src/main/res/layout/activity_logged.xml" value="0.152991452991453" />
+        <entry key="..\:/Users/victo/GDrive/TFG/TFGAndroidApp/app/src/main/res/layout/activity_main.xml" value="0.375" />
+        <entry key="..\:/Users/victo/GDrive/TFG/TFGAndroidApp/app/src/main/res/layout/activity_password_recover.xml" value="0.1" />
+        <entry key="..\:/Users/victo/GDrive/TFG/TFGAndroidApp/app/src/main/res/layout/activity_password_recovery.xml" value="0.165" />
+        <entry key="..\:/Users/victo/GDrive/TFG/TFGAndroidApp/app/src/main/res/menu/top_app_bar.xml" value="0.25854700854700857" />
+        <entry key="..\:/Users/victo/GDrive/TFG/TFGAndroidApp/app/src/main/res/menu/top_app_bar_basic.xml" value="0.25854700854700857" />
+        <entry key="..\:/Users/victo/GDrive/TFG/TFGAndroidApp/app/src/main/res/menu/top_app_bar_logged.xml" value="0.25854700854700857" />
         <entry key="..\:/Users/victo/IntelliJIDEAProjects/MyApplication2/app/src/main/res/drawable/background.xml" value="0.25569620253164554" />
         <entry key="..\:/Users/victo/IntelliJIDEAProjects/MyApplication2/app/src/main/res/drawable/ic_baseline_attribution_24.xml" value="0.31666666666666665" />
         <entry key="..\:/Users/victo/IntelliJIDEAProjects/MyApplication2/app/src/main/res/drawable/ic_baseline_check_circle_outline_24.xml" value="0.25982905982905985" />
