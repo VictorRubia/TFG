@@ -28,11 +28,12 @@ services:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && rake assets:precompile && bundle exec bin/rails s -p 3000 -b '0.0.0.0'"
     container_name: rails
+    restart: always
     environment:
       - GMAIL_PASS=${GMAIL_PASS}
     volumes:
       - .:/tfg
     ports:
       - "3000:3000"
-    depends_on:
-      - db
+#    depends_on:
+#      - db
