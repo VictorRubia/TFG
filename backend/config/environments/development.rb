@@ -63,7 +63,7 @@ Rails.application.configure do
   config.assets.quiet = true
 
   #Suprimir los logs
-  config.log_level = :debug # In any environment initializer, or fatal
+  config.log_level = :fatal # In any environment initializer, or fatal
 
   config.assets.debug = false
 

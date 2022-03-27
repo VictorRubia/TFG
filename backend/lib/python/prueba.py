@@ -99,7 +99,7 @@ for s in a_splited:
 #             print('%s: %f' % (measure, m[measure]))
         contador = contador + 1
     except Exception as e:
-        print(e)
+        print(f'El {(datetime.strptime(timer[0], "%d/%m/%Y %H:%M:%S.%f") + timedelta(minutes=1*contador)).strftime("%d/%m/%Y a las %H:%M")} <b>no ha sido posible medir</b>')
 
 crearcsv(data)
 
