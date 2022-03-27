@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     private fun getApiKey(){
         // Instantiate the RequestQueue.
         val queue = Volley.newRequestQueue(this)
-        val url = String.format("http://192.168.1.132:3000/api/v1/users/get_api_key/?email=%s&password_digest=%s",binding.email?.text ,binding.password.text)
+        val url = String.format("http://victorrubia.com:3000/api/v1/users/get_api_key/?email=%s&password_digest=%s",binding.email?.text ,binding.password.text)
         val contextView = findViewById<View>(android.R.id.content).getRootView()
 
         hideKeyboard(contextView)

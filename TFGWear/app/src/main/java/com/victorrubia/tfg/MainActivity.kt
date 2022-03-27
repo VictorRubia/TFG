@@ -51,7 +51,7 @@ class MainActivity : Activity(), SensorEventListener, DataClient.OnDataChangedLi
     private var mSensorManager: SensorManager? = null
     private var mHR: Sensor? = null
     private var mHeartRate = 0
-    private var measuring: Boolean? = false
+    private var measuring: Boolean = false
     var path: File? = null
     var file1: File? = null
     var medidas: String? = ""
@@ -376,6 +376,9 @@ class MainActivity : Activity(), SensorEventListener, DataClient.OnDataChangedLi
     override fun onDestroy() {
         // Unregister since the activity is about to be closed.
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver)
+        if(measuring!!) {
+            stopMeasure()
+        }
         super.onDestroy()
     }
 
