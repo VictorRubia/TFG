@@ -389,27 +389,35 @@ class MainActivity : Activity(), SensorEventListener, DataClient.OnDataChangedLi
         try{
             RetrofitHelper.getInstance().create(PPGMeasureAPI::class.java).addMeasure("Bearer ${api_key}", data, actividadActual.id)
             Log.d("REALIZAR POST", "DONE")
+            var huboError = false
             binding.button.isEnabled = true
             binding.interrupted.visibility = View.GONE
         }
         catch (e : SocketTimeoutException){
             Log.d("REALIZAR POST", "ERROR")
             huboError = true
+            Log.d("ERROR", e.toString())
             binding.button.isEnabled = false
             binding.interrupted.visibility = View.VISIBLE
         }
         catch (e : SocketException){
             Log.d("REALIZAR POST", "ERROR")
+            huboError = true
+            Log.d("ERROR", e.toString())
             binding.button.isEnabled = false
             binding.interrupted.visibility = View.VISIBLE
         }
         catch (e : UninitializedPropertyAccessException){
             crearActividad()
+            huboError = true
+            Log.d("ERROR", e.toString())
+
             binding.button.isEnabled = false
             binding.interrupted.visibility = View.VISIBLE
         }
         catch (e : Exception){
-            crearActividad()
+            huboError = true
+            Log.d("ERROR", e.toString())
             binding.button.isEnabled = false
             binding.interrupted.visibility = View.VISIBLE
         }
