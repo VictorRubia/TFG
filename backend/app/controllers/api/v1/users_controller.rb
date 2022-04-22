@@ -9,7 +9,9 @@ class Api::V1::UsersController < ApplicationController
 
   def get_api_key
     @users = User.find_by( email: params[:email])
-    render json: @users.private_api_key
+    render json: {
+      user_details: @users, api_key: @users.private_api_key
+    }
   end
 
   def post_password_recovery
