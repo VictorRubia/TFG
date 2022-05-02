@@ -1,6 +1,6 @@
 class Api::V1::ActivitiesController < Api::V1::BaseController
   before_action :set_activity, only: [:show, :update, :destroy]
-  before_action :authorize_activity, only: [:show, :update, :destroy]
+  # before_action :authorize_activity, only: [:create]
 
   def index
     @activities = @user.activities
@@ -42,6 +42,6 @@ class Api::V1::ActivitiesController < Api::V1::BaseController
   end
 
   def activity_params
-    params.require(:activity).permit(:name, :start_d, :end_d, :user_id)
+    params.require(:activity).permit(:name, :start_d, :end_d)
   end
 end
