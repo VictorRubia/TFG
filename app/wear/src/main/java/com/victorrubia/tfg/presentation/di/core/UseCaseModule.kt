@@ -1,9 +1,8 @@
 package com.victorrubia.tfg.presentation.di.core
 
 import com.victorrubia.tfg.domain.repository.ActivityRepository
-import com.victorrubia.tfg.domain.usecase.EndActivityUseCase
-import com.victorrubia.tfg.domain.usecase.GetCurrentActivityUseCase
-import com.victorrubia.tfg.domain.usecase.NewActivityUseCase
+import com.victorrubia.tfg.domain.repository.UserRepository
+import com.victorrubia.tfg.domain.usecase.*
 import dagger.Module
 import dagger.Provides
 
@@ -23,6 +22,21 @@ class UseCaseModule {
     @Provides
     fun provideEndActivityUseCase(activityRepository: ActivityRepository) : EndActivityUseCase {
         return EndActivityUseCase(activityRepository)
+    }
+
+    @Provides
+    fun provideRequestUserUseCase(userRepository: UserRepository) : RequestUserUseCase{
+        return RequestUserUseCase(userRepository)
+    }
+
+    @Provides
+    fun provideSaveUserUseCase(userRepository: UserRepository) : SaveUserUseCase {
+        return SaveUserUseCase(userRepository)
+    }
+
+    @Provides
+    fun provideGetUserUseCase(userRepository: UserRepository) : GetUserUseCase {
+        return GetUserUseCase(userRepository)
     }
 
 }

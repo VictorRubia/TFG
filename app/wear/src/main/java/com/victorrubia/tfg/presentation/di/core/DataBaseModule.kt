@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.victorrubia.tfg.data.db.ActivityDao
 import com.victorrubia.tfg.data.db.TFGDatabase
+import com.victorrubia.tfg.data.db.UserDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -23,4 +24,11 @@ class DataBaseModule {
     fun provideActivityDao(tfgDatabase: TFGDatabase) : ActivityDao{
         return tfgDatabase.activityDao()
     }
+
+    @Singleton
+    @Provides
+    fun provideUserDao(tfgDatabase: TFGDatabase) : UserDao{
+        return tfgDatabase.userDao()
+    }
+
 }

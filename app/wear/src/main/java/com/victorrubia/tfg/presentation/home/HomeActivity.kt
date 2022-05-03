@@ -2,6 +2,7 @@ package com.victorrubia.tfg.presentation.home
 
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -15,12 +16,16 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.wear.compose.material.*
+import com.google.android.gms.wearable.MessageClient
+import com.google.android.gms.wearable.MessageEvent
+import com.google.android.gms.wearable.Wearable
+import com.victorrubia.tfg.data.model.user.User
 import com.victorrubia.tfg.presentation.di.Injector
 import com.victorrubia.tfg.ui.theme.WearAppTheme
 import java.util.*
 import javax.inject.Inject
 
-class HomeActivity : ComponentActivity() {
+class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListener {
 
     @Inject
     lateinit var factory: HomeViewModelFactory
@@ -28,10 +33,15 @@ class HomeActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         (application as Injector).createHomeSubComponent()
             .inject(this)
         homeViewModel = ViewModelProvider(this, factory)
             .get(HomeViewModel::class.java)
+
+        Wearable.getMessageClient(this).addListener(this)
+
+        var responseLiveData = homeViewModel.requestUser()
 
         setContent {
             StartMeasure{
@@ -40,9 +50,19 @@ class HomeActivity : ComponentActivity() {
         }
     }
 
+//    override fun onResume() {
+//        super.onResume()
+//        Wearable.getMessageClient(this).removeListener(this)
+//    }
+
     fun createActivity(){
         val responseLiveData = homeViewModel.newActivity("Prueba", Calendar.getInstance().time.toString())
         responseLiveData.observe(this, Observer { if(it != null){ } })
+    }
+
+    override fun onMessageReceived(p0: MessageEvent) {
+        Log.i("MyTag", "Mensaje recibido: " + String(p0.data))
+        homeViewModel.saveUser(User(String(p0.data)))
     }
 
 }

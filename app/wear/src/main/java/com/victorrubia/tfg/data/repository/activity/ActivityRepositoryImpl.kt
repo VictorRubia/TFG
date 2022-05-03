@@ -31,6 +31,7 @@ class ActivityRepositoryImpl(
         try{
             val response = activityRemoteDataSource.newActivity(name, startTimestamp)
             val body = response.body()
+            Log.d("MyTag", body.toString())
             if(body != null){
                 activity = body
                 activityLocalDataSource.saveActivityToDB(activity)
