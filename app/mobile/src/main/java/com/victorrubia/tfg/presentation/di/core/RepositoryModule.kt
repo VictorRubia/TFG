@@ -1,5 +1,6 @@
 package com.victorrubia.tfg.presentation.di.core
 
+import android.content.Context
 import com.victorrubia.tfg.data.repository.user.UserRepositoryImpl
 import com.victorrubia.tfg.data.repository.user.datasource.UserCacheDataSource
 import com.victorrubia.tfg.data.repository.user.datasource.UserLocalDataSource
@@ -17,12 +18,12 @@ class RepositoryModule {
     fun provideUserRepository(
         userRemoteDatasource: UserRemoteDatasource,
         userLocalDataSource: UserLocalDataSource,
-        userCacheDataSource: UserCacheDataSource
+        userCacheDataSource: UserCacheDataSource,
     ): UserRepository {
         return UserRepositoryImpl(
             userRemoteDatasource,
             userLocalDataSource,
-            userCacheDataSource
+            userCacheDataSource,
         )
     }
 }

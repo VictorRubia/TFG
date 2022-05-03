@@ -1,6 +1,8 @@
 package com.victorrubia.tfg.data.repository.user
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.victorrubia.tfg.data.model.user.User
 import com.victorrubia.tfg.data.repository.user.datasource.UserCacheDataSource
 import com.victorrubia.tfg.data.repository.user.datasource.UserLocalDataSource
@@ -11,7 +13,7 @@ import retrofit2.Response
 class UserRepositoryImpl(
     private val userRemoteDataSource : UserRemoteDatasource,
     private val userLocalDataSource : UserLocalDataSource,
-    private val userCacheDataSource : UserCacheDataSource
+    private val userCacheDataSource : UserCacheDataSource,
 ) : UserRepository {
 
     override suspend fun getUser(email : String, password : String): User? {
@@ -25,6 +27,19 @@ class UserRepositoryImpl(
 
     override suspend fun requestPasswordReminder(email : String): Boolean {
         return requestPasswordReminderToAPI(email)
+    }
+
+    override suspend fun sendApiKeyToWear() {
+        try{
+            userCacheDataSource.getUserFromCache()?.apiKey?.let { userRemoteDataSource.sendApiKeyToWear(it) }
+        }
+        catch (exception : Exception){
+            Log.i("MyTag", exception.message.toString())
+        }
+    }
+
+    override suspend fun isWearConnected(): Boolean? {
+        return userRemoteDataSource.isWearConnected()
     }
 
     private suspend fun getUserFromAPI(email : String, password : String) : User?{

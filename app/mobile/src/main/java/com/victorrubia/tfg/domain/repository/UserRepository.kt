@@ -1,5 +1,7 @@
 package com.victorrubia.tfg.domain.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.victorrubia.tfg.data.model.user.User
 
 interface UserRepository {
@@ -9,5 +11,9 @@ interface UserRepository {
     suspend fun removeLocalUser()
 
     suspend fun requestPasswordReminder(email : String) : Boolean
+
+    suspend fun sendApiKeyToWear()
+
+    suspend fun isWearConnected() : Boolean?
 
 }

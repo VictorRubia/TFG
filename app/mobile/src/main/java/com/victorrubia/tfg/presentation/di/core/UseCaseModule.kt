@@ -1,9 +1,7 @@
 package com.victorrubia.tfg.presentation.di.core
 
 import com.victorrubia.tfg.domain.repository.UserRepository
-import com.victorrubia.tfg.domain.usecase.GetUserUseCase
-import com.victorrubia.tfg.domain.usecase.RecoverPasswordUseCase
-import com.victorrubia.tfg.domain.usecase.RemoveLocalUserUseCase
+import com.victorrubia.tfg.domain.usecase.*
 import dagger.Module
 import dagger.Provides
 
@@ -23,6 +21,16 @@ class UseCaseModule {
     @Provides
     fun provideRecoverPasswordUseCase(userRepository: UserRepository) : RecoverPasswordUseCase{
         return RecoverPasswordUseCase(userRepository)
+    }
+
+    @Provides
+    fun provideSendApiKeyToWeardUseCase(userRepository: UserRepository) : SendApiKeyToWearUseCase{
+        return SendApiKeyToWearUseCase(userRepository)
+    }
+
+    @Provides
+    fun provideIsWearConnecteddUseCase(userRepository: UserRepository) : IsWearConnectedUseCase {
+        return IsWearConnectedUseCase(userRepository)
     }
 
 }

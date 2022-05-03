@@ -33,7 +33,9 @@ class LoggedActivity : AppCompatActivity() {
 
         displayContent()
 
-        loggedViewModel.initMessageBroadcaster(applicationContext)
+        loggedViewModel.sendApiKeyToWear()
+
+//        loggedViewModel.initMessageBroadcaster(applicationContext)
 
         wearConnectionStatus()
 
@@ -41,7 +43,7 @@ class LoggedActivity : AppCompatActivity() {
 
     private fun wearConnectionStatus(){
 
-        val responseLiveData = loggedViewModel.nodesConnected
+        val responseLiveData = loggedViewModel.isWearConnected()
         val spannableString = SpannableString(binding.loggedWearStatus.text)
 
         responseLiveData.observeForever( Observer {
@@ -64,7 +66,6 @@ class LoggedActivity : AppCompatActivity() {
         responsibleLiveData.observe(this, Observer {
             if(it != null){
                 binding.loggedUserName.text = it.userDetails.name
-                loggedViewModel.broadcastMessage(it.apiKey, applicationContext)
             }
             else{
                 Toast.makeText(applicationContext, "Error", Toast.LENGTH_LONG)
