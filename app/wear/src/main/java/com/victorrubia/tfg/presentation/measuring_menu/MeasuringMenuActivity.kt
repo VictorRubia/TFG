@@ -1,6 +1,10 @@
 package com.victorrubia.tfg.presentation.measuring_menu
 
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
@@ -19,8 +23,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.wear.compose.material.*
+import com.google.android.gms.wearable.Wearable
 import com.victorrubia.tfg.presentation.di.Injector
 import com.victorrubia.tfg.presentation.start_menu.StartMenuActivity
 import com.victorrubia.tfg.ui.theme.WearAppTheme
@@ -32,7 +38,6 @@ class MeasuringMenuActivity:  ComponentActivity() {
     lateinit var factory: MeasuringMenuViewModelFactory
     private lateinit var measuringMenuViewModel: MeasuringMenuViewModel
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -41,6 +46,8 @@ class MeasuringMenuActivity:  ComponentActivity() {
             .inject(this)
         measuringMenuViewModel = ViewModelProvider(this, factory)
             .get(MeasuringMenuViewModel::class.java)
+
+        measuringMenuViewModel.startMeasure(applicationContext)
 
         setContent {
             MainMenu {
