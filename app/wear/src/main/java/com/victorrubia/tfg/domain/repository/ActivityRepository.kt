@@ -8,6 +8,6 @@ interface ActivityRepository {
 
     suspend fun getCurrentActivity() : Activity?
 
-    suspend fun endActivity(activityId : Int, endTimestamp : String) : Activity?
+    suspend fun endActivity() : Activity?
 
 }

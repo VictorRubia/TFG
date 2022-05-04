@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.victorrubia.tfg">
 
-<!--    <uses-permission android:name="android.permission.WAKE_LOCK"/>-->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.BODY_SENSORS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
@@ -28,6 +28,23 @@
         <meta-data
                 android:name="com.google.android.wearable.standalone"
                 android:value="true"/>
+
+        <activity
+                android:name=".presentation.measuring_menu.MeasuringMenuActivity"
+                android:exported="true"
+                android:label="@string/measuring_menu_activity_title"/>
+        <activity
+                android:name=".presentation.activity_confirmation.ActivityConfirmationActivity"
+                android:exported="true"
+                android:label="@string/activity_confirmation_activity_title"/>
+        <activity
+                android:name=".presentation.activity_type.ActivityTypeActivity"
+                android:exported="true"
+                android:label="@string/activity_type_activity_title"/>
+        <activity
+                android:name=".presentation.start_menu.StartMenuActivity"
+                android:exported="true"
+                android:label="@string/start_menu_activity_title"/>
 
         <activity
                 android:name=".presentation.home.HomeActivity"

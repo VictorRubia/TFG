@@ -1,26 +1,34 @@
 package com.victorrubia.tfg.presentation.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.CloudOff
+import androidx.compose.material.icons.rounded.CloudSync
 import com.victorrubia.tfg.R
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.wear.ambient.AmbientModeSupport
 import androidx.wear.compose.material.*
 import com.google.android.gms.wearable.MessageClient
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.Wearable
 import com.victorrubia.tfg.data.model.user.User
 import com.victorrubia.tfg.presentation.di.Injector
+import com.victorrubia.tfg.presentation.start_menu.StartMenuActivity
 import com.victorrubia.tfg.ui.theme.WearAppTheme
 import java.util.*
 import javax.inject.Inject
@@ -41,68 +49,54 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
 
         Wearable.getMessageClient(this).addListener(this)
 
-        var responseLiveData = homeViewModel.requestUser()
+        homeViewModel.requestUser()
 
         setContent {
-            StartMeasure{
-                createActivity()
-            }
+            HomeComponent()
         }
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        Wearable.getMessageClient(this).removeListener(this)
+//    fun createActivity(){
+//        val responseLiveData = homeViewModel.newActivity("Prueba", Calendar.getInstance().time.toString())
+//        responseLiveData.observe(this, Observer { if(it != null){ } })
 //    }
-
-    fun createActivity(){
-        val responseLiveData = homeViewModel.newActivity("Prueba", Calendar.getInstance().time.toString())
-        responseLiveData.observe(this, Observer { if(it != null){ } })
-    }
 
     override fun onMessageReceived(p0: MessageEvent) {
         Log.i("MyTag", "Mensaje recibido: " + String(p0.data))
         homeViewModel.saveUser(User(String(p0.data)))
+        startActivity(Intent(this, StartMenuActivity::class.java))
+        finish()
     }
 
 }
 
 @Composable
-fun StartMeasure(createActivity: () -> Unit){
+fun HomeComponent(){
     WearAppTheme {
-        /* *************************** Part 4: Wear OS Scaffold *************************** */
-        // TODO (Start): Create a Scaffold (Wear Version)
         Scaffold(
             timeText = {
-                TimeText()
+                TimeText(
+                    timeTextStyle = TextStyle(fontSize = 15.sp)
+                )
             },
         ) {
-
-            /* *************************** Part 3: ScalingLazyColumn *************************** */
-            // TODO: Create a ScalingLazyColumn (Wear's version of LazyColumn)
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Button(
-                    modifier = Modifier.size(100.dp,100.dp),
-                    onClick = { createActivity() },
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_activity),
-                        contentDescription = "triggers phone action",
-                        modifier = Modifier.size(75.dp,75.dp)
-                    )
-                }
+                Icon(
+                    modifier = Modifier.size(width = 100.dp,height = 100.dp),
+                    imageVector = Icons.Rounded.CloudSync,
+                    contentDescription = "Icono sincronización de datos",
+                    tint = MaterialTheme.colors.primary
+                )
                 Spacer(modifier = Modifier.height(15.dp))
                 Text(
                     textAlign = TextAlign.Center,
-//                    color = MaterialTheme.colors.primary,
-                    text = "COMENZAR\r\nACTIVIDAD"
+                    text = "SINCRONIZANDO"
                 )
             }
-            // TODO (End): Create a Scaffold (Wear Version)
         }
     }
 }

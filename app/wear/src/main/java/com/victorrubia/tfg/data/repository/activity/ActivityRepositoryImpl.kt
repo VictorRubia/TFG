@@ -6,6 +6,9 @@ import com.victorrubia.tfg.data.repository.activity.datasource.ActivityCacheData
 import com.victorrubia.tfg.data.repository.activity.datasource.ActivityLocalDataSource
 import com.victorrubia.tfg.data.repository.activity.datasource.ActivityRemoteDataSource
 import com.victorrubia.tfg.domain.repository.ActivityRepository
+import java.time.Instant
+import java.time.ZoneId
+import java.util.*
 
 class ActivityRepositoryImpl(
     private val activityRemoteDataSource : ActivityRemoteDataSource,
@@ -21,8 +24,8 @@ class ActivityRepositoryImpl(
         return getActivityFromCache()
     }
 
-    override suspend fun endActivity(activityId: Int, endTimestamp: String): Activity? {
-        return endActivityAPI(activityId, endTimestamp)
+    override suspend fun endActivity(): Activity? {
+        return endActivityAPI()
     }
 
     suspend fun newActivityAPI(name: String, startTimestamp: String) : Activity {
@@ -39,18 +42,18 @@ class ActivityRepositoryImpl(
             }
         }
         catch (exception : Exception){
-            Log.e("MyTag", exception.message.toString())
+            Log.e("MyTagg", exception.message.toString())
         }
 
         return activity
     }
 
-    suspend fun endActivityAPI(activityId: Int, endTimestamp: String) : Activity? {
-        lateinit var activity: Activity
+    suspend fun endActivityAPI() : Activity? {
+        val activity: Activity? = activityCacheDataSource.getActivityFromCache()
 
         try {
-            val response = activityRemoteDataSource.endActivity(activityId, endTimestamp)
-            val body = response.body()
+            val response = activity?.id?.let { activityRemoteDataSource.endActivity(it, Instant.now().atZone(ZoneId.of("Europe/Madrid")).toString()) }
+            val body = response?.body()
             if(body != null){
                 activityLocalDataSource.clearAll()
                 activityCacheDataSource.clearAll()

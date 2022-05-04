@@ -50,7 +50,6 @@ class UserRepositoryImpl(
 
         try {
             user = userLocalDataSource.getUserFromDB()
-            Log.d("MyTag", "GetUserFromDB: " + user?.apiKey)
         }
         catch (exception : Exception){
             Log.e("MyTag", exception.message.toString())

@@ -1,6 +1,8 @@
 package com.victorrubia.tfg.presentation.di.core
 
+import com.victorrubia.tfg.presentation.di.activity_confirmation.ActivityConfirmationSubComponent
 import com.victorrubia.tfg.presentation.di.home.HomeSubComponent
+import com.victorrubia.tfg.presentation.di.measuring_menu.MeasuringMenuSubComponent
 import dagger.Component
 import javax.inject.Singleton
 
@@ -18,5 +20,7 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun homeSubComponent() : HomeSubComponent.Factory
+    fun activityConfirmationSubComponent() : ActivityConfirmationSubComponent.Factory
+    fun measuringMenuSubComponent() : MeasuringMenuSubComponent.Factory
 
 }

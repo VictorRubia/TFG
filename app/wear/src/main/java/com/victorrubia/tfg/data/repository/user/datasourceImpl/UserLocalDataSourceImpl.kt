@@ -11,7 +11,7 @@ class UserLocalDataSourceImpl(
     private val userDao : UserDao
 ) : UserLocalDataSource{
 
-    override suspend fun getUserFromDB(): User? {
+    override suspend fun getUserFromDB(): User {
         return userDao.getUser()
     }
 

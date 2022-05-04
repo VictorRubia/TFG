@@ -1,7 +1,5 @@
 package com.victorrubia.tfg.data.repository.user.datasource
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.victorrubia.tfg.data.model.user.User
 import retrofit2.Response
 

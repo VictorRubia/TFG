@@ -5,5 +5,8 @@
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">Hello Square World!</string>
-    <string name="title_activity_prueba">Prueba</string>
+    <string name="start_menu_activity_title">Comenzar actividad</string>
+    <string name="activity_type_activity_title">Tipos de actividad</string>
+    <string name="activity_confirmation_activity_title">Confirmación de inicio de actividad</string>
+    <string name="measuring_menu_activity_title">Menú de medición</string>
 </resources>

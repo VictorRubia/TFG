@@ -3,8 +3,10 @@ package com.victorrubia.tfg.presentation.di.core
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.victorrubia.tfg.data.api.TFGService
+import com.victorrubia.tfg.data.db.UserDao
 import com.victorrubia.tfg.data.repository.activity.datasource.ActivityRemoteDataSource
 import com.victorrubia.tfg.data.repository.activity.datasourceImpl.ActivityRemoteDataSourceImpl
+import com.victorrubia.tfg.data.repository.user.datasource.UserCacheDataSource
 import com.victorrubia.tfg.data.repository.user.datasource.UserLocalDataSource
 import com.victorrubia.tfg.data.repository.user.datasource.UserRemoteDataSource
 import com.victorrubia.tfg.data.repository.user.datasourceImpl.UserRemoteDataSourceImpl
@@ -13,13 +15,13 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-//class RemoteDataModule(private val apiKey : MutableLiveData<String>) {
-class RemoteDataModule(private val apiKey : UserLocalDataSource) {
+//class RemoteDataModule(private val apiKey : UserLocalDataSource) {
+class RemoteDataModule() {
 
     @Singleton
     @Provides
-    fun provideActivityRemoteDataSource(tfgService: TFGService) : ActivityRemoteDataSource{
-        return ActivityRemoteDataSourceImpl(tfgService, apiKey)
+    fun provideActivityRemoteDataSource(tfgService: TFGService, userDataSource: UserCacheDataSource) : ActivityRemoteDataSource{
+        return ActivityRemoteDataSourceImpl(tfgService, userDataSource)
     }
 
     @Singleton

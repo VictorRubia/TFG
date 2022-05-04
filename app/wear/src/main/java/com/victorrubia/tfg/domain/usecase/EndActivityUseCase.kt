@@ -5,6 +5,6 @@ import com.victorrubia.tfg.domain.repository.ActivityRepository
 
 class EndActivityUseCase(private val activityRepository : ActivityRepository) {
 
-    suspend fun execute(activityId: Int, endTimestamp: String) : Activity? = activityRepository.endActivity(activityId, endTimestamp)
+    suspend fun execute() : Activity? = activityRepository.endActivity()
 
 }
