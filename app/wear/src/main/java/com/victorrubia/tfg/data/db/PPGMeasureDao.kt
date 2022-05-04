@@ -10,7 +10,7 @@ import com.victorrubia.tfg.data.model.ppg_measure.PPGMeasure
 interface PPGMeasureDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun savePPGMeasure(ppgMeasures: List<PPGMeasure>)
+    suspend fun savePPGMeasure(ppgMeasures: PPGMeasure)
 
     @Query("DELETE FROM ppg_measures")
     suspend fun deletePPGMeasures()

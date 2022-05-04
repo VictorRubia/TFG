@@ -19,7 +19,7 @@ interface TFGService {
 
     @POST("ppg_measures/")
     suspend fun addPPGMeasure(@Header("Authorization") apiKey : String,
-                           @Field("ppg_measure[measurement]") measurement: String,
-                           @Field("ppg_measure[activity_id]") activityID: Int,
-    ) : Response<PPGMeasure>
+                           @Query("ppg_measure[measurement]") measurement: String,
+                           @Query("ppg_measure[activity_id]") activityID: Int,
+    ) : Response<*>
 }

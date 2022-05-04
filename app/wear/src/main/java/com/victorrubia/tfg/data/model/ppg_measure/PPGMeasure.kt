@@ -3,17 +3,49 @@ package com.victorrubia.tfg.data.model.ppg_measure
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
+import androidx.room.TypeConverters
+import com.victorrubia.tfg.data.converters.Converters
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import java.time.ZonedDateTime
+import kotlinx.serialization.*
+import java.text.SimpleDateFormat
+import java.util.*
+
+//object ZonedDateTimeSerializer : KSerializer<ZonedDateTime> {
+//    override val descriptor = PrimitiveSerialDescriptor("ZonedDateTime", PrimitiveKind.STRING)
+//
+//    override fun deserialize(decoder: Decoder): ZonedDateTime {
+//        return ZonedDateTime.parse(decoder.decodeString())
+//    }
+//
+//    override fun serialize(encoder: Encoder, value: ZonedDateTime) {
+//        encoder.encodeString(value.toString())
+//    }
+//}
+
+object DateSerializer : KSerializer<Date> {
+    override val descriptor = PrimitiveSerialDescriptor("Date", PrimitiveKind.STRING)
+
+    override fun deserialize(decoder: Decoder): Date {
+        return SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SS").parse(decoder.decodeString())
+    }
+
+    override fun serialize(encoder: Encoder, value: Date) {
+        val df = SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SS")
+        encoder.encodeString(df.format(value))
+    }
+}
 
 @Entity(tableName = "ppg_measures")
+@Serializable
 data class PPGMeasure(
     @PrimaryKey
-    @SerializedName("id")
-    val id: Int,
-    @SerializedName("activity_id")
-    val activityId: Int,
-    @SerializedName("measurement")
-    val measurement: String,
-    @SerializedName("url")
-    val url: String
+    val measure: Int,
+    @TypeConverters(Converters::class)
+    @Serializable(with = DateSerializer::class)
+    val date: Date,
 )

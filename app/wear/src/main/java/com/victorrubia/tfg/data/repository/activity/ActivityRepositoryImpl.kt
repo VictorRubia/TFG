@@ -34,7 +34,6 @@ class ActivityRepositoryImpl(
         try{
             val response = activityRemoteDataSource.newActivity(name, startTimestamp)
             val body = response.body()
-            Log.d("MyTag", body.toString())
             if(body != null){
                 activity = body
                 activityLocalDataSource.saveActivityToDB(activity)
@@ -42,7 +41,7 @@ class ActivityRepositoryImpl(
             }
         }
         catch (exception : Exception){
-            Log.e("MyTagg", exception.message.toString())
+            Log.e("MyTag", exception.message.toString())
         }
 
         return activity
@@ -52,6 +51,7 @@ class ActivityRepositoryImpl(
         val activity: Activity? = activityCacheDataSource.getActivityFromCache()
 
         try {
+//            val response = activity?.id?.let { activityRemoteDataSource.endActivity(it, Instant.now().atZone(ZoneId.of("Europe/Madrid")).toString()) }
             val response = activity?.id?.let { activityRemoteDataSource.endActivity(it, Instant.now().atZone(ZoneId.of("Europe/Madrid")).toString()) }
             val body = response?.body()
             if(body != null){

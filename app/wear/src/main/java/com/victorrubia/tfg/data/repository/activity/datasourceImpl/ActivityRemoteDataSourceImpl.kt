@@ -12,7 +12,6 @@ import retrofit2.Response
 
 class ActivityRemoteDataSourceImpl(
     private val tfgService: TFGService,
-//    private val apiKey : UserLocalDataSource
     private val user : UserCacheDataSource
 ) : ActivityRemoteDataSource {
 

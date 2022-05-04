@@ -3,6 +3,7 @@ package com.victorrubia.tfg.presentation.di.core
 import android.content.Context
 import androidx.room.Room
 import com.victorrubia.tfg.data.db.ActivityDao
+import com.victorrubia.tfg.data.db.PPGMeasureDao
 import com.victorrubia.tfg.data.db.TFGDatabase
 import com.victorrubia.tfg.data.db.UserDao
 import dagger.Module
@@ -29,6 +30,12 @@ class DataBaseModule {
     @Provides
     fun provideUserDao(tfgDatabase: TFGDatabase) : UserDao{
         return tfgDatabase.userDao()
+    }
+
+    @Singleton
+    @Provides
+    fun providePPGMeasureDao(tfgDatabase: TFGDatabase) : PPGMeasureDao {
+        return tfgDatabase.ppgMeasureDao()
     }
 
 }

@@ -11,18 +11,30 @@ import androidx.activity.ComponentActivity
 import androidx.core.content.getSystemService
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.victorrubia.tfg.data.model.ppg_measure.PPGMeasure
 import com.victorrubia.tfg.domain.usecase.EndActivityUseCase
+import com.victorrubia.tfg.domain.usecase.EndPPGMeasureUseCase
+import com.victorrubia.tfg.domain.usecase.GetCurrentActivityUseCase
+import com.victorrubia.tfg.domain.usecase.SavePPGMeasureUseCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.ZoneId
+import java.util.*
 import javax.inject.Inject
 
 
 class MeasuringMenuViewModel(
     private val endActivityUseCase: EndActivityUseCase,
+    private val getCurrentActivityUseCase: GetCurrentActivityUseCase,
+    private val savePPGMeasureUseCase: SavePPGMeasureUseCase,
+    private val endPPGMeasureUseCase: EndPPGMeasureUseCase
 ) : ViewModel(), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager
     private lateinit var heartRateSensor : Sensor
-    private lateinit var listaMediciones : MutableList<PPGMeasure>
 
     fun startMeasure(context : Context) {
         sensorManager = context.getSystemService(ComponentActivity.SENSOR_SERVICE) as SensorManager
@@ -32,6 +44,7 @@ class MeasuringMenuViewModel(
 
     fun endActivity() = liveData{
         stopSensor()
+        getCurrentActivityUseCase.execute()?.let { endPPGMeasureUseCase.execute(it.id) }
         val activity = endActivityUseCase.execute()
         emit(activity)
     }
@@ -42,8 +55,10 @@ class MeasuringMenuViewModel(
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event!!.sensor.type == 65572) {
-            Log.d("MyTag", "Recibo Señal")
-//            listaMediciones.add(PPGMeasure())
+            viewModelScope.launch{
+                getCurrentActivityUseCase.execute()
+                    ?.let { savePPGMeasureUseCase.execute(PPGMeasure(event.values[0].toInt(), Date()), it.id) }
+            }
         }
     }
 
