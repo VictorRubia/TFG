@@ -17,9 +17,10 @@ interface TFGService {
                             @Path(value = "id") activityId : Int,
                             @Query("activity[end_d]") endTimestamp : String) : Response<Activity>
 
+    @FormUrlEncoded
     @POST("ppg_measures/")
     suspend fun addPPGMeasure(@Header("Authorization") apiKey : String,
-                           @Query("ppg_measure[measurement]") measurement: String,
-                           @Query("ppg_measure[activity_id]") activityID: Int,
+                              @Field("ppg_measure[measurement]") measurement: String,
+                              @Field("ppg_measure[activity_id]") activityID: Int,
     ) : Response<*>
 }

@@ -22,7 +22,7 @@ class PPGMeasureRepositoryImpl(
         try {
             ppgMeasureCacheDataSource.addPPGMeasureToCache(ppgMeasure)
             count++
-            if(count == 500){
+            if(count == 250){
                 count = 0
                 sendPPGMeasureToAPI(ppgMeasureCacheDataSource.getPPGMeasureFromCache(), activityId)
             }
