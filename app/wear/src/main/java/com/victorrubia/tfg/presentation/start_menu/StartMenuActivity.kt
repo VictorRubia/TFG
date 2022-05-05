@@ -6,7 +6,9 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.CloudOff
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -36,22 +38,27 @@ class StartMenuActivity :  ComponentActivity() {
 
 @Composable
 fun StartMeasure(startActivity : () -> Unit){
+    var loading by remember { mutableStateOf(true) }
     WearAppTheme {
         Scaffold(
-            timeText = {
-                TimeText(
-                    timeTextStyle = TextStyle(fontSize = 15.sp)
-                )
-            },
+            timeText = { if(loading) TimeText(timeTextStyle = TextStyle(fontSize = 15.sp)) },
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                if(!loading){
+                    CircularProgressIndicator()
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
                 Button(
                     modifier = Modifier.size(100.dp,100.dp),
-                    onClick = { startActivity() },
+                    onClick = {
+                        startActivity()
+                        loading = !loading
+                              },
+                    enabled = loading
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_activity),

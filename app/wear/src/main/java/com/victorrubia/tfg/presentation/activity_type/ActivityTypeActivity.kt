@@ -9,7 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DirectionsBus
 import androidx.compose.material.icons.rounded.DirectionsRailway
 import androidx.compose.material.icons.rounded.Subway
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -69,9 +69,11 @@ fun ActivityTypeList(createActivity: (String) -> Unit){
 
 @Composable
 fun activityTypeChip(text : String, icon : ImageVector, createActivity: (String) -> Unit){
+    var loading by remember { mutableStateOf(true) }
     Chip(
-        onClick = { createActivity(text) },
-        enabled = true,
+        onClick = { createActivity(text)
+                  loading = false},
+        enabled = loading,
         label = {
             Text(
                 text = text,
