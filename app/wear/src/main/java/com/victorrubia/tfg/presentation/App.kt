@@ -7,6 +7,7 @@ import com.victorrubia.tfg.data.repository.user.datasource.UserLocalDataSource
 import com.victorrubia.tfg.presentation.di.Injector
 import com.victorrubia.tfg.presentation.di.activity_confirmation.ActivityConfirmationSubComponent
 import com.victorrubia.tfg.presentation.di.core.*
+import com.victorrubia.tfg.presentation.di.feelings_menu.FeelingsMenuSubComponent
 import com.victorrubia.tfg.presentation.di.home.HomeSubComponent
 import com.victorrubia.tfg.presentation.di.measuring_menu.MeasuringMenuSubComponent
 import javax.inject.Inject
@@ -35,5 +36,9 @@ class App : Application(), Injector {
 
     override fun createMeasuringMenuSubComponent(): MeasuringMenuSubComponent {
         return appComponent.measuringMenuSubComponent().create()
+    }
+
+    override fun createFeelingsMenuSubComponent(): FeelingsMenuSubComponent {
+        return appComponent.feelingsMenuSubComponent().create()
     }
 }

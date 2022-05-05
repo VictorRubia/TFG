@@ -2,6 +2,7 @@ package com.victorrubia.tfg.presentation.di.core
 
 import com.victorrubia.tfg.domain.repository.ActivityRepository
 import com.victorrubia.tfg.domain.repository.PPGMeasureRepository
+import com.victorrubia.tfg.domain.repository.TagRepository
 import com.victorrubia.tfg.domain.repository.UserRepository
 import com.victorrubia.tfg.domain.usecase.*
 import dagger.Module
@@ -48,6 +49,11 @@ class UseCaseModule {
     @Provides
     fun provideEndPPGMeasureUseCase(ppgMeasureRepository: PPGMeasureRepository) : EndPPGMeasureUseCase {
         return EndPPGMeasureUseCase(ppgMeasureRepository)
+    }
+
+    @Provides
+    fun provideAddTagUseCase(tagRepository: TagRepository) : AddTagUseCase {
+        return AddTagUseCase(tagRepository)
     }
 
 }

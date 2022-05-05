@@ -30,6 +30,18 @@
                 android:value="true"/>
 
         <activity
+                android:name=".presentation.feelings_menu.FeelingsMenuActivity"
+                android:exported="true"
+                android:label="@string/feelings_menu_activity_title"/>
+        <activity
+                android:name=".presentation.emotions_menu.EmotionsMenuActivity"
+                android:exported="true"
+                android:label="@string/emotions_menu_activity_title"/>
+        <activity
+                android:name=".presentation.status_menu.StatusMenuActivity"
+                android:exported="true"
+                android:label="@string/status_menu_activity_title"/>
+        <activity
                 android:name=".presentation.measuring_menu.MeasuringMenuActivity"
                 android:exported="true"
                 android:label="@string/measuring_menu_activity_title"/>

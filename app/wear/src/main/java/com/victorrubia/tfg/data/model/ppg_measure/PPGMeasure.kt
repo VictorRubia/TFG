@@ -15,18 +15,6 @@ import kotlinx.serialization.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-//object ZonedDateTimeSerializer : KSerializer<ZonedDateTime> {
-//    override val descriptor = PrimitiveSerialDescriptor("ZonedDateTime", PrimitiveKind.STRING)
-//
-//    override fun deserialize(decoder: Decoder): ZonedDateTime {
-//        return ZonedDateTime.parse(decoder.decodeString())
-//    }
-//
-//    override fun serialize(encoder: Encoder, value: ZonedDateTime) {
-//        encoder.encodeString(value.toString())
-//    }
-//}
-
 object DateSerializer : KSerializer<Date> {
     override val descriptor = PrimitiveSerialDescriptor("Date", PrimitiveKind.STRING)
 

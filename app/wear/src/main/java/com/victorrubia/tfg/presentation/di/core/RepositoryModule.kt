@@ -9,12 +9,17 @@ import com.victorrubia.tfg.data.repository.ppg_measure.PPGMeasureRepositoryImpl
 import com.victorrubia.tfg.data.repository.ppg_measure.datasource.PPGMeasureCacheDataSource
 import com.victorrubia.tfg.data.repository.ppg_measure.datasource.PPGMeasureLocalDataSource
 import com.victorrubia.tfg.data.repository.ppg_measure.datasource.PPGMeasureRemoteDataSource
+import com.victorrubia.tfg.data.repository.tag.TagRepositoryImpl
+import com.victorrubia.tfg.data.repository.tag.datasource.TagCacheDataSource
+import com.victorrubia.tfg.data.repository.tag.datasource.TagLocalDataSource
+import com.victorrubia.tfg.data.repository.tag.datasource.TagRemoteDataSource
 import com.victorrubia.tfg.data.repository.user.UserRepositoryImpl
 import com.victorrubia.tfg.data.repository.user.datasource.UserCacheDataSource
 import com.victorrubia.tfg.data.repository.user.datasource.UserLocalDataSource
 import com.victorrubia.tfg.data.repository.user.datasource.UserRemoteDataSource
 import com.victorrubia.tfg.domain.repository.ActivityRepository
 import com.victorrubia.tfg.domain.repository.PPGMeasureRepository
+import com.victorrubia.tfg.domain.repository.TagRepository
 import com.victorrubia.tfg.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -62,6 +67,20 @@ class RepositoryModule {
             ppgMeasureRemoteDataSource,
             ppgMeasureLocalDataSource,
             ppgMeasureCacheDataSource,
+        )
+    }
+    
+    @Singleton
+    @Provides
+    fun provideTagRepository(
+         tagRemoteDataSource : TagRemoteDataSource,
+         tagLocalDataSource: TagLocalDataSource,
+         tagCacheDataSource: TagCacheDataSource
+    ): TagRepository {
+        return TagRepositoryImpl(
+            tagRemoteDataSource,
+            tagLocalDataSource,
+            tagCacheDataSource,
         )
     }
 }

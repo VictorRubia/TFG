@@ -1,6 +1,7 @@
 package com.victorrubia.tfg.presentation.di.core
 
 import com.victorrubia.tfg.presentation.di.activity_confirmation.ActivityConfirmationSubComponent
+import com.victorrubia.tfg.presentation.di.feelings_menu.FeelingsMenuSubComponent
 import com.victorrubia.tfg.presentation.di.home.HomeSubComponent
 import com.victorrubia.tfg.presentation.di.measuring_menu.MeasuringMenuSubComponent
 import dagger.Component
@@ -22,5 +23,6 @@ interface AppComponent {
     fun homeSubComponent() : HomeSubComponent.Factory
     fun activityConfirmationSubComponent() : ActivityConfirmationSubComponent.Factory
     fun measuringMenuSubComponent() : MeasuringMenuSubComponent.Factory
+    fun feelingsMenuSubComponent() : FeelingsMenuSubComponent.Factory
 
 }

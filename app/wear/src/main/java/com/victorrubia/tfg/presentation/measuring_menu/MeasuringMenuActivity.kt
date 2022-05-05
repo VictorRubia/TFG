@@ -29,6 +29,7 @@ import androidx.wear.compose.material.*
 import com.google.android.gms.wearable.Wearable
 import com.victorrubia.tfg.presentation.di.Injector
 import com.victorrubia.tfg.presentation.start_menu.StartMenuActivity
+import com.victorrubia.tfg.presentation.status_menu.StatusMenuActivity
 import com.victorrubia.tfg.ui.theme.WearAppTheme
 import javax.inject.Inject
 
@@ -50,21 +51,26 @@ class MeasuringMenuActivity:  ComponentActivity() {
         measuringMenuViewModel.startMeasure(applicationContext)
 
         setContent {
-            MainMenu {
+            MainMenu( {
                 measuringMenuViewModel.endActivity().observe(this){
-                    if(it!=null)
-                        Log.d("MyTag", "Activity Ended: " + it)
-                        startActivity(Intent(this, StartMenuActivity::class.java)).apply {
-                            finish()
-                        }
+                    if(it!=null){
+                        Log.d("MyTag", "Activity Ended: $it")
+                        startActivity(Intent(this, StartMenuActivity::class.java))
+                        finish()
+                    }
                 }
-            }
+            },
+                {
+                    startActivity(Intent(this, StatusMenuActivity::class.java))
+                }
+            )
+
         }
     }
 }
 
 @Composable
-fun MainMenu(stopMeasuring: () -> Unit){
+fun MainMenu(stopMeasuring: () -> Unit, registerStatus: () -> Unit){
     WearAppTheme{
         val listState = rememberScalingLazyListState()
         val contentModifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
@@ -89,7 +95,7 @@ fun MainMenu(stopMeasuring: () -> Unit){
                 flingBehavior = ScalingLazyColumnDefaults.snapFlingBehavior(state = listState),
                 state = listState
             ) {
-                item { registerStatusChip(contentModifier, iconModifier) }
+                item { registerStatusChip(contentModifier, iconModifier, registerStatus) }
                 item { stopActivityButton(contentModifier, iconModifier, stopMeasuring) }
             }
         }
@@ -123,10 +129,10 @@ fun stopActivityButton(modifier : Modifier = Modifier, iconModifier: Modifier = 
 }
 
 @Composable
-fun registerStatusChip(modifier: Modifier = Modifier, iconModifier: Modifier = Modifier){
+fun registerStatusChip(modifier: Modifier = Modifier, iconModifier: Modifier = Modifier, registerStatus: () -> Unit){
     Chip(
         modifier = modifier,
-        onClick = { /**/ },
+        onClick = { registerStatus() },
         label = {
             Text(
                 text = "Registrar estado",

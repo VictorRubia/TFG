@@ -1,9 +1,10 @@
 package com.victorrubia.tfg.data.api
 
 import com.victorrubia.tfg.data.model.activity.Activity
-import com.victorrubia.tfg.data.model.ppg_measure.PPGMeasure
+import com.victorrubia.tfg.data.model.tag.Tag
 import retrofit2.Response
 import retrofit2.http.*
+import java.util.Date
 
 interface TFGService {
 
@@ -23,4 +24,12 @@ interface TFGService {
                               @Field("ppg_measure[measurement]") measurement: String,
                               @Field("ppg_measure[activity_id]") activityID: Int,
     ) : Response<*>
+
+    @FormUrlEncoded
+    @POST("tags/")
+    suspend fun addTag(@Header("Authorization") apiKey : String,
+                              @Field("tag[tag]") tag: String,
+                              @Field("tag[datetime]") dateTime: Date,
+                              @Field("tag[activity_id]") activityID: Int,
+    ) : Response<Tag>
 }

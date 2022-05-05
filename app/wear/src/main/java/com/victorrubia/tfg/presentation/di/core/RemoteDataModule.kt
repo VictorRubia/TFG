@@ -8,6 +8,8 @@ import com.victorrubia.tfg.data.repository.activity.datasource.ActivityRemoteDat
 import com.victorrubia.tfg.data.repository.activity.datasourceImpl.ActivityRemoteDataSourceImpl
 import com.victorrubia.tfg.data.repository.ppg_measure.datasource.PPGMeasureRemoteDataSource
 import com.victorrubia.tfg.data.repository.ppg_measure.datasourceImpl.PPGMeasureRemoteDataSourceImpl
+import com.victorrubia.tfg.data.repository.tag.datasource.TagRemoteDataSource
+import com.victorrubia.tfg.data.repository.tag.datasourceImpl.TagRemoteDataSourceImpl
 import com.victorrubia.tfg.data.repository.user.datasource.UserCacheDataSource
 import com.victorrubia.tfg.data.repository.user.datasource.UserLocalDataSource
 import com.victorrubia.tfg.data.repository.user.datasource.UserRemoteDataSource
@@ -36,5 +38,11 @@ class RemoteDataModule() {
     @Provides
     fun providePPGMeasureRemoteDataSource(tfgService: TFGService, userDataSource: UserCacheDataSource) : PPGMeasureRemoteDataSource {
         return PPGMeasureRemoteDataSourceImpl(tfgService, userDataSource)
+    }
+
+    @Singleton
+    @Provides
+    fun provideTagRemoteDataSource(tfgService: TFGService, userDataSource: UserCacheDataSource) : TagRemoteDataSource {
+        return TagRemoteDataSourceImpl(tfgService, userDataSource)
     }
 }
