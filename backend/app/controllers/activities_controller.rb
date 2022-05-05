@@ -51,7 +51,7 @@ class ActivitiesController < ApplicationController
 
   # DELETE /activities/1 or /activities/1.json
   def destroy
-    @ppg_measures = PpgMeasure.find_by id:
+    # @ppg_measures = PpgMeasure.find_by id:
     @activity.destroy
 
     respond_to do |format|
@@ -61,25 +61,9 @@ class ActivitiesController < ApplicationController
     end
   end
 
-  # def export
-  #   @activity = Activity.find(params[:id])
-  #
-  #   @measures = @activity.ppg_measures.last.measurement
-  #
-  #   respond_to do |format|
-  #     format.csv do
-  #       response.headers['Content-Type'] = 'text/csv'
-  #       response.headers['Content-Disposition'] = "attachment; filename=export.csv"
-  #       render template: "activities/export"
-  #     end
-  #   end
-  #
-  # end
-
   def export
     @activity = Activity.find(params[:id])
 
-    #@measures = @activity.ppg_measures.last.measurement
     @measures = @activity.ppg_measures
 
     master = @measures.map { |f| JSON.parse(f.measurement, object_class: OpenStruct) }.flatten

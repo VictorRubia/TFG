@@ -1,6 +1,5 @@
 class Api::V1::ActivitiesController < Api::V1::BaseController
   before_action :set_activity, only: [:show, :update, :destroy]
-  # before_action :authorize_activity, only: [:create]
 
   def index
     @activities = @user.activities

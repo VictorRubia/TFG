@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     get '/dashboard/activity_user/:id/:id_activity' => 'dashboard#activity_details', as: :dashboard_activity_details
     resources :ppg_measures
     resources :users
+    resources :tags
   end
 
   get '/welcome/index'
@@ -28,6 +29,7 @@ Rails.application.routes.draw do
         resources :measures, only: [:index, :create, :show, :update, :destroy]
         resources :activities, only: [:index, :create, :show, :update, :destroy]
         resources :ppg_measures, only: [:index, :create, :show, :update, :destroy]
+        resources :tags, only: [:index, :create, :show, :update, :destroy]
       end
     end
   end

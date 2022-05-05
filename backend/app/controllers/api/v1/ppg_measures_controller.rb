@@ -10,7 +10,6 @@ class Api::V1::PpgMeasuresController < Api::V1::BaseController
   end
 
   def create
-    #@ppg_measure = @activity.ppg_measures.build(ppg_measure_params)
     @ppg_measure = PpgMeasure.new(ppg_measure_params)
     if @ppg_measure.save
       render :show, status: :created
@@ -39,7 +38,7 @@ class Api::V1::PpgMeasuresController < Api::V1::BaseController
   end
 
   def authorize_ppg_measure
-    @activity = Activity.find_by(id: params[:id])
+    @activity = Activity.find_by(id: PpgMeasure.find_by(id: params[:id])[:activity_id])
     render json: { message: "No autorizado" }, status: :unauthorized unless @user == @activity.user
   end
 
