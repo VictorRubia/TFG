@@ -38,6 +38,7 @@ class ActivityTypeActivity :  ComponentActivity() {
 
 @Composable
 fun ActivityTypeList(createActivity: (String) -> Unit){
+    var loading = remember { mutableStateOf(true) }
     WearAppTheme {
         val listState = rememberScalingLazyListState()
         Scaffold(
@@ -59,21 +60,20 @@ fun ActivityTypeList(createActivity: (String) -> Unit){
                 flingBehavior = ScalingLazyColumnDefaults.snapFlingBehavior(state = listState),
                 state = listState
             ) {
-                item{ activityTypeChip("Viajar en bus", Icons.Rounded.DirectionsBus, createActivity)}
-                item{ activityTypeChip("Viajar en metro", Icons.Rounded.Subway, createActivity)}
-                item{ activityTypeChip("Viajar en tren", Icons.Rounded.DirectionsRailway, createActivity)}
+                item{ activityTypeChip("Viajar en bus", Icons.Rounded.DirectionsBus, loading, createActivity)}
+                item{ activityTypeChip("Viajar en metro", Icons.Rounded.Subway, loading, createActivity)}
+                item{ activityTypeChip("Viajar en tren", Icons.Rounded.DirectionsRailway, loading, createActivity)}
             }
         }
     }
 }
 
 @Composable
-fun activityTypeChip(text : String, icon : ImageVector, createActivity: (String) -> Unit){
-    var loading by remember { mutableStateOf(true) }
+fun activityTypeChip(text : String, icon : ImageVector, isSelected : MutableState<Boolean>, createActivity: (String) -> Unit){
     Chip(
         onClick = { createActivity(text)
-                  loading = false},
-        enabled = loading,
+                isSelected.value = false},
+        enabled = isSelected.value,
         label = {
             Text(
                 text = text,
