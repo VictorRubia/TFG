@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @stress %>
+
+<div>
+  <%= link_to "Edit this stress", edit_stress_path(@stress) %> |
+  <%= link_to "Back to stresses", stresses_path %>
+
+  <%= button_to "Destroy this stress", @stress, method: :delete %>
+</div>

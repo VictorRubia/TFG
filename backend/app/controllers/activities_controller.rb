@@ -72,7 +72,7 @@ class ActivitiesController < ApplicationController
     respond_to do |format|
       format.csv do
         response.headers['Content-Type'] = 'text/csv'
-        response.headers['Content-Disposition'] = "attachment; filename=export.csv"
+        response.headers['Content-Disposition'] = "attachment; filename=export_" + @activity.id.to_s + ".csv"
         render template: "activities/export"
       end
     end

@@ -20,6 +20,12 @@ class Api::V1::ActivitiesController < Api::V1::BaseController
   def update
     if @activity.update(activity_params)
       render :show, status: :ok
+      if @activity.end_d != nil
+        @parsed = JSON.parse(`python3 lib/python/prueba.py #{@activity.id}`)
+        @parsed.each do |measurement|
+          Stress.create(datetime: measurement["date"], level: measurement["measure"], activity_id: @activity.id)
+        end
+      end
     else
       render json: { message: @activity.errors.full_messages }, status: :unprocessable_entity
     end

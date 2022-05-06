@@ -1,15 +1,22 @@
 <%= render "layouts/dashboard" %>
 <%= stylesheet_link_tag 'create_user' %>
 
+<% require "i18n" %>
 <% @activity = activity_details %>
 <% @user = User.find(params[:id]) %>
+<% @tags = Tag.where(activity_id: @activity.id) %>
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 
     <h2>Actividad de <%= @user.name %></h2>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group me-2">
+        <a href="/activities/<%= @activity.id %>/export.csv" class="btn btn-sm btn-outline-secondary">Exportar</a>
+      </div>
+    </div>
   </div>
-  <h3>Nombre: <%= @activity.name %></h3>
+  <h4>Nombre: <%= @activity.name %></h4>
 
   <!--  <div class="col-md-3">-->
   <!--    <div class="h-100 p-5 bg-light border rounded-3">-->
@@ -18,20 +25,115 @@
   <!--      <button class="btn btn-outline-secondary" type="button">Example button</button>-->
   <!--    </div>-->
   <!--  </div>-->
-
-        <div class="card text-center">
-          <div class="card-header">
-            Ejecución Procesamiento
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Output</h5>
-            <%= simple_format(`python3 lib/python/prueba.py #{@activity.id}`) %>
-            <p class="card-text"></p>
-            <a href="/activities/<%= @activity.id %>/export.csv" class="btn btn-primary">Descargar CSV</a>
+    <div class="container-fluid">
+      <div class="row">
+        <div class ="col">
+          <div class="card text-center">
+            <div class="card-header">
+              Gráfico estrés
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Gráfico nivel de estrés</h5>
+              <canvas id="myChart" width="80vw" height="20vw"></canvas>
+            </div>
           </div>
         </div>
+      </div>
+      <div class="row">
+        <div class= "col">
+          <div class="card text-center">
+            <div class="card-header">
+              Etiquetado
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                  <thead>
+                  <tr>
+                    <th scope="col">Instante</th>
+                    <th scope="col">Estados de viaje</th>
+                    <th scope="col">Emoción</th>
+                    <th scope="col">Sentimiento</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <% @tags.each do |tags| %>
+                  <tr>
+                    <td><%= tags.datetime.strftime("%H:%M") %></td>
+                    <td>
+                      <div class="container">
+                        <div class="row">
+                            <% tags.tag.each do |tag| %>
+                              <div class="col-sm">
+                                <figure>
+                                  <%= image_tag(asset_path("tags/#{I18n.transliterate(tag.downcase.gsub(" ", "_"))}.png"), :alt => "trasbordo", style: 'height:75px;width:75px;') %>
+                                  <figcaption><%= tag %></figcaption>
+                                </figure>
+                              </div>
+                            <% end %>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
 
+              <p class="card-text">
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 </main>
 
+
+<script>
+
+    (function () {
+        'use strict'
+
+        // Graphs
+        var ctx = document.getElementById('myChart')
+        // eslint-disable-next-line no-unused-vars
+        var yLabels = {
+            '-2': 'No estresado', '0' : 'Estrés leve', '2' : 'Estresado'
+        }
+        console.log(typeof yLabels)
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: <%= raw Stress.where(activity_id: @activity.id).map { |stress| stress.datetime.strftime("%H:%M") } %>,
+                datasets: [{
+                    label: 'Nivel de estrés',
+                    data: <%= raw Stress.where(activity_id: @activity.id).map { |stress| stress.level } %>,
+                    // data: [-2, 0, 2, 0, -2, 2],
+                    lineTension: 0,
+                    backgroundColor: 'transparent',
+                    borderColor: '#007bff',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#007bff'
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            callback: function(value, index, values) {
+                                return yLabels[value];
+                            }
+                        }
+                    }],
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
+    })()
+</script>

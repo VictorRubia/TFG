@@ -1,6 +1,8 @@
 import csv
 import math
 import pandas as pd
+import json
+from socket import timeout
 import sys
 sys.path.insert(1, 'tfg/lib/python/')
 
@@ -13,36 +15,56 @@ import urllib.request
 from scipy.signal import resample
 import pickle
 
-def crearcsv(data):
-    header = ['DATETIME', 'MEAN_RR', 'MEDIAN_RR', 'SDRR', 'RMSSD', 'SDSD', 'SDRR_RMSSD', 'HR', 'pNN50', 'SD1', 'SD2', 'MEAN_REL_RR', 'MEDIAN_REL_RR', 'SDRR_REL_RR', 'RMSSD_REL_RR', 'SDRR_RMSSD_REL_RR']
-
-    with open('lib/python/probando.csv', 'w', encoding='UTF8', newline='') as f:
-        writer = csv.writer(f)
-
-        # write the header
-        writer.writerow(header)
-
-        # write multiple rows
-        writer.writerows(data)
+# def crearcsv(data):
+#     header = ['DATETIME', 'MEAN_RR', 'MEDIAN_RR', 'SDRR', 'RMSSD', 'SDSD', 'SDRR_RMSSD', 'HR', 'pNN50', 'SD1', 'SD2', 'MEAN_REL_RR', 'MEDIAN_REL_RR', 'SDRR_REL_RR', 'RMSSD_REL_RR', 'SDRR_RMSSD_REL_RR']
+#
+#     with open('lib/python/probando.csv', 'w', encoding='UTF8', newline='') as f:
+#         writer = csv.writer(f)
+#
+#         # write the header
+#         writer.writerow(header)
+#
+#         # write multiple rows
+#         writer.writerows(data)
 
 def procesar(data):
 
     with open('lib/python/model.pickle', 'rb') as handle:
         b = pickle.load(handle)
 
+    x = []
+
     for i in range(0,len(data)):
-        fecha = data.iloc[i].DATETIME.strftime("%d/%m/%Y a las %H:%M")
+        fecha = data.iloc[i].DATETIME.strftime("%d/%m/%Y %H:%M")
         dato_estres = b.predict([data.drop(columns="DATETIME").iloc[i]])
         if(dato_estres[0] == 'no stress'):
-            print(f'El {fecha} estaba <b>no estresado</b>')
+            x.append({
+                "date": fecha,
+                "measure": -2
+            })
+#             print(f'El {fecha} estaba <b>no estresado</b>')
         if(dato_estres[0] == 'interruption'):
-            print(f'El {fecha} estaba <b>estrés leve</b>')
+            x.append({
+                "date": fecha,
+                "measure": 0
+            })
+#             print(f'El {fecha} estaba <b>estrés leve</b>')
         if(dato_estres[0] == 'time pressure'):
-            print(f'El {fecha} estaba <b>estresado</b>')
+            x.append({
+                "date": fecha,
+                "measure": 2
+            })
+#             print(f'El {fecha} estaba <b>estresado</b>')
+
+    print(json.dumps(x))
 
 idActividad = sys.argv[1]
 
-file = urllib.request.urlopen("http://localhost:3000/activities/"+ idActividad +"/export.csv")
+try:
+#     urllib2.urlopen("http://example.com", timeout = 1)
+    file = urllib.request.urlopen("http://localhost:3000/activities/"+ idActividad +"/export.csv", timeout = 10)
+except timeout:
+    print('socket timed out - URL %s', url)
 
 df = pd.read_csv(file)
 
@@ -53,7 +75,7 @@ signal = df['ppg']
 
 sample_rate = hp.get_samplerate_datetime(timer, timeformat='%d/%m/%Y %H:%M:%S.%f')
 
-print('sampling rate is: %.3f Hz' % sample_rate)
+# print('sampling rate is: %.3f Hz' % sample_rate)
 
 # Let's run it through a standard butterworth bandpass implementation to remove everything < 0.8 and > 3.5 Hz.
 filtered = hp.filter_signal(signal, [0.7, 3.5], sample_rate=sample_rate,
@@ -74,8 +96,8 @@ resample_partio = np.array_split(resampled, numero_elementos)
 data = []
 contador = 0
 
-print(f'START TIME {timer[0]}')
-print(f'END TIME {timer[len(timer)-1]}')
+# print(f'START TIME {timer[0]}')
+# print(f'END TIME {timer[len(timer)-1]}')
 
 for s in a_splited:
     try:
@@ -99,9 +121,10 @@ for s in a_splited:
 #             print('%s: %f' % (measure, m[measure]))
         contador = contador + 1
     except Exception as e:
-        print(f'El {(datetime.strptime(timer[0], "%d/%m/%Y %H:%M:%S.%f") + timedelta(minutes=1*contador)).strftime("%d/%m/%Y a las %H:%M")} <b>no ha sido posible medir</b>')
+        pass
+#         print(f'El {(datetime.strptime(timer[0], "%d/%m/%Y %H:%M:%S.%f") + timedelta(minutes=1*contador)).strftime("%d/%m/%Y a las %H:%M")} <b>no ha sido posible medir</b>')
 
-crearcsv(data)
+# crearcsv(data)
 
 header = ['DATETIME', 'MEAN_RR', 'MEDIAN_RR', 'SDRR', 'RMSSD', 'SDSD', 'SDRR_RMSSD', 'HR', 'pNN50', 'SD1', 'SD2', 'MEAN_REL_RR', 'MEDIAN_REL_RR', 'SDRR_REL_RR', 'RMSSD_REL_RR', 'SDRR_RMSSD_REL_RR']
 

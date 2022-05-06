@@ -1,0 +1,32 @@
+<%= form_with(model: stress) do |form| %>
+  <% if stress.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(stress.errors.count, "error") %> prohibited this stress from being saved:</h2>
+
+      <ul>
+        <% stress.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :datetime, style: "display: block" %>
+    <%= form.datetime_field :datetime %>
+  </div>
+
+  <div>
+    <%= form.label :level, style: "display: block" %>
+    <%= form.text_field :level %>
+  </div>
+
+  <div>
+    <%= form.label :activity_id, style: "display: block" %>
+    <%= form.text_field :activity_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
