@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_05_073401) do
+ActiveRecord::Schema.define(version: 2022_05_06_091001) do
 
   create_table "account_login_change_keys", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "key", null: false
@@ -94,7 +94,7 @@ ActiveRecord::Schema.define(version: 2022_05_05_073401) do
   end
 
   create_table "tags", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "tag"
+    t.json "tag"
     t.datetime "datetime", precision: 6
     t.bigint "activity_id", null: false
     t.datetime "created_at", precision: 6, null: false
