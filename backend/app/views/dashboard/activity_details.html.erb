@@ -137,10 +137,10 @@
         const myChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: <%= raw Stress.where(activity_id: @activity.id).map { |stress| stress.datetime.strftime("%H:%M") } %>,
+                labels: <%= raw @stress.map { |stress| stress.datetime.strftime("%H:%M") } %>,
                 datasets: [{
                     label: 'Nivel de estrés',
-                    data: <%= raw Stress.where(activity_id: @activity.id).map { |stress| stress.level } %>,
+                    data: <%= raw @stress.map { |stress| stress.level } %>,
                     // data: [-2, 0, 2, 0, -2, 2],
                     // lineTension: 0,
                     backgroundColor: 'transparent',
