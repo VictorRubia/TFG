@@ -47,6 +47,6 @@ class Api::V1::ActivitiesController < Api::V1::BaseController
   end
 
   def activity_params
-    params.require(:activity).permit(:name, :start_d, :end_d)
+    params.require(:activity).permit(:name, :start_d, :end_d, :viewed)
   end
 end

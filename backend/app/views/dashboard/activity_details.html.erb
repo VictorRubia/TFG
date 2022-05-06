@@ -3,20 +3,31 @@
 
 <% require "i18n" %>
 <% @activity = activity_details %>
+<% @activity.viewed = 1 %>
+<% @activity.save %>
 <% @user = User.find(params[:id]) %>
 <% @tags = Tag.where(activity_id: @activity.id) %>
 <% @stress = Stress.where(activity_id: @activity.id) %>
-<% if @stress == nil %>
+<% if @stress.empty? %>
   <% @parsed = JSON.parse(`python3 lib/python/prueba.py #{@activity.id}`) %>
+  <% @stress = [] %>
   <% @parsed.each do |measurement| %>
-    <% @stress.append(Stress(datetime: measurement["date"], level: measurement["measure"], activity_id: @activity.id )) %>
+    <% @stress.append(Stress.new(datetime: measurement["date"], level: measurement["measure"], activity_id: @activity.id )) %>
   <% end %>
 <% end %>
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex align-items-start ">
+      <div class="btn-group me-2 btn-toolbar mb-2 mb-md-0">
+        <%= link_to :back, :class => 'btn btn-sm btn-outline-secondary' do %>
+          <i data-feather="arrow-left-circle" class="icon icon-show"></i>
+        <% end %>
+      </div>
 
-    <h2>Actividad de <%= @user.name %></h2>
+      <h2>Actividad de <%= @user.name %></h2>
+    </div>
+
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group me-2">
         <a href="/activities/<%= @activity.id %>/export.csv" class="btn btn-sm btn-outline-secondary">Exportar</a>
@@ -25,99 +36,89 @@
   </div>
   <h4>Nombre: <%= @activity.name %></h4>
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class ="col">
-          <div class="card text-center">
-            <div class="card-header">
-              Gráfico estrés
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">Gráfico nivel de estrés</h5>
-              <canvas id="myChart" width="80vw" height="20vw"></canvas>
-            </div>
-          </div>
-        </div>
+  <div class="container-fluid">
+    <div class="card text-center mb-3">
+      <div class="card-header">
+        Gráfico estrés
       </div>
-      <div class="row">
-        <div class= "col">
-          <div class="card text-center">
-            <div class="card-header">
-              Etiquetado
-            </div>
-            <div class="card-body">
-              <h5 class="card-title"></h5>
-              <div class="table-responsive">
-                <table class="table table-striped table-sm">
-                  <thead>
-                  <tr>
-                    <th scope="col">Instante</th>
-                    <th scope="col">Estados de viaje</th>
-                    <th scope="col">Emoción</th>
-                    <th scope="col">Sentimiento</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <% @tags.each do |tag| %>
-                    <% @tag = JSON.parse(tag.tag) %>
-                  <tr>
-                    <td><%= tag.datetime.strftime("%H:%M") %></td>
-                    <td>
-                      <div class="container">
-                        <div class="row">
-                            <% @tag["status"].each do |tag| %>
-                              <div class="col-sm">
-                                <figure>
-                                  <%= image_tag(asset_path("tags/#{I18n.transliterate(tag.downcase.gsub(" ", "_"))}.png"), :alt => "trasbordo", style: 'height:50px;width:50px;') %>
-                                  <figcaption><%= tag %></figcaption>
-                                </figure>
-                              </div>
-                            <% end %>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="container">
-                        <div class="row">
-                          <% @tag["emotions"].each do |tag| %>
-                            <div class="col-sm">
-                              <figure>
-                                <%= image_tag(asset_path("tags/#{I18n.transliterate(tag.downcase.gsub(" ", "_"))}.png"), :alt => "trasbordo", style: 'height:50px;width:50px;') %>
-                                <figcaption><%= tag %></figcaption>
-                              </figure>
-                            </div>
-                          <% end %>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="container">
-                        <div class="row">
-                          <% @tag["feelings"].each do |tag| %>
-                            <div class="col-sm">
-                              <figure>
-                                <%= image_tag(asset_path("tags/#{I18n.transliterate(tag.downcase.gsub(" ", "_"))}.png"), :alt => "trasbordo", style: 'height:50px;width:50px;') %>
-                                <figcaption><%= tag %></figcaption>
-                              </figure>
-                            </div>
-                          <% end %>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <% end %>
-                  </tbody>
-                </table>
-              </div>
-
-              <p class="card-text">
-              </p>
-            </div>
-          </div>
-        </div>
+      <div class="card-body">
+        <h5 class="card-title">Gráfico nivel de estrés</h5>
+        <canvas id="myChart" width="80vw" height="20vw"></canvas>
       </div>
     </div>
+    <div class="card text-center mb-3">
+      <div class="card-header">
+        Etiquetado
+      </div>
+      <div class="card-body">
+        <h5 class="card-title"></h5>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped align-middle table-sm">
+            <thead>
+            <tr>
+              <th scope="col">Instante</th>
+              <th scope="col">Estados de viaje</th>
+              <th scope="col">Emoción</th>
+              <th scope="col">Sentimiento</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @tags.each do |tag| %>
+              <% @tag = JSON.parse(tag.tag) %>
+              <tr>
+                <td><%= tag.datetime.strftime("%H:%M") %></td>
+                <td>
+                  <div class="container">
+                    <div class="row">
+                      <% @tag["status"].each do |tag| %>
+                        <div class="col-sm">
+                          <figure>
+                            <%= image_tag(asset_path("tags/#{I18n.transliterate(tag.downcase.gsub(" ", "_"))}.png"), :alt => "trasbordo", style: 'height:50px;width:autopx;') %>
+                            <figcaption><%= tag %></figcaption>
+                          </figure>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="container">
+                    <div class="row">
+                      <% @tag["emotions"].each do |tag| %>
+                        <div class="col-sm">
+                          <figure>
+                            <%= image_tag(asset_path("tags/#{I18n.transliterate(tag.downcase.gsub(" ", "_"))}.png"), :alt => "trasbordo", style: 'height:35px;width:autopx;') %>
+                            <figcaption><%= tag %></figcaption>
+                          </figure>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="container">
+                    <div class="row">
+                      <% @tag["feelings"].each do |tag| %>
+                        <div class="col-sm">
+                          <figure>
+                            <%= image_tag(asset_path("tags/#{I18n.transliterate(tag.downcase.gsub(" ", "_"))}.png"), :alt => "trasbordo", style: 'height:35px;width:autopx;') %>
+                            <figcaption><%= tag %></figcaption>
+                          </figure>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
 
+        <p class="card-text">
+        </p>
+      </div>
+    </div>
   </div>
 </main>
 
@@ -128,8 +129,12 @@
         'use strict'
 
         // Graphs
-        var ctx = document.getElementById('myChart')
+        var ctx = document.getElementById('myChart').getContext("2d");
         // eslint-disable-next-line no-unused-vars
+        var tranquilo = new Image(25,25);
+        tranquilo.src = '<%= asset_url("tags/tranquilo") %>';
+        var nervioso = new Image(25,25);
+        nervioso.src = '<%= asset_url("tags/nervioso") %>';
         var yLabels = {
             '-2': 'No estresado', '0' : 'Estrés leve', '2' : 'Estresado'
         }
@@ -141,12 +146,10 @@
                 datasets: [{
                     label: 'Nivel de estrés',
                     data: <%= raw @stress.map { |stress| stress.level } %>,
-                    // data: [-2, 0, 2, 0, -2, 2],
-                    // lineTension: 0,
                     backgroundColor: 'transparent',
-                    borderColor: '#007bff',
+                    borderColor: '#f05f3a',
                     borderWidth: 2,
-                    pointBackgroundColor: '#007bff'
+                    pointBackgroundColor: '#f05f3a'
                 }]
             },
             options: {

@@ -2,31 +2,30 @@
 <%= stylesheet_link_tag 'create_user' %>
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Actividades de <%= @user.name %></h1>
+  <div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group me-2">
+        <%= link_to dashboard_activity_user_path, :class => 'btn btn-sm btn-outline-secondary' do %>
+          <i data-feather="arrow-left-circle" class="icon icon-show"></i>
+        <% end %>
+      </div>
+    </div>
+    <h2>Actividades de <%= @user.name %></h2>
   </div>
 
   <%- if get_activities.size > 0 %>
     <div class="row row-cols-1 row-cols-md-4 g-4">
     <% get_activities.each do |activity| %>
-  <!--  <div class="col-md-3">-->
-  <!--    <div class="h-100 p-5 bg-light border rounded-3">-->
-  <!--      <h2><%#= activity.name %></h2>-->
-  <!--      <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>-->
-  <!--      <button class="btn btn-outline-secondary" type="button">Example button</button>-->
-  <!--    </div>-->
-  <!--  </div>-->
-
 
         <div class="col-md-4">
           <div class="card h-100">
+            <% unless activity.viewed %>
               <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-
               </span>
+            <% end %>
             <div class="card-body">
               <h5 class="card-title"><%= activity.name %></h5>
               <p class="card-text"></p>
-<!--              <a href="/activities/<%#= activity.id %>/export.csv" class="btn btn-primary">Ver detalles</a>-->
               <%= link_to dashboard_activity_details_url(id_activity: activity.id), :class => 'btn btn-primary' do%>
               Ver detalles
               <% end %>

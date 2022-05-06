@@ -11,6 +11,18 @@ class User < ApplicationRecord
   validates :name, :surname, :email, :password_digest , presence: true
   validates :email, uniqueness: true
 
+  def self.search(search)
+    if search
+      user = User.find_by(name: search)
+      if user
+        self.where(user_id: user)
+      else
+        all
+      end
+    else
+      all
+    end
+  end
 
   private
   def set_private_api_key
