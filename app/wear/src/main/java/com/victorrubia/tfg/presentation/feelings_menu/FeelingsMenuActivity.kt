@@ -27,15 +27,21 @@ import javax.inject.Inject
 class FeelingsMenuActivity: ComponentActivity() {
 
     companion object{
-        private const val tiles = "tilesSelected"
-        fun intent(context: Context, tilesSelected: ArrayList<String>)=
+        private const val STATUS_TILES = "statusTilesSelected"
+        private const val EMOTION_TILES = "emotionTilesSelected"
+        fun intent(context: Context, statusTiles: ArrayList<String>, emotionTiles: ArrayList<String>)=
             Intent(context, FeelingsMenuActivity::class.java).apply {
-                putStringArrayListExtra(tiles,tilesSelected)
+                putStringArrayListExtra(STATUS_TILES,statusTiles)
+                putStringArrayListExtra(EMOTION_TILES,emotionTiles)
             }
     }
 
-    private val tilesSelected : ArrayList<String> by lazy {
-        intent?.getSerializableExtra(tiles) as ArrayList<String>
+    private val statusTilesSelected : ArrayList<String> by lazy {
+        intent?.getSerializableExtra(STATUS_TILES) as ArrayList<String>
+    }
+
+    private val emotionTilesSelected : ArrayList<String> by lazy {
+        intent?.getSerializableExtra(EMOTION_TILES) as ArrayList<String>
     }
 
     @Inject
@@ -51,8 +57,8 @@ class FeelingsMenuActivity: ComponentActivity() {
             .get(FeelingsMenuViewModel::class.java)
 
         setContent{
-            FeelingsList(tilesSelected){
-                feelingsMenuViewModel.addTag(it)
+            FeelingsList(ArrayList<String>()){
+                feelingsMenuViewModel.addTag(statusTilesSelected, emotionTilesSelected, it)
                 finish()
             }
         }

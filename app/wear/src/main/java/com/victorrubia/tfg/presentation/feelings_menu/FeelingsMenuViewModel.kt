@@ -1,6 +1,7 @@
 package com.victorrubia.tfg.presentation.feelings_menu
 
 import androidx.lifecycle.ViewModel
+import com.victorrubia.tfg.data.model.status.Status
 import com.victorrubia.tfg.data.model.tag.Tag
 import com.victorrubia.tfg.domain.usecase.AddTagUseCase
 import com.victorrubia.tfg.domain.usecase.GetCurrentActivityUseCase
@@ -17,9 +18,9 @@ class FeelingsMenuViewModel(
     private val addTagUseCase: AddTagUseCase,
 ) : ViewModel() {
 
-    fun addTag( tags : ArrayList<String> ){
+    fun addTag( statusTags : ArrayList<String>, emotionsTags : ArrayList<String>, feelingsTags : ArrayList<String>){
         CoroutineScope(Dispatchers.IO).launch {
-            getCurrentActivityUseCase.execute()?.let { addTagUseCase.execute(Json.encodeToString(tags), Date(), it.id) }
+            getCurrentActivityUseCase.execute()?.let { addTagUseCase.execute(Json.encodeToString(Status(statusTags, emotionsTags, feelingsTags)), Date(), it.id) }
         }
     }
 }

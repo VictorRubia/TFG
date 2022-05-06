@@ -29,22 +29,22 @@ import com.victorrubia.tfg.ui.theme.WearAppTheme
 class EmotionsMenuActivity: ComponentActivity() {
 
     companion object{
-        private const val tiles = "tilesSelected"
-        fun intent(context: Context, tilesSelected: ArrayList<String>)=
+        private const val STATUS_TILES = "statusTilesSelected"
+        fun intent(context: Context, statusTilesSelected: ArrayList<String>)=
             Intent(context, EmotionsMenuActivity::class.java).apply {
-                putStringArrayListExtra(tiles,tilesSelected)
+                putStringArrayListExtra(STATUS_TILES,statusTilesSelected)
             }
     }
 
-    private val tilesSelected : ArrayList<String> by lazy {
-        intent?.getSerializableExtra(tiles) as ArrayList<String>
+    private val statusTilesSelected : ArrayList<String> by lazy {
+        intent?.getSerializableExtra(STATUS_TILES) as ArrayList<String>
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent{
-            EmotionsList(tilesSelected){
-                startActivity(FeelingsMenuActivity.intent(this,it))
+            EmotionsList(ArrayList<String>()){
+                startActivity(FeelingsMenuActivity.intent(this,statusTilesSelected,it))
                 finish()
             }
         }
