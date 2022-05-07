@@ -1,5 +1,9 @@
 <%= render "layouts/dashboard" %>
 <%= stylesheet_link_tag 'create_user.css' %>
+<% if @users.nil? %>
+<% @users = User.all %>
+<% end %>
+
 
 <script>
     $(document).ready(function(){
@@ -64,7 +68,6 @@
     <input type="search" class="form-control rounded" placeholder="Buscar usuario" aria-label="Search" aria-describedby="search-addon" />
     <button type="button" class="btn btn-outline-primary">BUSCAR</button>
   </div>
-
 <!--  <div class="input-group">-->
 <!--    <input class="form-control border-end-0 border" placeholder="Buscar usuario" id="example-search-input">-->
 <!--    <span class="input-group-append">-->
@@ -90,7 +93,7 @@
       </tr>
       </thead>
       <tbody>
-      <% User.all.each do |user| %>
+      <% @users.each do |user| %>
         <tr>
           <td>
                 <span class="custom-checkbox">

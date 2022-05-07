@@ -13,14 +13,14 @@ class User < ApplicationRecord
 
   def self.search(search)
     if search
-      user = User.find_by(name: search)
+      user = User.where("name like ?", "%#{search}%")
       if user
-        self.where(user_id: user)
+        self.where(id: user)
       else
-        all
+        User.all
       end
     else
-      all
+      User.all
     end
   end
 

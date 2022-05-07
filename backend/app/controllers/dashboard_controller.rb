@@ -5,6 +5,20 @@ class DashboardController < ApplicationController
   def create_user
   end
 
+  def search_user
+    search = params[:search]
+    if search
+      user = User.where("name like ?", "%#{search}%")
+      if user
+        User.where(id: user)
+      else
+        User.all
+      end
+    else
+      User.all
+    end
+  end
+
   def view_activities
     @user = User.find(params[:id])
   end
