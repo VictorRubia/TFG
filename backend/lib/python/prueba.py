@@ -123,7 +123,7 @@ for s in a_splited:
     except Exception as e:
         x.append({
             "date": (datetime.strptime(timer[0], "%d/%m/%Y %H:%M:%S.%f") + timedelta(minutes=1*contador)).strftime("%d/%m/%Y %H:%M"),
-            "measure": "NaN"
+            "measure": -1
         })
 #         print(f'El {(datetime.strptime(timer[0], "%d/%m/%Y %H:%M:%S.%f") + timedelta(minutes=1*contador)).strftime("%d/%m/%Y a las %H:%M")} <b>no ha sido posible medir</b>')
 

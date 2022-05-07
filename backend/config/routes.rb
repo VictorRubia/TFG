@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     get '/dashboard/activity_user' => 'dashboard#activity_user', as: :dashboard_activity_user
     get '/dashboard/activity_user/:id' => 'dashboard#view_activities', as: :dashboard_view_activity
     get '/dashboard/activity_user/:id/:id_activity' => 'dashboard#activity_details', as: :dashboard_activity_details
+    get '/dashboard/activity_user/:id/:id_activity/reprocess' => 'activities#reprocess', as: :activity_reprocess
     resources :ppg_measures
     resources :users
     resources :tags

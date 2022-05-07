@@ -32,6 +32,7 @@
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group me-2">
         <a href="/activities/<%= @activity.id %>/export.csv" class="btn btn-sm btn-outline-secondary">Exportar</a>
+        <a href="<%= @activity.id %>/reprocess" class="btn btn-sm btn-outline-secondary">Reprocesar</a>
       </div>
     </div>
   </div>
@@ -140,18 +141,24 @@
         var yLabels = {
             '-2': 'No estresado', '0' : 'Estrés leve', '2' : 'Estresado'
         }
-        console.log(typeof yLabels)
+        const skipped = (ctx, value) => ctx.p0.skip || ctx.p1.skip ? value : undefined;
+        const down = (ctx, value) => ctx.p0.parsed.y > ctx.p1.parsed.y ? value : undefined;
         const myChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: <%= raw @stress.map { |stress| stress.datetime.strftime("%H:%M") } %>,
                 datasets: [{
                     label: 'Nivel de estrés',
-                    data: <%= raw @stress.map { |stress| stress.level } %>,
+                    data: <%= raw @stress.map { |stress| if stress.level == -1 then Float::NAN else stress.level end } %>,
                     backgroundColor: 'transparent',
                     borderColor: '#f05f3a',
                     borderWidth: 2,
-                    pointBackgroundColor: '#f05f3a'
+                    pointBackgroundColor: '#f05f3a',
+                    // borderColor: 'rgb(75, 192, 192)',
+                    segment: {
+                        borderColor: ctx => skipped(ctx, 'rgb(0,0,0,0.2)') || down(ctx, 'rgb(192,75,75)'),
+                        borderDash: ctx => skipped(ctx, [6, 6]),
+                    }
                 }]
             },
             options: {

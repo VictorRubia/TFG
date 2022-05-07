@@ -84,11 +84,23 @@ class ActivitiesController < ApplicationController
     @json = []
     @measures.each do |medidas|
       obj = JSON.parse(medidas['measurement'])
-      @json.append({ppg: obj.first['measure'], timer: obj.first['date']})
+      obj.each do |m|
+        @json.append({ppg: m['measure'], timer: m['date']})
+      end
     end
 
-    render :json => @json
+    render :json => @json.to_json
 
+  end
+
+  def reprocess
+    @activity = Activity.find(params[:id_activity])
+    @parsed = JSON.parse(`python3 lib/python/prueba.py #{@activity.id}`)
+    @activity.stresses.destroy_all
+    @parsed.each do |measurement|
+      Stress.create(datetime: measurement["date"], level: measurement["measure"], activity_id: @activity.id)
+    end
+    redirect_to dashboard_activity_details_url, notice: "Actividad actualizado."
   end
 
   private
@@ -99,6 +111,6 @@ class ActivitiesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def activity_params
-      params.require(:activity).permit(:name, :start_d, :end_d, :user_id)
+      params.require(:activity).permit(:name, :start_d, :end_d, :user_id, :id_activity)
     end
 end

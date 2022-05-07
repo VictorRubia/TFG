@@ -3,8 +3,9 @@ class ApplicationController < ActionController::Base
   def mid_process(activity)
     @activity = Activity.find(activity.id)
     @stress = Stress.where(activity_id: @activity.id)
+    @ppg_measures = @activity.ppg_measures
 
-    if @stress.empty?
+    if @stress.empty? and !@ppg_measures.empty?
       @stress = []
       @parsed = JSON.parse(`python3 lib/python/prueba.py #{@activity.id}`)
       @parsed.each do |measurement|
