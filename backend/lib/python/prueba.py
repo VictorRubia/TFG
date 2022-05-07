@@ -57,7 +57,9 @@ def procesar(data):
             })
 #             print(f'El {fecha} estaba <b>estresado</b>')
 
-    print(json.dumps(x))
+#     print(json.dumps(x))
+    result_ordered = sorted(x, key=lambda y: datetime.strptime(y['date'], '%d/%m/%Y %H:%M'))
+    print(json.dumps(result_ordered))
 
 idActividad = sys.argv[1]
 

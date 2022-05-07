@@ -8,14 +8,6 @@
 <% @user = User.find(params[:id]) %>
 <% @tags = Tag.where(activity_id: @activity.id) %>
 <% @stress = mid_process(@activity) %>
-<%# @stress = Stress.where(@activity.id) %>
-<%# if @stress.empty? %>
-  <%# @parsed = JSON.parse(`python3 lib/python/prueba.py #{@activity.id}`) %>
-  <%# @stress = [] %>
-  <%# @parsed.each do |measurement| %>
-    <%# @stress.append(Stress.new(datetime: measurement["date"], level: measurement["measure"], activity_id: @activity.id )) %>
-  <%# end %>
-<%# end %>
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -26,7 +18,13 @@
         <% end %>
       </div>
 
-      <h2>Actividad de <%= @user.name %></h2>
+      <h2>Actividad de <%= @activity.name %></h2>
+      <% if @activity.end_d.nil? %>
+        <div class="live-indicator">
+          <figure class="live-indicator__circle"></figure>
+          <span class="live-indicator__text">DIRECTO</span>
+        </div>
+      <% end %>
     </div>
 
     <div class="btn-toolbar mb-2 mb-md-0">
@@ -36,7 +34,7 @@
       </div>
     </div>
   </div>
-  <h4>Nombre: <%= @activity.name %></h4>
+  <h4>Usuario: <%= @user.name %></h4>
 
 
   <div class="container-fluid">

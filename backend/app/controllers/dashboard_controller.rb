@@ -10,7 +10,7 @@ class DashboardController < ApplicationController
   end
 
   def get_activities
-    @activities = Activity.where(user_id: params[:id]).order('end_d DESC')
+    @activities = Activity.where(user_id: params[:id]).order('start_d DESC')
   end
 
   def get_activities_sorted
