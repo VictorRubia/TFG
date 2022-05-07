@@ -138,7 +138,7 @@
         nervioso.src = '<%= asset_url("tags/nervioso") %>';
         var yLabels = {
             '-2': 'No estresado', '0' : 'Estrés leve', '2' : 'Estresado'
-        }
+        };
         const skipped = (ctx, value) => ctx.p0.skip || ctx.p1.skip ? value : undefined;
         const down = (ctx, value) => ctx.p0.parsed.y > ctx.p1.parsed.y ? value : undefined;
         const myChart = new Chart(ctx, {
@@ -152,11 +152,11 @@
                     borderColor: '#f05f3a',
                     borderWidth: 2,
                     pointBackgroundColor: '#f05f3a',
-                    // borderColor: 'rgb(75, 192, 192)',
                     segment: {
                         borderColor: ctx => skipped(ctx, 'rgb(0,0,0,0.2)') || down(ctx, 'rgb(192,75,75)'),
                         borderDash: ctx => skipped(ctx, [6, 6]),
-                    }
+                    },
+                    spanGaps: true
                 }]
             },
             options: {
