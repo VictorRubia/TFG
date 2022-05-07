@@ -27,12 +27,13 @@ import pickle
 #         # write multiple rows
 #         writer.writerows(data)
 
+x = []
+
 def procesar(data):
 
     with open('lib/python/model.pickle', 'rb') as handle:
         b = pickle.load(handle)
 
-    x = []
 
     for i in range(0,len(data)):
         fecha = data.iloc[i].DATETIME.strftime("%d/%m/%Y %H:%M")
@@ -61,12 +62,11 @@ def procesar(data):
 idActividad = sys.argv[1]
 
 try:
-#     urllib2.urlopen("http://example.com", timeout = 1)
-    file = urllib.request.urlopen("http://localhost:3000/activities/"+ idActividad +"/export.csv", timeout = 10)
+    file = urllib.request.urlopen("http://localhost:3000/activities/"+ idActividad +"/ppg_measures/", timeout = 90)
 except timeout:
-    print('socket timed out - URL %s', url)
+    print('socket timed out')
 
-df = pd.read_csv(file)
+df = pd.read_json(file)
 
 timer = df['timer']
 signal = df['ppg']
@@ -121,7 +121,10 @@ for s in a_splited:
 #             print('%s: %f' % (measure, m[measure]))
         contador = contador + 1
     except Exception as e:
-        pass
+        x.append({
+            "date": (datetime.strptime(timer[0], "%d/%m/%Y %H:%M:%S.%f") + timedelta(minutes=1*contador)).strftime("%d/%m/%Y %H:%M"),
+            "measure": "NaN"
+        })
 #         print(f'El {(datetime.strptime(timer[0], "%d/%m/%Y %H:%M:%S.%f") + timedelta(minutes=1*contador)).strftime("%d/%m/%Y a las %H:%M")} <b>no ha sido posible medir</b>')
 
 # crearcsv(data)

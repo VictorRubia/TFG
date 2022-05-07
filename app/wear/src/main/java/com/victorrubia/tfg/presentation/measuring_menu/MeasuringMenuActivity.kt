@@ -15,6 +15,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.StopCircle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,7 +44,7 @@ class MeasuringMenuActivity:  ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+//        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         (application as Injector).createMeasuringMenuSubComponent()
             .inject(this)
@@ -64,13 +67,13 @@ class MeasuringMenuActivity:  ComponentActivity() {
                     startActivity(Intent(this, StatusMenuActivity::class.java))
                 }
             )
-
         }
     }
 }
 
 @Composable
 fun MainMenu(stopMeasuring: () -> Unit, registerStatus: () -> Unit){
+    var loading = remember { mutableStateOf(true) }
     WearAppTheme{
         val listState = rememberScalingLazyListState()
         val contentModifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
@@ -96,22 +99,25 @@ fun MainMenu(stopMeasuring: () -> Unit, registerStatus: () -> Unit){
                 state = listState
             ) {
                 item { registerStatusChip(contentModifier, iconModifier, registerStatus) }
-                item { stopActivityButton(contentModifier, iconModifier, stopMeasuring) }
+                item { stopActivityButton(contentModifier, iconModifier, stopMeasuring, loading) }
             }
         }
     }
 }
 
 @Composable
-fun stopActivityButton(modifier : Modifier = Modifier, iconModifier: Modifier = Modifier, stopMeasuring: () -> Unit){
+fun stopActivityButton(modifier : Modifier = Modifier, iconModifier: Modifier = Modifier, stopMeasuring: () -> Unit, isStopped : MutableState<Boolean>){
     Column(
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ){
         Button(
             modifier = Modifier.size(ButtonDefaults.LargeButtonSize),
-            onClick = { stopMeasuring() },
+            onClick = { stopMeasuring()
+                      isStopped.value = false
+                      },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
+            enabled = isStopped.value
         ) {
             Icon(
                 imageVector = Icons.Rounded.StopCircle,

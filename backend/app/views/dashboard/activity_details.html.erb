@@ -7,14 +7,15 @@
 <% @activity.save %>
 <% @user = User.find(params[:id]) %>
 <% @tags = Tag.where(activity_id: @activity.id) %>
-<% @stress = Stress.where(activity_id: @activity.id) %>
-<% if @stress.empty? %>
-  <% @parsed = JSON.parse(`python3 lib/python/prueba.py #{@activity.id}`) %>
-  <% @stress = [] %>
-  <% @parsed.each do |measurement| %>
-    <% @stress.append(Stress.new(datetime: measurement["date"], level: measurement["measure"], activity_id: @activity.id )) %>
-  <% end %>
-<% end %>
+<% @stress = mid_process(@activity) %>
+<%# @stress = Stress.where(@activity.id) %>
+<%# if @stress.empty? %>
+  <%# @parsed = JSON.parse(`python3 lib/python/prueba.py #{@activity.id}`) %>
+  <%# @stress = [] %>
+  <%# @parsed.each do |measurement| %>
+    <%# @stress.append(Stress.new(datetime: measurement["date"], level: measurement["measure"], activity_id: @activity.id )) %>
+  <%# end %>
+<%# end %>
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -35,6 +36,7 @@
     </div>
   </div>
   <h4>Nombre: <%= @activity.name %></h4>
+
 
   <div class="container-fluid">
     <div class="card text-center mb-3">

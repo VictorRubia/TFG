@@ -1,7 +1,7 @@
 require 'csv'
 
 class ActivitiesController < ApplicationController
-  before_action :set_activity, only: %i[ show edit update destroy ]
+  before_action :set_activity, only: %i[ show edit update destroy ppg_measures ]
 
   # GET /activities or /activities.json
   def index
@@ -76,6 +76,18 @@ class ActivitiesController < ApplicationController
         render template: "activities/export"
       end
     end
+  end
+
+  def ppg_measures
+    @measures = @activity.ppg_measures
+
+    @json = []
+    @measures.each do |medidas|
+      obj = JSON.parse(medidas['measurement'])
+      @json.append({ppg: obj.first['measure'], timer: obj.first['date']})
+    end
+
+    render :json => @json
 
   end
 
