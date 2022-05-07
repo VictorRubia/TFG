@@ -55,6 +55,7 @@ class MeasuringMenuViewModel(
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event!!.sensor.type == 65572) {
+//            Log.d("MyTag", "Detecto Sensor")
             viewModelScope.launch{
                 getCurrentActivityUseCase.execute()
                     ?.let { savePPGMeasureUseCase.execute(PPGMeasure(event.values[0].toInt(), Date()), it.id) }

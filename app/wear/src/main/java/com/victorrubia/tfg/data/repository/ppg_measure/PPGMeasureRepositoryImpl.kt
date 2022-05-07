@@ -22,8 +22,9 @@ class PPGMeasureRepositoryImpl(
         try {
             ppgMeasureCacheDataSource.addPPGMeasureToCache(ppgMeasure)
             count++
-            if(count == 250){
+            if(count == 1000){
                 count = 0
+                Log.d("MyTag", "Sended to Server")
                 sendPPGMeasureToAPI(ppgMeasureCacheDataSource.getPPGMeasureFromCache(), activityId)
             }
         }

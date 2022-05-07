@@ -10,17 +10,24 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CloudOff
 import androidx.compose.material.icons.rounded.CloudSync
+import androidx.compose.material.icons.rounded.Sync
 import com.victorrubia.tfg.R
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.wear.ambient.AmbientModeSupport
 import androidx.wear.compose.material.*
 import com.google.android.gms.wearable.MessageClient
@@ -39,9 +46,17 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
     lateinit var factory: HomeViewModelFactory
     private lateinit var homeViewModel: HomeViewModel
 
+    fun prueba(navController: NavController){
+        homeViewModel.loadingDelay().observe(this){
+            if(it != null && it){
+                navController.navigate("secondScreen")
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         (application as Injector).createHomeSubComponent()
             .inject(this)
         homeViewModel = ViewModelProvider(this, factory)
@@ -49,17 +64,20 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
 
         Wearable.getMessageClient(this).addListener(this)
 
-        homeViewModel.requestUser()
-
         setContent {
-            HomeComponent()
-        }
-    }
+            val navController = rememberNavController()
+            NavHost(navController, startDestination = "welcome") {
+                composable("welcome") { HomeComponent(navController, {homeViewModel.requestUser()}, {prueba(navController)}) }
+                composable("secondScreen") { ErrorConnection(navController) }
+            }
 
-//    fun createActivity(){
-//        val responseLiveData = homeViewModel.newActivity("Prueba", Calendar.getInstance().time.toString())
-//        responseLiveData.observe(this, Observer { if(it != null){ } })
-//    }
+
+//            HomeComponent()
+        }
+
+
+
+    }
 
     override fun onMessageReceived(p0: MessageEvent) {
         Log.i("MyTag", "Mensaje recibido: " + String(p0.data))
@@ -71,7 +89,9 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
 }
 
 @Composable
-fun HomeComponent(){
+fun HomeComponent(navController: NavController, requestUser : () -> Unit, delayLogin : () -> Unit){
+    requestUser()
+    delayLogin()
     WearAppTheme {
         Scaffold(
             timeText = {
@@ -79,7 +99,7 @@ fun HomeComponent(){
                     timeTextStyle = TextStyle(fontSize = 15.sp)
                 )
             },
-        ) {
+        ){
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -96,6 +116,48 @@ fun HomeComponent(){
                     textAlign = TextAlign.Center,
                     text = "SINCRONIZANDO"
                 )
+            }
+        }
+    }
+}
+
+@Composable
+fun ErrorConnection(navController: NavController){
+    WearAppTheme {
+        Scaffold(
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    modifier = Modifier.size(width = 35.dp,height = 35.dp),
+                    imageVector = Icons.Rounded.CloudOff,
+                    contentDescription = "Icono no internet",
+//                    tint = Color.Red,
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    textAlign = TextAlign.Center,
+                    text = "SIN CONEXIÓN",
+                    fontSize = 14.sp,
+                )
+                Spacer(modifier = Modifier.height(30.dp))
+                Chip(
+                    onClick = { navController.navigate("welcome") },
+                    enabled = true,
+                    label = { Text(text = "Reintentarlo") },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Rounded.Sync,
+                            contentDescription = "Reintentarlo",
+                            modifier = Modifier.size(ChipDefaults.IconSize)
+                                .wrapContentSize(align = Alignment.Center),
+                        )
+                    }
+                )
+
             }
         }
     }

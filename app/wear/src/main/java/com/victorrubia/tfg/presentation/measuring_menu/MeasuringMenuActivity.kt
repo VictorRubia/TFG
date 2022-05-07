@@ -1,10 +1,8 @@
 package com.victorrubia.tfg.presentation.measuring_menu
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Intent
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
@@ -14,29 +12,42 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.StopCircle
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.wear.ambient.AmbientMode
+import androidx.wear.ambient.AmbientMode.attachAmbientSupport
+import androidx.wear.ambient.AmbientModeSupport
 import androidx.wear.compose.material.*
-import com.google.android.gms.wearable.Wearable
 import com.victorrubia.tfg.presentation.di.Injector
 import com.victorrubia.tfg.presentation.start_menu.StartMenuActivity
 import com.victorrubia.tfg.presentation.status_menu.StatusMenuActivity
 import com.victorrubia.tfg.ui.theme.WearAppTheme
+import kotlinx.coroutines.CoroutineDispatcher
+import java.time.Clock
+import java.time.Instant
 import javax.inject.Inject
 
-class MeasuringMenuActivity:  ComponentActivity() {
+const val AMBIENT_UPDATE_ACTION = "com.example.android.wearable.wear.alwayson.action.AMBIENT_UPDATE"
+
+/**
+ * Create a PendingIntent which we'll give to the AlarmManager to send ambient mode updates
+ * on an interval which we've define.
+ */
+private val ambientUpdateIntent = Intent(AMBIENT_UPDATE_ACTION)
+
+class MeasuringMenuActivity: ComponentActivity() {
 
     @Inject
     lateinit var factory: MeasuringMenuViewModelFactory
@@ -44,7 +55,7 @@ class MeasuringMenuActivity:  ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         (application as Injector).createMeasuringMenuSubComponent()
             .inject(this)

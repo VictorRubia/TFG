@@ -18,9 +18,9 @@ class HomeViewModel(
     private val getUserUseCase: GetUserUseCase
 ) : ViewModel() {
 
-    fun newActivity(name: String, startTimestamp: String) = liveData {
-        val activity = newActivityUseCase.execute(name, startTimestamp)
-        emit(activity)
+    fun loadingDelay() = liveData {
+        kotlinx.coroutines.delay(15000)
+        emit(true)
     }
 
     fun requestUser(){
