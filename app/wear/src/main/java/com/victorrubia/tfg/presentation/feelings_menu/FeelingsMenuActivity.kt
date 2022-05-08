@@ -3,6 +3,7 @@ package com.victorrubia.tfg.presentation.feelings_menu
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -50,6 +51,7 @@ class FeelingsMenuActivity: ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         (application as Injector).createFeelingsMenuSubComponent()
             .inject(this)

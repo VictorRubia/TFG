@@ -1,7 +1,5 @@
 package com.victorrubia.tfg.presentation.measuring_menu
 
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,41 +9,24 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircle
+import androidx.compose.material.icons.rounded.CloudOff
 import androidx.compose.material.icons.rounded.StopCircle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.getSystemService
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.wear.ambient.AmbientMode
-import androidx.wear.ambient.AmbientMode.attachAmbientSupport
-import androidx.wear.ambient.AmbientModeSupport
 import androidx.wear.compose.material.*
 import com.victorrubia.tfg.presentation.di.Injector
 import com.victorrubia.tfg.presentation.start_menu.StartMenuActivity
 import com.victorrubia.tfg.presentation.status_menu.StatusMenuActivity
 import com.victorrubia.tfg.ui.theme.WearAppTheme
-import kotlinx.coroutines.CoroutineDispatcher
-import java.time.Clock
-import java.time.Instant
 import javax.inject.Inject
-
-const val AMBIENT_UPDATE_ACTION = "com.example.android.wearable.wear.alwayson.action.AMBIENT_UPDATE"
-
-/**
- * Create a PendingIntent which we'll give to the AlarmManager to send ambient mode updates
- * on an interval which we've define.
- */
-private val ambientUpdateIntent = Intent(AMBIENT_UPDATE_ACTION)
 
 class MeasuringMenuActivity: ComponentActivity() {
 
@@ -65,7 +46,7 @@ class MeasuringMenuActivity: ComponentActivity() {
         measuringMenuViewModel.startMeasure(applicationContext)
 
         setContent {
-            MainMenu( {
+            MainMenu( remember { measuringMenuViewModel.internetStatus } ,{
                 measuringMenuViewModel.endActivity().observe(this){
                     if(it!=null){
                         Log.d("MyTag", "Activity Ended: $it")
@@ -83,41 +64,36 @@ class MeasuringMenuActivity: ComponentActivity() {
 }
 
 @Composable
-fun MainMenu(stopMeasuring: () -> Unit, registerStatus: () -> Unit){
+fun MainMenu(internetStatus: MutableState<Boolean>, stopMeasuring: () -> Unit, registerStatus: () -> Unit){
     var loading = remember { mutableStateOf(true) }
     WearAppTheme{
         val listState = rememberScalingLazyListState()
-        val contentModifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+        val contentModifier = Modifier.fillMaxWidth(0.8f).padding(bottom = 8.dp)
         val iconModifier = Modifier.size(24.dp).wrapContentSize(align = Alignment.Center)
 
         Scaffold(
-            timeText = { TimeText(timeTextStyle = TextStyle(fontSize = 15.sp)) },
-            vignette = {
-                Vignette(vignettePosition = VignettePosition.TopAndBottom)
-            },
-            positionIndicator = {
-                PositionIndicator(
-                    scalingLazyListState = listState
-                )
-            }
+            timeText = { if(internetStatus.value) TimeText(timeTextStyle = TextStyle(fontSize = 15.sp)) },
         ) {
-            ScalingLazyColumn(
+            Column(
                 modifier = Modifier.fillMaxSize(),
-                anchorType = ScalingLazyListAnchorType.ItemStart,
                 verticalArrangement = Arrangement.spacedBy(6.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                flingBehavior = ScalingLazyColumnDefaults.snapFlingBehavior(state = listState),
-                state = listState
             ) {
-                item { registerStatusChip(contentModifier, iconModifier, registerStatus) }
-                item { stopActivityButton(contentModifier, iconModifier, stopMeasuring, loading) }
+                if(!internetStatus.value){
+                    noInternet()
+                }
+                else{
+                    Spacer(Modifier.height(45.dp))
+                }
+                registerStatusChip(contentModifier, iconModifier, registerStatus)
+                stopActivityButton(contentModifier, internetStatus, stopMeasuring, loading)
             }
         }
     }
 }
 
 @Composable
-fun stopActivityButton(modifier : Modifier = Modifier, iconModifier: Modifier = Modifier, stopMeasuring: () -> Unit, isStopped : MutableState<Boolean>){
+fun stopActivityButton(modifier : Modifier = Modifier, internetStatus: MutableState<Boolean>, stopMeasuring: () -> Unit, isStopped : MutableState<Boolean>){
     Column(
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -128,7 +104,7 @@ fun stopActivityButton(modifier : Modifier = Modifier, iconModifier: Modifier = 
                       isStopped.value = false
                       },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
-            enabled = isStopped.value
+            enabled = isStopped.value and internetStatus.value
         ) {
             Icon(
                 imageVector = Icons.Rounded.StopCircle,
@@ -165,4 +141,22 @@ fun registerStatusChip(modifier: Modifier = Modifier, iconModifier: Modifier = M
             )
         },
     )
+}
+
+@Composable
+fun noInternet(){
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Icon(
+            modifier = Modifier.size(width = 25.dp, height = 25.dp),
+            imageVector = Icons.Rounded.CloudOff,
+            contentDescription = "Icono no internet",
+        )
+        Text(
+            textAlign = TextAlign.Center,
+            text = "SIN CONEXIÓN",
+            fontSize = 13.sp,
+        )
+    }
 }

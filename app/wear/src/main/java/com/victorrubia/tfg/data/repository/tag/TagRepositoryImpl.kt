@@ -6,8 +6,8 @@ import com.victorrubia.tfg.data.repository.tag.datasource.TagCacheDataSource
 import com.victorrubia.tfg.data.repository.tag.datasource.TagLocalDataSource
 import com.victorrubia.tfg.data.repository.tag.datasource.TagRemoteDataSource
 import com.victorrubia.tfg.domain.repository.TagRepository
+import kotlinx.coroutines.delay
 import java.util.*
-
 
 class TagRepositoryImpl(
     private val tagRemoteDataSource : TagRemoteDataSource,
@@ -28,7 +28,20 @@ class TagRepositoryImpl(
             }
         }
         catch (exception : Exception){
+            delay(15000)
+            addTagToAPI(tag, datetime, activityId)
             Log.e("MyTag", exception.message.toString())
+        }
+        val tagsPendientes = tagLocalDataSource.getTagsFromDB()
+        if(tagsPendientes.isNotEmpty()){
+            tagsPendientes.forEach{
+                try {
+                    tagRemoteDataSource.addTag(it.tag, it.datetime, it.activityId)
+                }
+                catch (exception : Exception){
+                    Log.e("MyTag", exception.message.toString())
+                }
+            }
         }
 
         return Tag(tag, datetime, activityId)

@@ -3,6 +3,7 @@ package com.victorrubia.tfg.presentation.emotions_menu
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -42,6 +43,8 @@ class EmotionsMenuActivity: ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
         setContent{
             EmotionsList(ArrayList<String>()){
                 startActivity(FeelingsMenuActivity.intent(this,statusTilesSelected,it))

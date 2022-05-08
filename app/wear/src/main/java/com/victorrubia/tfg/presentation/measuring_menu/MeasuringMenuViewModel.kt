@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.compose.runtime.mutableStateOf
 import androidx.core.content.getSystemService
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -35,6 +36,8 @@ class MeasuringMenuViewModel(
 
     private lateinit var sensorManager: SensorManager
     private lateinit var heartRateSensor : Sensor
+    var internetStatus = mutableStateOf(true)
+
 
     fun startMeasure(context : Context) {
         sensorManager = context.getSystemService(ComponentActivity.SENSOR_SERVICE) as SensorManager
@@ -55,10 +58,9 @@ class MeasuringMenuViewModel(
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event!!.sensor.type == 65572) {
-//            Log.d("MyTag", "Detecto Sensor")
             viewModelScope.launch{
                 getCurrentActivityUseCase.execute()
-                    ?.let { savePPGMeasureUseCase.execute(PPGMeasure(event.values[0].toInt(), Date()), it.id) }
+                    ?.let { internetStatus.value = savePPGMeasureUseCase.execute(PPGMeasure(event.values[0].toInt(), Date()), it.id).value }
             }
         }
     }
