@@ -6,17 +6,8 @@ class DashboardController < ApplicationController
   end
 
   def search_user
-    search = params[:search]
-    if search
-      user = User.where("name like ?", "%#{search}%")
-      if user
-        User.where(id: user)
-      else
-        User.all
-      end
-    else
-      User.all
-    end
+    @users = User.search(params[:search])
+    render "/dashboard/create_user"
   end
 
   def view_activities
@@ -41,6 +32,6 @@ class DashboardController < ApplicationController
     @activity = Activity.find(params[:id_activity])
   end
 
-  helper_method :get_activities, :get_activities_sorted, :activity_details
+  helper_method :get_activities, :get_activities_sorted, :activity_details, :search_user
 
 end

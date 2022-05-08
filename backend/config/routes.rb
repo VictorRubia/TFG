@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get '/dashboard/index'
     get '/dashboard', to: 'dashboard#index'
     get '/dashboard/create_user' => 'dashboard#create_user', as: :dashboard_create_user
+    get '/dashboard/create_user/search' => 'dashboard#search_user', as: :dashboard_search_user
     post '/dashboard/create_user', to: 'users#create'
     get '/dashboard/activity_user' => 'dashboard#activity_user', as: :dashboard_activity_user
     get '/dashboard/activity_user/:id' => 'dashboard#view_activities', as: :dashboard_view_activity

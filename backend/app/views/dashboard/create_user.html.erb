@@ -63,11 +63,15 @@
   </div>
 
   <h3>Usuarios registrados</h3>
+  <%= form_tag(dashboard_search_user_path, method: :get) do %>
 
   <div class="input-group">
-    <input type="search" class="form-control rounded" placeholder="Buscar usuario" aria-label="Search" aria-describedby="search-addon" />
-    <button type="button" class="btn btn-outline-primary">BUSCAR</button>
+    <%= text_field_tag(:search, params[:search], :class => 'form-control rounded') %>
+    <%= submit_tag ("BUSCAR"), :class => 'btn btn-outline-primary' %>
   </div>
+  <% end %>
+
+
 <!--  <div class="input-group">-->
 <!--    <input class="form-control border-end-0 border" placeholder="Buscar usuario" id="example-search-input">-->
 <!--    <span class="input-group-append">-->
