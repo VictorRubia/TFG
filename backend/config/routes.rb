@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     get '/dashboard/create_user/search' => 'dashboard#search_user', as: :dashboard_search_user
     post '/dashboard/create_user', to: 'users#create'
     get '/dashboard/activity_user' => 'dashboard#activity_user', as: :dashboard_activity_user
+    get '/dashboard/activity_user/search' => 'dashboard#search_user_activities', as: :dashboard_search_user_activity
     get '/dashboard/activity_user/:id' => 'dashboard#view_activities', as: :dashboard_view_activity
     get '/dashboard/activity_user/:id/:id_activity' => 'dashboard#activity_details', as: :dashboard_activity_details
     get '/dashboard/activity_user/:id/:id_activity/reprocess' => 'activities#reprocess', as: :activity_reprocess

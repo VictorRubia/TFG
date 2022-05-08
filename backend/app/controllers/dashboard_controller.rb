@@ -10,6 +10,11 @@ class DashboardController < ApplicationController
     render "/dashboard/create_user"
   end
 
+  def search_user_activities
+    @users = User.search(params[:search])
+    render "/dashboard/activity_user"
+  end
+
   def view_activities
     @user = User.find(params[:id])
   end

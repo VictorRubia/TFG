@@ -1,5 +1,8 @@
 <%= render "layouts/dashboard" %>
 <%= stylesheet_link_tag 'create_user' %>
+<% if @users.nil? %>
+  <% @users = User.all %>
+<% end %>
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -7,14 +10,13 @@
   </div>
 
   <h3>Seleccione un usuario</h3>
-  <div class="input-group">
-    <input class="form-control border-end-0 border" placeholder="Buscar usuario" id="example-search-input">
-    <span class="input-group-append">
-                    <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5" type="button">
-                        <i data-feather="search"></i>
-                    </button>
-                </span>
-  </div>
+  <%= form_tag(dashboard_search_user_activity_path, method: :get) do %>
+
+    <div class="input-group">
+      <%= text_field_tag(:search, params[:search], :class => 'form-control rounded', :placeholder => 'Buscar usuario') %>
+      <%= submit_tag ("BUSCAR"), :class => 'btn btn-outline-primary' %>
+    </div>
+  <% end %>
   <div class="table-responsive">
     <table class="table table-striped">
       <thead>
@@ -27,7 +29,7 @@
       </tr>
       </thead>
       <tbody>
-      <% User.all.each do |user| %>
+      <% @users.each do |user| %>
         <tr>
           <td>
           </td>

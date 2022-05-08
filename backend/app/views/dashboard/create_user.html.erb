@@ -6,29 +6,6 @@
 
 
 <script>
-    $(document).ready(function(){
-        // Activate tooltip
-        $('[data-toggle="tooltip"]').tooltip();
-
-        // Select/Deselect checkboxes
-        var checkbox = $('table tbody input[type="checkbox"]');
-        $("#selectAll").click(function(){
-            if(this.checked){
-                checkbox.each(function(){
-                    this.checked = true;
-                });
-            } else{
-                checkbox.each(function(){
-                    this.checked = false;
-                });
-            }
-        });
-        checkbox.click(function(){
-            if(!this.checked){
-                $("#selectAll").prop("checked", false);
-            }
-        });
-    });
     function copy(inputname) {
         /* Get the text field */
         var copyText = document.getElementById(inputname);
@@ -54,64 +31,37 @@
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Usuarios</h1>
+    <h1 class="h2">Usuarios registrados</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group me-2">
         <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Añadir</button>
       </div>
     </div>
   </div>
-
-  <h3>Usuarios registrados</h3>
   <%= form_tag(dashboard_search_user_path, method: :get) do %>
 
   <div class="input-group">
-    <%= text_field_tag(:search, params[:search], :class => 'form-control rounded') %>
+    <%= text_field_tag(:search, params[:search], :class => 'form-control rounded', :placeholder => 'Buscar usuario') %>
     <%= submit_tag ("BUSCAR"), :class => 'btn btn-outline-primary' %>
   </div>
   <% end %>
 
-
-<!--  <div class="input-group">-->
-<!--    <input class="form-control border-end-0 border" placeholder="Buscar usuario" id="example-search-input">-->
-<!--    <span class="input-group-append">-->
-<!--                    <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5" type="button">-->
-<!--                        <i data-feather="search"></i>-->
-<!--                    </button>-->
-<!--                </span>-->
-<!--  </div>-->
   <div class="table-responsive">
     <table class="table table-striped">
       <thead>
       <tr>
-        <th>
-							<span class="custom-checkbox">
-								<input type="checkbox" id="selectAll">
-								<label for="selectAll"></label>
-							</span>
-        </th>
+        <th></th>
         <th scope="col">Nombre</th>
         <th scope="col">Apellidos</th>
-<!--        <th scope="col">Medidas</th>-->
         <th scope="col">Opciones</th>
       </tr>
       </thead>
       <tbody>
       <% @users.each do |user| %>
         <tr>
-          <td>
-                <span class="custom-checkbox">
-                  <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                  <label for="checkbox1"></label>
-                </span>
-          </td>
+          <td></td>
           <td><%= user.name %></td>
           <td><%= user.surname %></td>
-<!--          <td>-->
-<!--            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#">-->
-<!--              <i data-feather="eye" class="icon icon-show"></i>-->
-<!--            </button>-->
-<!--          </td>-->
           <td>
             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
               <div class="btn-group me-2" role="group" aria-label="First group">
