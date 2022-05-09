@@ -30,8 +30,10 @@
               Ver detalles
               <% end %>
               <div class="btn-group me-2" role="group" aria-label="Second group">
+                <%unless activity.end_d.nil? %>
                 <%= button_to activity, method: :delete, :class => 'btn btn-danger' do%>
                   Eliminar
+                <% end %>
                 <% end %>
               </div>
             </div>

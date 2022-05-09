@@ -32,19 +32,19 @@
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-5">
         <ul class="nav flex-column">
-          <li class="nav-item">
-            <% if current_page?(root_path) or current_page?(dashboard_path) or current_page?(dashboard_index_path) %>
-              <%= link_to dashboard_index_path, class: "nav-link active" do %>
-                <span data-feather="home"></span>
-                Panel de control
-              <% end %>
-            <% else %>
-              <%= link_to dashboard_index_path, class: "nav-link" do %>
-                <span data-feather="home"></span>
-                Panel de control
-              <% end %>
-            <% end %>
-          </li>
+<!--          <li class="nav-item">-->
+            <%# if current_page?(root_path) or current_page?(dashboard_path) or current_page?(dashboard_index_path) %>
+              <%#= link_to dashboard_index_path, class: "nav-link active" do %>
+<!--                <span data-feather="home"></span>-->
+<!--                Panel de control-->
+              <%# end %>
+            <%# else %>
+              <%#= link_to dashboard_index_path, class: "nav-link" do %>
+<!--                <span data-feather="home"></span>-->
+<!--                Panel de control-->
+              <%# end %>
+            <%# end %>
+<!--          </li>-->
           <li class="nav-item">
             <% if current_page?(dashboard_create_user_path) %>
               <%= link_to dashboard_create_user_path, class: "nav-link active" do %>
@@ -59,7 +59,7 @@
             <% end %>
           </li>
           <li class="nav-item">
-            <% if current_page?(dashboard_activity_user_path) %>
+            <% if request.url.include? 'activity_user' %>
               <%= link_to dashboard_activity_user_path, class: "nav-link active" do %>
                 <span data-feather="bar-chart-2"></span>
                 Actividades
