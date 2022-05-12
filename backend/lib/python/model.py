@@ -15,10 +15,13 @@ trainFile = pd.read_csv('/tfg/lib/python/hrv dataset/data/final/train.csv').drop
 targetTrain = trainFile["condition"]
 trainFile=trainFile.drop(columns=['condition'])
 
-knn = KNeighborsClassifier()
-modeloKnn = knn.fit(trainFile, targetTrain)
+# knn = KNeighborsClassifier()
+# modeloKnn = knn.fit(trainFile, targetTrain)
 
-s = pickle.dumps(modeloKnn)
+rfc = RandomForestClassifier()
+modeloRfc = rfc.fit(trainFile, targetTrain)
+
+s = pickle.dumps(modeloRfc)
 
 with open('/tfg/lib/python/model.pickle', 'wb') as handle:
-    pickle.dump(modeloKnn, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    pickle.dump(modeloRfc, handle, protocol=pickle.HIGHEST_PROTOCOL)
