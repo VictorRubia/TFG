@@ -10,6 +10,7 @@
     <string name="activity_confirmation_activity_title">Confirmación de inicio de actividad</string>
     <string name="measuring_menu_activity_title">Menú de medición</string>
     <string name="status_menu_activity_title">Menú de estados</string>
+    <string name="user_context_menu_activity_title">Menú de contextos</string>
     <string name="emotions_menu_activity_title">Menú de emociones</string>
-    <string name="feelings_menu_activity_title">Menú de sensaciones</string>
+    <string name="feelings_menu_activity_title">Menú de sentimientos</string>
 </resources>

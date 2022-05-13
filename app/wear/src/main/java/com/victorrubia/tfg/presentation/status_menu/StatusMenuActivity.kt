@@ -21,10 +21,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.*
 import com.victorrubia.tfg.R
-import com.victorrubia.tfg.presentation.emotions_menu.EmotionsMenuActivity
+import com.victorrubia.tfg.presentation.user_context_menu.UserContextMenuActivity
 import com.victorrubia.tfg.ui.theme.WearAppTheme
 
 class StatusMenuActivity :  ComponentActivity() {
@@ -34,8 +33,8 @@ class StatusMenuActivity :  ComponentActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         setContent{
-            StatusList(){
-                startActivity(EmotionsMenuActivity.intent(this,it)).apply { finish() }
+            StatusList{
+                startActivity(UserContextMenuActivity.intent(this,it)).apply { finish() }
             }
         }
     }
@@ -43,9 +42,8 @@ class StatusMenuActivity :  ComponentActivity() {
 
 
 @Composable
-fun StatusList(selectedItem: (ArrayList<String>) -> Unit){
-    val selectedTiles = remember { List(16){ mutableStateOf(false)} }
-    val selectedTilesNames = remember { ArrayList<String>() }
+fun StatusList(selectedItem: (String) -> Unit){
+    val selectedTilesNames = remember { mutableStateOf("")  }
     WearAppTheme {
         val listState = rememberScalingLazyListState()
         Scaffold(
@@ -70,22 +68,15 @@ fun StatusList(selectedItem: (ArrayList<String>) -> Unit){
                 horizontalAlignment = Alignment.CenterHorizontally,
                 state = listState
             ) {
-                item { statusCards("Esperando", R.drawable.status_esperando, selectedTiles[0], selectedTilesNames) }
-                item { statusCards("En viaje", R.drawable.en_viaje, selectedTiles[1], selectedTilesNames) }
-                item { statusCards("Trasbordo", R.drawable.status_trasbordo, selectedTiles[2], selectedTilesNames) }
-                item { statusCards("En destino", R.drawable.status_en_destino, selectedTiles[3], selectedTilesNames) }
-                item { statusCards("Larga espera", R.drawable.status_larga_espera, selectedTiles[4], selectedTilesNames) }
-                item { statusCards("Llego tarde", R.drawable.status_llego_tarde, selectedTiles[5], selectedTilesNames) }
-                item { statusCards("Sin información", R.drawable.status_sin_informacion, selectedTiles[6], selectedTilesNames) }
-                item { statusCards("Abarrotado", R.drawable.status_abarrotado, selectedTiles[7], selectedTilesNames) }
-                item { statusCards("Sentado", R.drawable.status_sentado, selectedTiles[8], selectedTilesNames) }
-                item { statusCards("Ruido", R.drawable.status_ruido, selectedTiles[9], selectedTilesNames) }
-                item { statusCards("Calor", R.drawable.status_calor, selectedTiles[10], selectedTilesNames) }
-                item { statusCards("Frio", R.drawable.status_frio, selectedTiles[11], selectedTilesNames) }
-                item { statusCards("Atasco", R.drawable.status_atasco, selectedTiles[12], selectedTilesNames) }
-                item { statusCards("Acompañado", R.drawable.status_acompaniado, selectedTiles[13], selectedTilesNames) }
-                item { statusCards("Solo", R.drawable.status_solo, selectedTiles[14], selectedTilesNames) }
-                item { statusCards("Peligro", R.drawable.status_peligro, selectedTiles[15], selectedTilesNames) }
+                item {
+                    ListHeader {
+                        Text(text = "Registre estado")
+                    }
+                }
+                item { statusCards("Esperando", R.drawable.status_esperando, selectedTilesNames) }
+                item { statusCards("En viaje", R.drawable.en_viaje, selectedTilesNames) }
+                item { statusCards("Trasbordo", R.drawable.status_trasbordo, selectedTilesNames) }
+                item { statusCards("En destino", R.drawable.status_en_destino, selectedTilesNames) }
                 item { Spacer(Modifier.height(13.dp)) }
                 item { finishedRegisteringStatusChip(selectedItem, selectedTilesNames) }
             }
@@ -94,10 +85,10 @@ fun StatusList(selectedItem: (ArrayList<String>) -> Unit){
 }
 
 @Composable
-fun statusCards(text : String, icon : Int, isSelected : MutableState<Boolean>, selectedTileNames : ArrayList<String>){
+fun statusCards(text : String, icon : Int, selectedTileName : MutableState<String>){
     AppCard(
         appImage = {
-            if(isSelected.value)
+            if(selectedTileName.value.contains(text))
                 Icon(
                     imageVector = Icons.Rounded.CheckBox,
                     tint = Color.Green,
@@ -112,16 +103,15 @@ fun statusCards(text : String, icon : Int, isSelected : MutableState<Boolean>, s
         appName = {},
         time = { },
         title = { },
-        onClick = { 
-            isSelected.value = !isSelected.value
-            if(isSelected.value){
-                selectedTileNames.add(text)
+        onClick = {
+            if(selectedTileName.value != text){
+                selectedTileName.value = text
             }
             else{
-                selectedTileNames.remove(text)
+                selectedTileName.value = ""
             }
                   },
-        backgroundPainter = if (isSelected.value) ColorPainter(Color.DarkGray) else CardDefaults.cardBackgroundPainter(),
+        backgroundPainter = if (selectedTileName.value == text) ColorPainter(Color.DarkGray) else CardDefaults.cardBackgroundPainter(),
         content = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -143,10 +133,12 @@ fun statusCards(text : String, icon : Int, isSelected : MutableState<Boolean>, s
     )
 }
 
+
+
 @Composable
-fun finishedRegisteringStatusChip(selectedItem: (ArrayList<String>) -> Unit, selectedTileNames: ArrayList<String>){
+fun finishedRegisteringStatusChip(selectedItem: (String) -> Unit, selectedTileName: MutableState<String>){
     Chip(
-        onClick = { selectedItem(selectedTileNames) },
+        onClick = { selectedItem(selectedTileName.value) },
         label = {
             Text(
                 text = "Registrar",

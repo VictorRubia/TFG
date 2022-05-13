@@ -1,6 +1,5 @@
 package com.victorrubia.tfg.presentation.measuring_menu
 
-import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -9,7 +8,6 @@ import android.hardware.SensorManager
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.mutableStateOf
-import androidx.core.content.getSystemService
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
@@ -18,14 +16,8 @@ import com.victorrubia.tfg.domain.usecase.EndActivityUseCase
 import com.victorrubia.tfg.domain.usecase.EndPPGMeasureUseCase
 import com.victorrubia.tfg.domain.usecase.GetCurrentActivityUseCase
 import com.victorrubia.tfg.domain.usecase.SavePPGMeasureUseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.Instant
-import java.time.ZoneId
 import java.util.*
-import javax.inject.Inject
-
 
 class MeasuringMenuViewModel(
     private val endActivityUseCase: EndActivityUseCase,
@@ -37,11 +29,23 @@ class MeasuringMenuViewModel(
     private lateinit var sensorManager: SensorManager
     private lateinit var heartRateSensor : Sensor
     var internetStatus = mutableStateOf(true)
+    var ppgSensorId : Int = 0
 
 
     fun startMeasure(context : Context) {
         sensorManager = context.getSystemService(ComponentActivity.SENSOR_SERVICE) as SensorManager
-        heartRateSensor = sensorManager.getDefaultSensor(65572)
+        val sensorList: List<Sensor> = sensorManager!!.getSensorList(Sensor.TYPE_ALL)
+        for (currentSensor in sensorList) {
+            if(currentSensor.stringType.contains("ppg")){
+                ppgSensorId = currentSensor.type
+            }
+//            Log.d(
+//                "List sensors",
+//                "Name: " + currentSensor.name + " /Type_String: " + currentSensor.stringType + " /Type_number: " + currentSensor.type
+//            )
+        }
+        heartRateSensor = sensorManager.getDefaultSensor(ppgSensorId)
+//        heartRateSensor = sensorManager.getDefaultSensor(65572)
         sensorManager.registerListener(this, heartRateSensor, SensorManager.SENSOR_DELAY_NORMAL)
     }
 

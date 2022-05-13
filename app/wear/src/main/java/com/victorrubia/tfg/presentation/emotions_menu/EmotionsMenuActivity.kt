@@ -8,9 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Check
-import androidx.compose.material.icons.rounded.CheckBox
-import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -19,36 +17,66 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.wear.compose.material.*
 import com.victorrubia.tfg.presentation.feelings_menu.FeelingsMenuActivity
+import com.victorrubia.tfg.presentation.user_context_menu.ContextList
+import com.victorrubia.tfg.presentation.user_context_menu.UserContextMenuViewModel
+import com.victorrubia.tfg.presentation.user_context_menu.contextAnnouncement
 import com.victorrubia.tfg.ui.theme.WearAppTheme
 
 class EmotionsMenuActivity: ComponentActivity() {
 
+    private lateinit var emotionsMenuViewModel: EmotionsMenuViewModel
+
     companion object{
-        private const val STATUS_TILES = "statusTilesSelected"
-        fun intent(context: Context, statusTilesSelected: ArrayList<String>)=
+        private const val STATUS_TILE = "statusTileSelected"
+        private const val CONTEXT_TILES = "contextTilesSelected"
+        fun intent(context: Context, statusTileSelected: String, contextTilesSelected: ArrayList<String>)=
             Intent(context, EmotionsMenuActivity::class.java).apply {
-                putStringArrayListExtra(STATUS_TILES,statusTilesSelected)
+                putExtra(STATUS_TILE,statusTileSelected)
+                putStringArrayListExtra(CONTEXT_TILES, contextTilesSelected)
             }
     }
 
-    private val statusTilesSelected : ArrayList<String> by lazy {
-        intent?.getSerializableExtra(STATUS_TILES) as ArrayList<String>
+    private val statusTilesSelected : String by lazy {
+        intent?.getSerializableExtra(STATUS_TILE) as String
+    }
+
+    private val contextTilesSelected : ArrayList<String> by lazy {
+        intent?.getSerializableExtra(CONTEXT_TILES) as ArrayList<String>
+    }
+
+    fun startFeelings(emotion: String){
+        startActivity(FeelingsMenuActivity.intent(this,statusTilesSelected, contextTilesSelected, emotion))
+        finish()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
+        emotionsMenuViewModel = ViewModelProvider(this)
+            .get(EmotionsMenuViewModel::class.java)
+
         setContent{
-            EmotionsList(ArrayList<String>()){
-                startActivity(FeelingsMenuActivity.intent(this,statusTilesSelected,it))
-                finish()
+            val navController = rememberNavController()
+            NavHost(navController, startDestination = "announcement") {
+                composable("announcement") { emotionAnnouncement() }
+                composable("emotionsList") { EmotionsList{ startFeelings(it) } }
+            }
+            emotionsMenuViewModel.delayAnnouncement().observe(this){
+                if(it != null && it){
+                    navController.navigate("emotionsList")
+                }
             }
         }
     }
@@ -56,9 +84,8 @@ class EmotionsMenuActivity: ComponentActivity() {
 
 
 @Composable
-fun EmotionsList(tilesSelected: ArrayList<String>, selectedItem: (ArrayList<String>) -> Unit){
-    val selectedTiles = remember { List(6){ mutableStateOf(false) } }
-    val selectedTilesNames = remember { tilesSelected }
+fun EmotionsList(selectedItem: (String) -> Unit){
+    val selectedTilesName = remember { mutableStateOf("") }
     WearAppTheme {
         val listState = rememberScalingLazyListState()
         Scaffold(
@@ -83,24 +110,62 @@ fun EmotionsList(tilesSelected: ArrayList<String>, selectedItem: (ArrayList<Stri
                 horizontalAlignment = Alignment.CenterHorizontally,
                 state = listState
             ) {
-                item { emotionsCards("Felicidad", "😀", selectedTiles[0], selectedTilesNames) }
-                item { emotionsCards("Tristeza", "😢", selectedTiles[1], selectedTilesNames) }
-                item { emotionsCards("Miedo", "😱", selectedTiles[2], selectedTilesNames) }
-                item { emotionsCards("Ira", "😠", selectedTiles[3], selectedTilesNames) }
-                item { emotionsCards("Sorpresa", "😯", selectedTiles[4], selectedTilesNames) }
-                item { emotionsCards("Asco", "😒", selectedTiles[5], selectedTilesNames) }
+                item {
+                    ListHeader {
+                        Text(text = "Registre emoción")
+                    }
+                }
+                item { emotionsCards("Felicidad", "😀", selectedTilesName) }
+                item { emotionsCards("Tristeza", "😢", selectedTilesName) }
+                item { emotionsCards("Miedo", "😱", selectedTilesName) }
+                item { emotionsCards("Ira", "😠", selectedTilesName) }
+                item { emotionsCards("Sorpresa", "😯", selectedTilesName) }
+                item { emotionsCards("Asco", "😒", selectedTilesName) }
                 item { Spacer(Modifier.height(13.dp)) }
-                item { finishedRegisteringEmotionsChip(selectedItem, selectedTilesNames) }
+                item { finishedRegisteringEmotionsChip(selectedItem, selectedTilesName) }
             }
         }
     }
 }
 
 @Composable
-fun emotionsCards(text : String, icon : String, isSelected : MutableState<Boolean>, selectedTileNames : ArrayList<String>){
+fun emotionAnnouncement(){
+    WearAppTheme{
+        Scaffold(
+            timeText = { TimeText(timeTextStyle = TextStyle(fontSize = 15.sp)) },
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Button(
+                    modifier = Modifier.size(100.dp,100.dp),
+                    onClick = {  },
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green),
+                    enabled = false,
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.AddReaction,
+                        contentDescription = "Icono de emoción",
+                        modifier = Modifier.size(75.dp,75.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.height(15.dp))
+                Text(
+                    textAlign = TextAlign.Center,
+                    text = "AHORA REGISTRE\r\nEMOCIÓN"
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun emotionsCards(text : String, icon : String, selectedTileName : MutableState<String>){
     AppCard(
         appImage = {
-            if(isSelected.value)
+            if(selectedTileName.value.contains(text))
                 Icon(
                     imageVector = Icons.Rounded.CheckBox,
                     tint = Color.Green,
@@ -116,15 +181,14 @@ fun emotionsCards(text : String, icon : String, isSelected : MutableState<Boolea
         time = { },
         title = { },
         onClick = {
-            isSelected.value = !isSelected.value
-            if(isSelected.value){
-                selectedTileNames.add(text)
+            if(selectedTileName.value != text){
+                selectedTileName.value = text
             }
             else{
-                selectedTileNames.remove(text)
+                selectedTileName.value = ""
             }
                   },
-        backgroundPainter = if (isSelected.value) ColorPainter(Color.DarkGray) else CardDefaults.cardBackgroundPainter(),
+        backgroundPainter = if (selectedTileName.value == text) ColorPainter(Color.DarkGray) else CardDefaults.cardBackgroundPainter(),
         content = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -148,9 +212,9 @@ fun emotionsCards(text : String, icon : String, isSelected : MutableState<Boolea
 }
 
 @Composable
-fun finishedRegisteringEmotionsChip(selectedItem: (ArrayList<String>) -> Unit, selectedTileNames: ArrayList<String>){
+fun finishedRegisteringEmotionsChip(selectedItem: (String) -> Unit, selectedTileName: MutableState<String>){
     Chip(
-        onClick = { selectedItem(selectedTileNames) },
+        onClick = { selectedItem(selectedTileName.value) },
         label = {
             Text(
                 text = "Registrar",

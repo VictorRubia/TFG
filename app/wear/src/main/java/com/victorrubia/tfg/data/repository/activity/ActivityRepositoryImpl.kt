@@ -51,7 +51,6 @@ class ActivityRepositoryImpl(
         val activity: Activity? = activityCacheDataSource.getActivityFromCache()
 
         try {
-//            val response = activity?.id?.let { activityRemoteDataSource.endActivity(it, Instant.now().atZone(ZoneId.of("Europe/Madrid")).toString()) }
             val response = activity?.id?.let { activityRemoteDataSource.endActivity(it, Instant.now().atZone(ZoneId.of("Europe/Madrid")).toString()) }
             val body = response?.body()
             if(body != null){

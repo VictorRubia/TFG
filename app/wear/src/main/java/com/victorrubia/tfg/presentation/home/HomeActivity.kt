@@ -46,7 +46,7 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
     lateinit var factory: HomeViewModelFactory
     private lateinit var homeViewModel: HomeViewModel
 
-    fun prueba(navController: NavController){
+    private fun navigationManager(navController: NavController){
         homeViewModel.loadingDelay().observe(this){
             if(it != null && it){
                 navController.navigate("secondScreen")
@@ -67,16 +67,10 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
         setContent {
             val navController = rememberNavController()
             NavHost(navController, startDestination = "welcome") {
-                composable("welcome") { HomeComponent(navController, {homeViewModel.requestUser()}, {prueba(navController)}) }
+                composable("welcome") { HomeComponent({homeViewModel.requestUser()}, {navigationManager(navController)}) }
                 composable("secondScreen") { ErrorConnection(navController) }
             }
-
-
-//            HomeComponent()
         }
-
-
-
     }
 
     override fun onMessageReceived(p0: MessageEvent) {
@@ -89,7 +83,7 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
 }
 
 @Composable
-fun HomeComponent(navController: NavController, requestUser : () -> Unit, delayLogin : () -> Unit){
+fun HomeComponent(requestUser : () -> Unit, delayLogin : () -> Unit){
     requestUser()
     delayLogin()
     WearAppTheme {
@@ -108,13 +102,13 @@ fun HomeComponent(navController: NavController, requestUser : () -> Unit, delayL
                 Icon(
                     modifier = Modifier.size(width = 100.dp,height = 100.dp),
                     imageVector = Icons.Rounded.CloudSync,
-                    contentDescription = "Icono sincronización de datos",
+                    contentDescription = "Icono de conexión",
                     tint = MaterialTheme.colors.primary
                 )
                 Spacer(modifier = Modifier.height(15.dp))
                 Text(
                     textAlign = TextAlign.Center,
-                    text = "SINCRONIZANDO"
+                    text = "CONECTANDO"
                 )
             }
         }
@@ -124,8 +118,7 @@ fun HomeComponent(navController: NavController, requestUser : () -> Unit, delayL
 @Composable
 fun ErrorConnection(navController: NavController){
     WearAppTheme {
-        Scaffold(
-        ) {
+        Scaffold {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -135,7 +128,6 @@ fun ErrorConnection(navController: NavController){
                     modifier = Modifier.size(width = 35.dp,height = 35.dp),
                     imageVector = Icons.Rounded.CloudOff,
                     contentDescription = "Icono no internet",
-//                    tint = Color.Red,
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
