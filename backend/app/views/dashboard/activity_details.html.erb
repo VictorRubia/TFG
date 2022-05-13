@@ -58,7 +58,8 @@
             <thead>
             <tr>
               <th scope="col">Instante</th>
-              <th scope="col">Estados de viaje</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Contexto</th>
               <th scope="col">Emoción</th>
               <th scope="col">Sentimiento</th>
             </tr>
@@ -71,13 +72,25 @@
                 <td>
                   <div class="container">
                     <div class="row">
-                      <% @tag["status"].each do |tag| %>
                         <div class="col-sm">
                           <figure>
-                            <%= image_tag(asset_path("tags/#{I18n.transliterate(tag.downcase.gsub(" ", "_"))}.png"), :alt => "trasbordo", style: 'height:50px;width:autopx;') %>
-                            <figcaption><%= tag %></figcaption>
+                            <%= image_tag(asset_path("tags/#{I18n.transliterate(@tag["status"].downcase.gsub(" ", "_"))}.png"), :alt => @tag["status"], style: 'height:50px;width:autopx;') %>
+                            <figcaption><%= @tag["status"] %></figcaption>
                           </figure>
                         </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="container">
+                    <div class="row">
+                      <% @tag["context"].each do |tag| %>
+                      <div class="col-sm">
+                        <figure>
+                          <%= image_tag(asset_path("tags/#{I18n.transliterate(tag.downcase.gsub(" ", "_"))}.png"), :alt => tag, style: 'height:50px;width:autopx;') %>
+                          <figcaption><%= tag %></figcaption>
+                        </figure>
+                      </div>
                       <% end %>
                     </div>
                   </div>
@@ -85,28 +98,24 @@
                 <td>
                   <div class="container">
                     <div class="row">
-                      <% @tag["emotions"].each do |tag| %>
                         <div class="col-sm">
                           <figure>
-                            <%= image_tag(asset_path("tags/#{I18n.transliterate(tag.downcase.gsub(" ", "_"))}.png"), :alt => "trasbordo", style: 'height:35px;width:autopx;') %>
-                            <figcaption><%= tag %></figcaption>
+                            <%= image_tag(asset_path("tags/#{I18n.transliterate(@tag["emotions"].downcase.gsub(" ", "_"))}.png"), :alt => @tag["emotions"], style: 'height:35px;width:autopx;') %>
+                            <figcaption><%= @tag["emotions"] %></figcaption>
                           </figure>
                         </div>
-                      <% end %>
                     </div>
                   </div>
                 </td>
                 <td>
                   <div class="container">
                     <div class="row">
-                      <% @tag["feelings"].each do |tag| %>
                         <div class="col-sm">
                           <figure>
-                            <%= image_tag(asset_path("tags/#{I18n.transliterate(tag.downcase.gsub(" ", "_"))}.png"), :alt => "trasbordo", style: 'height:35px;width:autopx;') %>
-                            <figcaption><%= tag %></figcaption>
+                            <%= image_tag(asset_path("tags/#{I18n.transliterate(@tag["feelings"].downcase.gsub(" ", "_"))}.png"), :alt => @tag["feelings"], style: 'height:35px;width:autopx;') %>
+                            <figcaption><%= @tag["feelings"] %></figcaption>
                           </figure>
                         </div>
-                      <% end %>
                     </div>
                   </div>
                 </td>
