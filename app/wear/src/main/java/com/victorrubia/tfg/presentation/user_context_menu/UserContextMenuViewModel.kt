@@ -7,7 +7,7 @@ import kotlinx.coroutines.delay
 class UserContextMenuViewModel : ViewModel()  {
 
     fun delayAnnouncement() = liveData<Boolean> {
-        delay(4000)
+        delay(2500)
         emit(true)
     }
 

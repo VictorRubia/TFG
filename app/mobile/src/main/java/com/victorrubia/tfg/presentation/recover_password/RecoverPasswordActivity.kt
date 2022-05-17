@@ -32,6 +32,10 @@ class RecoverPasswordActivity : AppCompatActivity() {
         recoverPasswordViewModel = ViewModelProvider(this, factory).get(RecoverPasswordViewModel::class.java)
 
         animacion = LottieHelper(binding.animacionCheckMail)
+        setSupportActionBar(binding.recoverPasswordAppBar)
+        binding.recoverPasswordAppBar.setNavigationOnClickListener {
+            finish()
+        }
 
         binding.recoverPasswordSendEmailButton.setOnClickListener{
             if(filters.validateEmail(binding.recoverPasswordEmailText))

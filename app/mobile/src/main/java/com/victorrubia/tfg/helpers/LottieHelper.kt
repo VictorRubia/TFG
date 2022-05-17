@@ -1,6 +1,7 @@
 package com.victorrubia.tfg.helpers
 
 import android.animation.Animator
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -17,18 +18,18 @@ class LottieHelper(animationView: LottieAnimationView) {
         animation.visibility = View.VISIBLE
         animation.setMinAndMaxFrame(0, 59)
         animation.playAnimation()
-        animation.loop(true)
+        animation.repeatCount = ValueAnimator.INFINITE
     }
 
     fun showLoadingSuccessful(context : Context?, intent : Intent?){
         completeAnimationBeforeNewActivity(context, intent)
         animation.setMinAndMaxFrame(59, 89)
-        animation.loop(false)
+        animation.repeatCount = 0
     }
 
     fun showLoadingError(){
         animation.setMinAndMaxFrame(90, 138)
-        animation.loop(false)
+        animation.repeatCount = 0
     }
 
     private fun completeAnimationBeforeNewActivity(context : Context?, intent : Intent?){

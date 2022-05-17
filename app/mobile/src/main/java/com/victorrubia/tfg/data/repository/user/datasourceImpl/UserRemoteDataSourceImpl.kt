@@ -25,9 +25,6 @@ class UserRemoteDataSourceImpl(
 
     private var bestNodeID: String? = null
     private var _nodesConnected : MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
-    var prueba = false
-    val nodesConnected : LiveData<Boolean>
-        get() = _nodesConnected
 
     override suspend fun getUser(email: String, password: String): Response<User> = tfgService.getUserInfo(email,password)
 
@@ -69,11 +66,11 @@ class UserRemoteDataSourceImpl(
         return prueba
     }
 
-    fun broadcastMessage(context: Context?, apiKey : String) {
+    fun broadcastMessage(context: Context, apiKey : String) {
         Handler(Looper.getMainLooper()).post {
             try {
                 if (bestNodeID != null) {
-                    Wearable.getMessageClient(context).sendMessage(bestNodeID, "api_key", apiKey.toByteArray())
+                    Wearable.getMessageClient(context).sendMessage(bestNodeID!!, "api_key", apiKey.toByteArray())
                     Log.d("MyTag", "API KEY Broadcasted: " + apiKey)
                 }
             } catch (e: java.lang.Exception) {

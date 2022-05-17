@@ -10,7 +10,7 @@ class FiltersHelper {
      * Returns true if email is valid
      */
     fun validateEmail(string : TextInputEditText): Boolean{
-        var valid = !TextUtils.isEmpty(string.text) && Patterns.EMAIL_ADDRESS.matcher(string.text).matches()
+        val valid = !TextUtils.isEmpty(string.text) && Patterns.EMAIL_ADDRESS.matcher(string.text.toString()).matches()
         if (!valid) string.error = "Correo no válido"
         return valid
     }

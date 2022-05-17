@@ -8,6 +8,7 @@ class RecoverPasswordViewModelFactory(
     private val recoverPasswordUseCase: RecoverPasswordUseCase
 ) : ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T{
         return RecoverPasswordViewModel(recoverPasswordUseCase) as T
     }

@@ -21,10 +21,13 @@ class TagRepositoryImpl(
 
     suspend fun addTagToAPI(tag: String, datetime: Date, activityId: Int) : Tag{
         try {
+            Log.d("MyTag", "Mando tags porq me lo pide")
             val response = tagRemoteDataSource.addTag(tag, datetime, activityId)
             if(response.body() != null){
+            Log.d("MyTag", "Mando tags okey, procedo a borrarlos")
                 tagLocalDataSource.clearAll()
                 tagCacheDataSource.clearAll()
+            Log.d("MyTag", "Tags borrados ok")
             }
         }
         catch (exception : Exception){
@@ -34,6 +37,7 @@ class TagRepositoryImpl(
         }
         val tagsPendientes = tagLocalDataSource.getTagsFromDB()
         if(tagsPendientes.isNotEmpty()){
+            Log.d("MyTag", "Mando tags porq tengo pendientes")
             tagsPendientes.forEach{
                 try {
                     tagRemoteDataSource.addTag(it.tag, it.datetime, it.activityId)

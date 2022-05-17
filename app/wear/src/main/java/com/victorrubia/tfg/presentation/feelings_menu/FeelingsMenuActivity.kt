@@ -3,6 +3,7 @@ package com.victorrubia.tfg.presentation.feelings_menu
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -62,7 +63,8 @@ class FeelingsMenuActivity: ComponentActivity() {
     lateinit var factory: FeelingsMenuViewModelFactory
     private lateinit var feelingsMenuViewModel: FeelingsMenuViewModel
 
-    fun endRegister(feeling: String){
+    private fun endRegister(feeling: String){
+        Log.d("MyTag", "Finalizo Tags")
         feelingsMenuViewModel.addTag(statusTilesSelected, contextTilesSelected, emotionTilesSelected, feeling)
         finish()
     }

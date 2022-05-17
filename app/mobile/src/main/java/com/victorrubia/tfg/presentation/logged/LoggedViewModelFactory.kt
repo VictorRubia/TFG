@@ -14,6 +14,7 @@ private val sendApiKeyToWearUseCase: SendApiKeyToWearUseCase,
 private val isWearConnectedUseCase: IsWearConnectedUseCase
 ) : ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return LoggedViewModel(getUserUseCase, removeLocalUserUseCase, sendApiKeyToWearUseCase, isWearConnectedUseCase) as T
     }
