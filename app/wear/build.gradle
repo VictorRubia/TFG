@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.victorrubia.tfg"
         minSdk 28
-        targetSdk 32
+        targetSdk 31
         versionCode 1
         versionName "1.0"
         vectorDrawables {
@@ -42,16 +42,17 @@ android {
         useIR = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0-alpha08"
+//        kotlinCompilerExtensionVersion = "1.2.0-alpha08"
+        kotlinCompilerExtensionVersion = "1.2.0-beta01"
     }
 }
 
 dependencies {
 
-    def compose_version = "1.2.0-alpha08"
-    def wear_compose_version = "1.0.0-alpha21"
+    def compose_version = "1.2.0-beta01"
+    def wear_compose_version = "1.0.0-beta01"
     def androix_activity_version = "1.4.0"
-    def lifecycle_version = "2.5.0-beta01"
+    def lifecycle_version = "2.5.0-rc01"
     def room_version = "2.4.2"
     def coroutines_version = "1.6.1"
     def dagger_version = "2.41"
