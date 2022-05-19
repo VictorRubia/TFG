@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -44,10 +45,12 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
     @Inject
     lateinit var factory: HomeViewModelFactory
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var navController: NavHostController
+    private var connectionStablised : Boolean = false
 
     private fun navigationManager(navController: NavController){
         homeViewModel.loadingDelay().observe(this){
-            if(it != null && it){
+            if((it != null) && it && !connectionStablised){
                 navController.navigate("secondScreen")
             }
         }
@@ -72,12 +75,13 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
         Wearable.getMessageClient(this).addListener(this)
 
         setContent {
-            val navController = rememberNavController()
+        navController = rememberNavController()
 
             NavHost(navController, startDestination = "welcome") {
                 composable("welcome") { HomeComponent({homeViewModel.requestUser()}, {navigationManager(navController)}) }
                 composable("secondScreen") { ErrorConnection(navController) }
                 composable("compatibilityScreen") { ErrorCompatibility() }
+                composable("errorNoUser") { ErrorNoUser(navController) }
             }
             navigationManagerCompatibility(navController)
         }
@@ -85,9 +89,16 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
 
     override fun onMessageReceived(p0: MessageEvent) {
         Log.i("MyTag", "Mensaje recibido: " + String(p0.data))
-        homeViewModel.saveUser(User(String(p0.data)))
-        startActivity(Intent(this, StartMenuActivity::class.java))
-        finish()
+        if(p0.path.equals("error") && String(p0.data) == "errorNoUserLoggedIn"){
+            connectionStablised = true
+            navController.navigate("errorNoUser")
+        }
+        else if(p0.path.equals("api_key")){
+            homeViewModel.saveUser(User(String(p0.data)))
+            startActivity(Intent(this, StartMenuActivity::class.java))
+            finish()
+        }
+
     }
 
 }
@@ -185,6 +196,46 @@ fun ErrorCompatibility(){
                     textAlign = TextAlign.Center,
                     text = "NO ES COMPATIBLE",
                     fontSize = 16.sp,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ErrorNoUser(navController: NavController){
+    WearAppTheme {
+        Scaffold {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    modifier = Modifier.size(width = 45.dp,height = 45.dp),
+                    imageVector = Icons.Rounded.DeviceUnknown,
+                    contentDescription = "Icono abrir app del movil",
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    textAlign = TextAlign.Center,
+                    text = "INICIE SESIÓN\r\n EN TELÉFONO",
+                    fontSize = 16.sp,
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+                Chip(
+                    modifier = Modifier.fillMaxWidth(0.8f),
+                    onClick = { navController.navigate("welcome") },
+                    enabled = true,
+                    label = { Text(text = "Listo") },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Rounded.Done,
+                            contentDescription = "Listo",
+                            modifier = Modifier.size(ChipDefaults.IconSize)
+                                .wrapContentSize(align = Alignment.Center),
+                        )
+                    }
                 )
             }
         }

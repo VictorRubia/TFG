@@ -50,6 +50,15 @@ class WearService : WearableListenerService(), MessageClient.OnMessageReceivedLi
                     }
                 } else {
                     // TODO: Si no hay usuario con sesión iniciada, entonces se manda un mensaje indicándolo al reloj.
+                    Handler(Looper.getMainLooper()).post {
+                        try {
+                            Wearable.getMessageClient(applicationContext)
+                                .sendMessage(receiverID, "error", "errorNoUserLoggedIn".toByteArray())
+                        } catch (e: java.lang.Exception) {
+                            // Don't call printStackTrace() because that would make an infinite loop
+                            Log.e("Servicio", "Mensaje no se ha podido mandar. Razón: $e")
+                        }
+                    }
                     Log.e("Servicio", "ERROR Servicio")
                 }
             }
