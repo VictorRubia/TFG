@@ -51,6 +51,7 @@ class EmotionsMenuActivity: ComponentActivity() {
         intent?.getSerializableExtra(STATUS_TILE) as String
     }
 
+    @Suppress("UNCHECKED_CAST")
     private val contextTilesSelected : ArrayList<String> by lazy {
         intent?.getSerializableExtra(CONTEXT_TILES) as ArrayList<String>
     }

@@ -19,11 +19,11 @@ object DateSerializer : KSerializer<Date> {
     override val descriptor = PrimitiveSerialDescriptor("Date", PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): Date {
-        return SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SS").parse(decoder.decodeString())
+        return SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SS", Locale("es", "ES")).parse(decoder.decodeString())!!
     }
 
     override fun serialize(encoder: Encoder, value: Date) {
-        val df = SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SS")
+        val df = SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SS", Locale("es", "ES"))
         encoder.encodeString(df.format(value))
     }
 }

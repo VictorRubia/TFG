@@ -9,6 +9,7 @@ class ActivityConfirmationViewModelFactory(
     private val newActivityUseCase : NewActivityUseCase,
 ) : ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return ActivityConfirmationViewModel(newActivityUseCase) as T
     }

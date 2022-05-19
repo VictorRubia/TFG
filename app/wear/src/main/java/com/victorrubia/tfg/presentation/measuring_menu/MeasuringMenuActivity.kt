@@ -46,7 +46,7 @@ class MeasuringMenuActivity: ComponentActivity() {
         measuringMenuViewModel.startMeasure(applicationContext)
 
         setContent {
-            MainMenu( remember { measuringMenuViewModel.internetStatus } ,{
+            MainMenu( remember { measuringMenuViewModel.internetStatus },{
                 measuringMenuViewModel.endActivity().observe(this){
                     if(it!=null){
                         Log.d("MyTag", "Activity Ended: $it")
@@ -67,7 +67,6 @@ class MeasuringMenuActivity: ComponentActivity() {
 fun MainMenu(internetStatus: MutableState<Boolean>, stopMeasuring: () -> Unit, registerStatus: () -> Unit){
     var loading = remember { mutableStateOf(true) }
     WearAppTheme{
-        val listState = rememberScalingLazyListState()
         val contentModifier = Modifier.fillMaxWidth(0.8f).padding(bottom = 8.dp)
         val iconModifier = Modifier.size(24.dp).wrapContentSize(align = Alignment.Center)
 
@@ -83,7 +82,7 @@ fun MainMenu(internetStatus: MutableState<Boolean>, stopMeasuring: () -> Unit, r
                     noInternet()
                 }
                 else{
-                    Spacer(Modifier.height(45.dp))
+                    Spacer(Modifier.height(40.dp))
                 }
                 registerStatusChip(contentModifier, iconModifier, registerStatus)
                 stopActivityButton(contentModifier, internetStatus, stopMeasuring, loading)

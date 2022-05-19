@@ -75,9 +75,13 @@ class LoggedActivity : AppCompatActivity() {
     }
 
     fun logOut(item : MenuItem){
-        loggedViewModel.removeLocalUser()
-        startActivity(Intent(this, HomeActivity::class.java));
-        finish()
+        when (item.itemId){
+            R.id.logout -> {
+                loggedViewModel.removeLocalUser()
+                startActivity(Intent(this, HomeActivity::class.java));
+                finish()
+            }
+        }
     }
 
 }

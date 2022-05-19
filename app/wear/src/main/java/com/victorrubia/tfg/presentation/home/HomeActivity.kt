@@ -8,11 +8,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.CloudOff
-import androidx.compose.material.icons.rounded.CloudSync
-import androidx.compose.material.icons.rounded.Sync
+import androidx.compose.material.icons.rounded.*
 import com.victorrubia.tfg.R
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -54,6 +53,14 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
         }
     }
 
+    private fun navigationManagerCompatibility(navController: NavController){
+        homeViewModel.compatibility(this).observe(this){
+            if(it != null && it){
+                navController.navigate("compatibilityScreen")
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -66,10 +73,13 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
 
         setContent {
             val navController = rememberNavController()
+
             NavHost(navController, startDestination = "welcome") {
                 composable("welcome") { HomeComponent({homeViewModel.requestUser()}, {navigationManager(navController)}) }
                 composable("secondScreen") { ErrorConnection(navController) }
+                composable("compatibilityScreen") { ErrorCompatibility() }
             }
+            navigationManagerCompatibility(navController)
         }
     }
 
@@ -137,6 +147,7 @@ fun ErrorConnection(navController: NavController){
                 )
                 Spacer(modifier = Modifier.height(30.dp))
                 Chip(
+                    modifier = Modifier.fillMaxWidth(0.8f),
                     onClick = { navController.navigate("welcome") },
                     enabled = true,
                     label = { Text(text = "Reintentarlo") },
@@ -150,6 +161,31 @@ fun ErrorConnection(navController: NavController){
                     }
                 )
 
+            }
+        }
+    }
+}
+
+@Composable
+fun ErrorCompatibility(){
+    WearAppTheme {
+        Scaffold {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    modifier = Modifier.size(width = 45.dp,height = 45.dp),
+                    imageVector = Icons.Rounded.Error,
+                    contentDescription = "Icono no compatible",
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    textAlign = TextAlign.Center,
+                    text = "NO ES COMPATIBLE",
+                    fontSize = 16.sp,
+                )
             }
         }
     }

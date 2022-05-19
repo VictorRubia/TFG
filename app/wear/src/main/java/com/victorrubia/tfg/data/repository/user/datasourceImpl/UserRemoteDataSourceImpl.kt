@@ -45,9 +45,11 @@ class UserRemoteDataSourceImpl(
         }
     }
 
-    fun initMessageBroadcaster(context: Context?) {
+    private fun initMessageBroadcaster(context: Context?) {
 
-        Wearable.getCapabilityClient(context).addListener({ updateBestNode(context!!) }, "apde_receive_logs")
+        if (context != null) {
+            Wearable.getCapabilityClient(context).addListener({ updateBestNode(context) }, "apde_receive_logs")
+        }
 
         // Can't do this on the main thread
         CoroutineScope(Dispatchers.IO).launch {
@@ -56,11 +58,11 @@ class UserRemoteDataSourceImpl(
 
     }
 
-    fun broadcastMessage(context: Context?) {
+    private fun broadcastMessage(context: Context?) {
         Handler(Looper.getMainLooper()).post {
             try {
-                if (bestNodeID != null) {
-                    Wearable.getMessageClient(context).sendMessage(bestNodeID, "api_key_sender", ByteArray(0))
+                if (context != null) {
+                    bestNodeID?.let { Wearable.getMessageClient(context).sendMessage(it, "api_key_sender", ByteArray(0)) }
                 }
             } catch (e: java.lang.Exception) {
                 // Don't call printStackTrace() because that would make an infinite loop

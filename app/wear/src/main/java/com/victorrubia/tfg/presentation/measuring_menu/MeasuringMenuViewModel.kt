@@ -7,7 +7,9 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
@@ -29,24 +31,21 @@ class MeasuringMenuViewModel(
     private lateinit var sensorManager: SensorManager
     private lateinit var heartRateSensor : Sensor
     var internetStatus = mutableStateOf(true)
+    var sensorStatus = true
     var ppgSensorId : Int = 0
 
 
     fun startMeasure(context : Context) {
         sensorManager = context.getSystemService(ComponentActivity.SENSOR_SERVICE) as SensorManager
-        val sensorList: List<Sensor> = sensorManager!!.getSensorList(Sensor.TYPE_ALL)
+        val sensorList: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
         for (currentSensor in sensorList) {
-            if(currentSensor.stringType.contains("ppg")){
+            if(currentSensor.stringType.contains("ppg") && !sensorStatus){
                 ppgSensorId = currentSensor.type
+                heartRateSensor = sensorManager.getDefaultSensor(ppgSensorId)
+                sensorManager.registerListener(this, heartRateSensor, SensorManager.SENSOR_DELAY_NORMAL)
+                sensorStatus = false
             }
-//            Log.d(
-//                "List sensors",
-//                "Name: " + currentSensor.name + " /Type_String: " + currentSensor.stringType + " /Type_number: " + currentSensor.type
-//            )
         }
-        heartRateSensor = sensorManager.getDefaultSensor(ppgSensorId)
-//        heartRateSensor = sensorManager.getDefaultSensor(65572)
-        sensorManager.registerListener(this, heartRateSensor, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     fun endActivity() = liveData{

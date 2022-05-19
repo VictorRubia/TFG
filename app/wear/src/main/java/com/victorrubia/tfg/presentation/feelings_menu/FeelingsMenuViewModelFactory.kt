@@ -10,6 +10,7 @@ class FeelingsMenuViewModelFactory(
     private val addTagUseCase: AddTagUseCase,
 ) : ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return FeelingsMenuViewModel(getCurrentActivityUseCase, addTagUseCase) as T
     }

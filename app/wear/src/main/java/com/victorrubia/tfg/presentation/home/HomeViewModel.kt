@@ -1,5 +1,11 @@
 package com.victorrubia.tfg.presentation.home
 
+import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorManager
+import androidx.activity.ComponentActivity
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.victorrubia.tfg.data.model.user.User
@@ -18,9 +24,25 @@ class HomeViewModel(
     private val getUserUseCase: GetUserUseCase
 ) : ViewModel() {
 
+    private lateinit var sensorManager: SensorManager
+    var sensorStatus = mutableStateOf(false)
+
     fun loadingDelay() = liveData {
         kotlinx.coroutines.delay(15000)
         emit(true)
+    }
+
+    fun compatibility(context : Context) = liveData {
+        var prueba : MutableLiveData<Boolean> = MutableLiveData(true)
+        sensorManager = context.getSystemService(ComponentActivity.SENSOR_SERVICE) as SensorManager
+        val sensorList: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
+        for (currentSensor in sensorList) {
+            if(currentSensor.stringType.contains("ppg") && !sensorStatus.value){
+                sensorStatus.value = true
+                prueba.value = false
+            }
+        }
+        emit(prueba.value)
     }
 
     fun requestUser(){

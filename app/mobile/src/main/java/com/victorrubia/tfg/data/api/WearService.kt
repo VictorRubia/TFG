@@ -38,19 +38,20 @@ class WearService : WearableListenerService(), MessageClient.OnMessageReceivedLi
 
             val observer = Observer<User?> {
                 if (it != null) {
+                    Log.i("Servicio", "Envío $it")
                     Handler(Looper.getMainLooper()).post {
                         try {
                             Wearable.getMessageClient(applicationContext)
                                 .sendMessage(receiverID, "api_key", it.apiKey.toByteArray())
                         } catch (e: java.lang.Exception) {
                             // Don't call printStackTrace() because that would make an infinite loop
-                            Log.e("apde", e.toString())
+                            Log.e("Servicio", "Mensaje no se ha podido mandar. Razón: $e")
                         }
                     }
                 } else {
+                    // TODO: Si no hay usuario con sesión iniciada, entonces se manda un mensaje indicándolo al reloj.
                     Log.e("Servicio", "ERROR Servicio")
                 }
-                Log.i("Servicio", it.toString())
             }
 
             Handler(Looper.getMainLooper()).post { responseLiveData.observeForever(observer) }
