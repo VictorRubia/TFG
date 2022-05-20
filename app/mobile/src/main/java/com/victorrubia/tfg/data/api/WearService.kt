@@ -49,7 +49,6 @@ class WearService : WearableListenerService(), MessageClient.OnMessageReceivedLi
                         }
                     }
                 } else {
-                    // TODO: Si no hay usuario con sesión iniciada, entonces se manda un mensaje indicándolo al reloj.
                     Handler(Looper.getMainLooper()).post {
                         try {
                             Wearable.getMessageClient(applicationContext)

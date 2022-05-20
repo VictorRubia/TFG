@@ -39,8 +39,8 @@ class HomeActivity : AppCompatActivity() {
         animacion = LottieHelper(binding.homeAnimationLogin)
 
         binding.homeLogin.setOnClickListener {
-            if(filters.validateEmail(binding.homeEmailText) &&
-                filters.validatePassword(binding.homePasswordText)) loginUser()
+            if(filters.validateEmailTextInput(binding.homeEmailText) &&
+                filters.validatePasswordTextInput(binding.homePasswordText)) loginUser()
         }
 
         binding.homeRecoverPassword.setOnClickListener{

@@ -9,8 +9,12 @@ class FiltersHelper {
     /**
      * Returns true if email is valid
      */
-    fun validateEmail(string : TextInputEditText): Boolean{
-        val valid = !TextUtils.isEmpty(string.text) && Patterns.EMAIL_ADDRESS.matcher(string.text.toString()).matches()
+    fun validateEmail(string : String) : Boolean{
+        return !TextUtils.isEmpty(string) && Patterns.EMAIL_ADDRESS.matcher(string).matches()
+    }
+
+    fun validateEmailTextInput(string : TextInputEditText): Boolean{
+        val valid = validateEmail(string.text.toString())
         if (!valid) string.error = "Correo no válido"
         return valid
     }
@@ -19,9 +23,13 @@ class FiltersHelper {
      * Returns true if string is not empty
      * Returns false if string is empty
      */
-    fun validatePassword(string: TextInputEditText): Boolean{
-        var valid = string.text?.isNotEmpty()
-        if(!valid!!) string.error = "Contraseña no válida"
+    fun validatePassword(string : String) : Boolean{
+        return string.isNotEmpty()
+    }
+
+    fun validatePasswordTextInput(string: TextInputEditText): Boolean{
+        val valid = validatePassword(string.text.toString())
+        if(!valid) string.error = "Contraseña no válida"
         return valid
     }
 

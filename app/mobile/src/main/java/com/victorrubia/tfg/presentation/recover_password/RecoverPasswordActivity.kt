@@ -38,7 +38,7 @@ class RecoverPasswordActivity : AppCompatActivity() {
         }
 
         binding.recoverPasswordSendEmailButton.setOnClickListener{
-            if(filters.validateEmail(binding.recoverPasswordEmailText))
+            if(filters.validateEmailTextInput(binding.recoverPasswordEmailText))
                 sendRequest()
         }
 
