@@ -39,7 +39,7 @@ class MeasuringMenuViewModel(
         sensorManager = context.getSystemService(ComponentActivity.SENSOR_SERVICE) as SensorManager
         val sensorList: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
         for (currentSensor in sensorList) {
-            if(currentSensor.stringType.contains("ppg") && !sensorStatus){
+            if(currentSensor.stringType.contains("ppg") && sensorStatus){
                 ppgSensorId = currentSensor.type
                 heartRateSensor = sensorManager.getDefaultSensor(ppgSensorId)
                 sensorManager.registerListener(this, heartRateSensor, SensorManager.SENSOR_DELAY_NORMAL)
