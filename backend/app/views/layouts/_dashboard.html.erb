@@ -8,11 +8,6 @@
 <div class="container-fluid d-md-none">
   <nav class="tabbable">
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <% if current_page?(dashboard_path) or current_page?(dashboard_index_path)%>
-        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="<%= dashboard_url %>" role="tab" aria-controls="nav-home" aria-selected="true"><span data-feather="home"></span> Panel de Control</a>
-      <% else %>
-        <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="<%= dashboard_url %>" role="tab" aria-controls="nav-home" aria-selected="false"><span data-feather="home"></span> Panel de Control</a>
-      <% end %>
       <% if current_page?(dashboard_create_user_path)%>
         <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="<%= dashboard_create_user_url %>" role="tab" aria-controls="nav-profile" aria-selected="true"><span data-feather="users"></span> Usuarios</a>
       <% else %>
@@ -32,19 +27,6 @@
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-5">
         <ul class="nav flex-column">
-<!--          <li class="nav-item">-->
-            <%# if current_page?(root_path) or current_page?(dashboard_path) or current_page?(dashboard_index_path) %>
-              <%#= link_to dashboard_index_path, class: "nav-link active" do %>
-<!--                <span data-feather="home"></span>-->
-<!--                Panel de control-->
-              <%# end %>
-            <%# else %>
-              <%#= link_to dashboard_index_path, class: "nav-link" do %>
-<!--                <span data-feather="home"></span>-->
-<!--                Panel de control-->
-              <%# end %>
-            <%# end %>
-<!--          </li>-->
           <li class="nav-item">
             <% if current_page?(dashboard_create_user_path) %>
               <%= link_to dashboard_create_user_path, class: "nav-link active" do %>

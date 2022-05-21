@@ -1,5 +1,6 @@
 <%= render "layouts/dashboard" %>
 <%= stylesheet_link_tag 'create_user' %>
+<% @activities = get_activities %>
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -13,51 +14,151 @@
     <h2>Actividades de <%= @user.name %> </h2>
   </div>
 
-  <%- if get_activities.size > 0 %>
-    <div class="row row-cols-1 row-cols-md-4 g-4">
-    <% get_activities.each do |activity| %>
-
-        <div class="col-md-4">
-          <div class="card h-100">
-            <% unless activity.viewed %>
+  <%- if @activities.size > 0 %>
+    <div class="row align-items-start">
+      <div class="col-md">
+        <div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h2>Viajar en bus</h2>
+        </div>
+        <div class="row row-cols-xxl-2 row-cols-1 g-2">
+          <% @activities.select{|a| a.name == "Viajar en bus"}.each do |activity| %>
+            <div class="col">
+              <div class="card h-100">
+                <% unless activity.viewed %>
               <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
               </span>
-            <% end %>
-            <div class="card-body">
-              <h5 class="card-title"><%= activity.name %></h5>
-              <p class="card-text"></p>
-              <%= link_to dashboard_activity_details_url(id_activity: activity.id), :class => 'btn btn-primary' do%>
-              Ver detalles
-              <% end %>
-              <div class="btn-group me-2" role="group" aria-label="Second group">
-                <%unless activity.end_d.nil? %>
-                <%= button_to activity, method: :delete, :class => 'btn btn-danger' do%>
-                  Eliminar
                 <% end %>
-                <% end %>
+                <div class="card-body">
+                  <h5 class="card-title"><%= activity.name %></h5>
+                  <p class="card-text"></p>
+                  <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+                  <div class="btn-group me-2" role="group" aria-label="First group">
+                    <%= link_to dashboard_activity_details_url(id_activity: activity.id), :class => 'btn btn-primary g-2' do%>
+                      Ver detalles
+                    <% end %>
+                  </div>
+                  <div class="btn-group me-2" role="group" aria-label="Second group">
+                      <%unless activity.end_d.nil? %>
+                        <%= button_to activity, method: :delete, :class => 'btn btn-danger' do%>
+                          Eliminar
+                        <% end %>
+                      <% end %>
+                  </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <% unless activity.end_d.nil? %>
+                    <small class="text-muted">Finalizó el
+                      <b><%=  l activity.end_d, format: "%e de %B de %Y a las %k:%M:%S", locale: :'es-ES'  %></b>
+                    </small>
+                  <% else %>
+                    <small class="text-muted">
+                      <div class="live-indicator">
+                        <figure class="live-indicator__circle"></figure>
+                        <span class="live-indicator__text">DIRECTO</span>
+                      </div>
+                    </small>
+                  <%  end %>
+                </div>
+
               </div>
             </div>
-            <div class="card-footer">
-              <% unless activity.end_d.nil? %>
-                <small class="text-muted">Finalizó el
-                  <b><%=  l activity.end_d, format: "%e de %B de %Y a las %k:%M:%S", locale: :'es-ES'  %></b>
-                </small>
-              <% else %>
-                <small class="text-muted">
-                  <div class="live-indicator">
-                    <figure class="live-indicator__circle"></figure>
-                    <span class="live-indicator__text">DIRECTO</span>
-                  </div>
-                </small>
-            <%  end %>
-            </div>
-
-          </div>
+          <% end %>
         </div>
+      </div>
+      <div class="col-md">
+        <div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h2>Viajar en metro </h2>
+        </div>
+        <div class="row row-cols-1 row-cols-xxl-2 g-2">
+          <% @activities.select{|a| a.name == "Viajar en metro"}.each do |activity| %>
+            <div class="col">
+              <div class="card h-100">
+                <% unless activity.viewed %>
+              <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+              </span>
+                <% end %>
+                <div class="card-body">
+                  <h5 class="card-title"><%= activity.name %></h5>
+                  <p class="card-text"></p>
+                  <%= link_to dashboard_activity_details_url(id_activity: activity.id), :class => 'btn btn-primary' do%>
+                    Ver detalles
+                  <% end %>
+                  <div class="btn-group me-2" role="group" aria-label="Second group">
+                    <%unless activity.end_d.nil? %>
+                      <%= button_to activity, method: :delete, :class => 'btn btn-danger' do%>
+                        Eliminar
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <% unless activity.end_d.nil? %>
+                    <small class="text-muted">Finalizó el
+                      <b><%=  l activity.end_d, format: "%e de %B de %Y a las %k:%M:%S", locale: :'es-ES'  %></b>
+                    </small>
+                  <% else %>
+                    <small class="text-muted">
+                      <div class="live-indicator">
+                        <figure class="live-indicator__circle"></figure>
+                        <span class="live-indicator__text">DIRECTO</span>
+                      </div>
+                    </small>
+                  <%  end %>
+                </div>
 
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h2>Viajar en tren </h2>
+        </div>
+        <div class="row row-cols-1 row-cols-xxl-2 g-2">
+          <% @activities.select{|a| a.name == "Viajar en tren"}.each do |activity| %>
+            <div class="col">
+              <div class="card h-100">
+                <% unless activity.viewed %>
+              <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+              </span>
+                <% end %>
+                <div class="card-body">
+                  <h5 class="card-title"><%= activity.name %></h5>
+                  <p class="card-text"></p>
+                  <%= link_to dashboard_activity_details_url(id_activity: activity.id), :class => 'btn btn-primary' do%>
+                    Ver detalles
+                  <% end %>
+                  <div class="btn-group me-2" role="group" aria-label="Second group">
+                    <%unless activity.end_d.nil? %>
+                      <%= button_to activity, method: :delete, :class => 'btn btn-danger' do%>
+                        Eliminar
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <% unless activity.end_d.nil? %>
+                    <small class="text-muted">Finalizó el
+                      <b><%=  l activity.end_d, format: "%e de %B de %Y a las %k:%M:%S", locale: :'es-ES'  %></b>
+                    </small>
+                  <% else %>
+                    <small class="text-muted">
+                      <div class="live-indicator">
+                        <figure class="live-indicator__circle"></figure>
+                        <span class="live-indicator__text">DIRECTO</span>
+                      </div>
+                    </small>
+                  <%  end %>
+                </div>
 
-    <% end %>
-  </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
 
   <%- else %>
     <div class="card">
@@ -69,7 +170,5 @@
     </div>
   <%- end %>
 
-
-  </div>
 </main>
 
