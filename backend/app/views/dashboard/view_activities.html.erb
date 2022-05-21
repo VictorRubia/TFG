@@ -31,15 +31,19 @@
                 <div class="card-body">
                   <h5 class="card-title"><%= activity.name %></h5>
                   <p class="card-text"></p>
-                    <%= link_to dashboard_activity_details_url(id_activity: activity.id), :class => 'btn btn-primary g-2' do%>
-                      Ver detalles
-                    <% end %>
-                  <div class="btn-group me-2 g-2" role="group" aria-label="Second group">
-                      <%unless activity.end_d.nil? %>
-                        <%= button_to activity, method: :delete, :class => 'btn btn-danger' do%>
-                          Eliminar
+                  <div class="container">
+                    <div class="row row-cols-auto g-2">
+                      <div class="col">
+                        <%= link_to dashboard_activity_details_url(id_activity: activity.id), :class => 'btn btn-primary g-2' do%>
+                          Ver detalles
                         <% end %>
+                      </div>
+                      <%unless activity.end_d.nil? %>
+                        <div class="col">
+                            <%= button_to "Eliminar", activity, method: :delete, :class => 'btn btn-danger', form: {data: { turbo_confirm: "Estás seguro?" }} %>
+                        </div>
                       <% end %>
+                    </div>
                   </div>
                 </div>
                 <div class="card-footer">
@@ -77,15 +81,19 @@
                 <div class="card-body">
                   <h5 class="card-title"><%= activity.name %></h5>
                   <p class="card-text"></p>
-                  <%= link_to dashboard_activity_details_url(id_activity: activity.id), :class => 'btn btn-primary' do%>
-                    Ver detalles
-                  <% end %>
-                  <div class="btn-group me-2" role="group" aria-label="Second group">
-                    <%unless activity.end_d.nil? %>
-                      <%= button_to activity, method: :delete, :class => 'btn btn-danger' do%>
-                        Eliminar
+                  <div class="container">
+                    <div class="row row-cols-auto g-2">
+                      <div class="col">
+                        <%= link_to dashboard_activity_details_url(id_activity: activity.id), :class => 'btn btn-primary g-2' do%>
+                          Ver detalles
+                        <% end %>
+                      </div>
+                      <%unless activity.end_d.nil? %>
+                        <div class="col">
+                          <%= button_to "Eliminar", activity, method: :delete, :class => 'btn btn-danger', form: {data: { turbo_confirm: "Estás seguro?" }} %>
+                        </div>
                       <% end %>
-                    <% end %>
+                    </div>
                   </div>
                 </div>
                 <div class="card-footer">
@@ -123,15 +131,19 @@
                 <div class="card-body">
                   <h5 class="card-title"><%= activity.name %></h5>
                   <p class="card-text"></p>
-                  <%= link_to dashboard_activity_details_url(id_activity: activity.id), :class => 'btn btn-primary' do%>
-                    Ver detalles
-                  <% end %>
-                  <div class="btn-group me-2" role="group" aria-label="Second group">
-                    <%unless activity.end_d.nil? %>
-                      <%= button_to activity, method: :delete, :class => 'btn btn-danger' do%>
-                        Eliminar
+                  <div class="container">
+                    <div class="row row-cols-auto g-2">
+                      <div class="col">
+                        <%= link_to dashboard_activity_details_url(id_activity: activity.id), :class => 'btn btn-primary g-2' do%>
+                          Ver detalles
+                        <% end %>
+                      </div>
+                      <%unless activity.end_d.nil? %>
+                        <div class="col">
+                          <%= button_to "Eliminar", activity, method: :delete, :class => 'btn btn-danger', form: {data: { turbo_confirm: "Estás seguro?" }} %>
+                        </div>
                       <% end %>
-                    <% end %>
+                    </div>
                   </div>
                 </div>
                 <div class="card-footer">

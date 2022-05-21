@@ -1,7 +1,0 @@
-<% require 'json' %>
-<%- headers = ['ppg', 'timer'] -%>
-<%= CSV.generate_line headers %>
-<% object = @final %>
-<%- object.each do |medidas| %>
-  <%= CSV.generate_line([medidas.measure, medidas.date]) -%>
-<%- end %>
