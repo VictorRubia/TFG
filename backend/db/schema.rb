@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_07_121201) do
+ActiveRecord::Schema.define(version: 2022_05_24_150909) do
 
   create_table "account_login_change_keys", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "key", null: false
@@ -94,6 +94,15 @@ ActiveRecord::Schema.define(version: 2022_05_07_121201) do
     t.index ["activity_id"], name: "index_ppg_measures_on_activity_id"
   end
 
+  create_table "requests", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "requestable_type", null: false
+    t.integer "method", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_requests_on_user_id"
+  end
+
   create_table "stresses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "datetime", precision: 6
     t.integer "level"
@@ -114,7 +123,6 @@ ActiveRecord::Schema.define(version: 2022_05_07_121201) do
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
-    t.string "surname"
     t.string "email"
     t.text "password_digest"
     t.datetime "created_at", precision: 6, null: false
@@ -133,6 +141,7 @@ ActiveRecord::Schema.define(version: 2022_05_07_121201) do
   add_foreign_key "activities", "users"
   add_foreign_key "measures", "patients"
   add_foreign_key "ppg_measures", "activities"
+  add_foreign_key "requests", "users"
   add_foreign_key "stresses", "activities"
   add_foreign_key "tags", "activities"
 end

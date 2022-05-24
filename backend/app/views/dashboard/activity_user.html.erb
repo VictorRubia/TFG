@@ -24,7 +24,6 @@
         <th>
         </th>
         <th scope="col">Nombre</th>
-        <th scope="col">Apellidos</th>
         <th scope="col">Actividades</th>
       </tr>
       </thead>
@@ -34,7 +33,6 @@
           <td>
           </td>
           <td><%= user.name %></td>
-          <td><%= user.surname %></td>
           <td>
             <%= link_to dashboard_view_activity_url(user), :class => 'btn btn-outline-primary' do%>
               <i data-feather="eye" class="icon icon-show"></i>

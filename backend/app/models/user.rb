@@ -7,8 +7,9 @@ class User < ApplicationRecord
   validates :private_api_key, uniqueness: true, allow_blank: true
 
   has_many :activities, dependent: :destroy
+  has_many :requests, dependent: :destroy
 
-  validates :name, :surname, :email, :password_digest , presence: true
+  validates :name, :email, :password_digest , presence: true
   validates :email, uniqueness: true
 
   def self.search(search)

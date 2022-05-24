@@ -11,11 +11,6 @@
   </div>
 
   <div class="mb-3">
-    <%= form.label 'Apellidos', style: "col-form-label" %>
-    <%= form.text_field :surname, :class => 'form-control', id: 'user'+@usuario.id.to_s+'surname' %>
-  </div>
-
-  <div class="mb-3">
     <%= form.label 'Correo electrónico', style: "col-form-label" %>
     <%= form.email_field :email, :class => 'form-control', id: 'user'+@usuario.id.to_s+'username' %>
   </div>

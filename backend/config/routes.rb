@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   get 'activities/:id/ppg_measures', to: 'activities#ppg_measures'
   resources :activities
   constraints Rodauth::Rails.authenticated do
-    get '/dashboard/index'
-    get '/dashboard', to: 'dashboard#index'
+    get '/dashboard/index', to: 'dashboard#activity_user'
+    get '/dashboard', to: 'dashboard#activity_user'
     get '/dashboard/create_user' => 'dashboard#create_user', as: :dashboard_create_user
     get '/dashboard/create_user/search' => 'dashboard#search_user', as: :dashboard_search_user
     post '/dashboard/create_user', to: 'users#create'
