@@ -47,6 +47,7 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var navController: NavHostController
     private var connectionStablised : Boolean = false
+    private var iniciado : Boolean = false
 
     private fun navigationManager(navController: NavController){
         homeViewModel.loadingDelay().observe(this){
@@ -93,7 +94,8 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
             connectionStablised = true
             navController.navigate("errorNoUser")
         }
-        else if(p0.path.equals("api_key")){
+        else if(p0.path.equals("api_key") && !iniciado){
+            iniciado = true
             homeViewModel.saveUser(User(String(p0.data)))
             startActivity(Intent(this, StartMenuActivity::class.java))
             finish()

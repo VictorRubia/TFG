@@ -2,6 +2,7 @@ package com.victorrubia.tfg.presentation
 
 import android.app.Application
 import com.victorrubia.tfg.BuildConfig
+import com.victorrubia.tfg.R
 import com.victorrubia.tfg.data.db.UserDao
 import com.victorrubia.tfg.data.repository.user.datasource.UserLocalDataSource
 import com.victorrubia.tfg.presentation.di.Injector
