@@ -11,12 +11,11 @@ import sklearn.metrics as metrics
 from sklearn.metrics import plot_confusion_matrix
 import pickle
 
+# This should be executed once and manually
+
 trainFile = pd.read_csv('/tfg/lib/python/hrv dataset/data/final/train.csv').drop(columns=["datasetId", "pNN25", "KURT", "SKEW", "SDSD_REL_RR", "KURT_REL_RR", "SKEW_REL_RR", "VLF", "VLF_PCT", "LF", "LF_PCT", "LF_NU", "HF", "HF_PCT", "HF_NU", "TP", "LF_HF", "HF_LF", "sampen", "higuci"])
 targetTrain = trainFile["condition"]
 trainFile=trainFile.drop(columns=['condition'])
-
-# knn = KNeighborsClassifier()
-# modeloKnn = knn.fit(trainFile, targetTrain)
 
 rfc = RandomForestClassifier()
 modeloRfc = rfc.fit(trainFile, targetTrain)
