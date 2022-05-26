@@ -1,5 +1,6 @@
 class Api::V1::ActivitiesController < Api::V1::BaseController
   before_action :set_activity, only: [:show, :update, :destroy]
+  before_action -> { authorize_activity }, only: [:update, :show, :destroy]
 
   def index
     @activities = @user.activities
@@ -24,9 +25,13 @@ class Api::V1::ActivitiesController < Api::V1::BaseController
     if @activity.update(activity_params)
       render :show, status: :ok
       if @activity.end_d != nil
-        @parsed = JSON.parse(`python3 lib/python/prueba.py #{@activity.id}`)
-        @parsed.each do |measurement|
-          Stress.create(datetime: measurement["date"], level: measurement["measure"], activity_id: @activity.id)
+        begin  # "try" block
+          @parsed = JSON.parse(`python3 lib/python/prueba.py #{@activity.id}`)
+          @parsed.each do |measurement|
+            Stress.create(datetime: measurement["date"], level: measurement["measure"], activity_id: @activity.id)
+          end
+        rescue # optionally: `rescue Exception => ex`
+          # Ignored
         end
       end
     else

@@ -3,39 +3,35 @@ require "test_helper"
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:one)
+    login
   end
 
-  test "should get index" do
-    get users_url
-    assert_response :success
-  end
+  # Manually modify the session into what Rodauth expects.
+  def login(login: "user@example.com", password: "secret")
+    post "/create-account", params: {
+      "login"            => login,
+      "password"         => password,
+      "password-confirm" => password,
+    }
 
-  test "should get new" do
-    get new_user_url
-    assert_response :success
+    post "/login", params: {
+      "floatingInput"    => login,
+      "floatingPassword" => password,
+    }
   end
 
   test "should create user" do
     assert_difference("User.count") do
-      post users_url, params: { user: { email: @user.email, name: @user.name, password_digest: @user.password_digest, surname: @user.surname } }
+      post dashboard_create_user_path, params: { user: { email: 'prueba@gmail.com', name: 'pruebaNombre', password_digest: '1234' } }
     end
 
-    assert_redirected_to user_url(User.last)
+    assert_redirected_to dashboard_create_user_url
   end
 
-  test "should show user" do
-    get user_url(@user)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_user_url(@user)
-    assert_response :success
-  end
 
   test "should update user" do
-    patch user_url(@user), params: { user: { email: @user.email, name: @user.name, password_digest: @user.password_digest, surname: @user.surname } }
-    assert_redirected_to user_url(@user)
+    patch user_url(@user), params: { user: { email: @user.email, name: @user.name, password_digest: @user.password_digest } }
+    assert_redirected_to dashboard_create_user_url
   end
 
   test "should destroy user" do
@@ -43,6 +39,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       delete user_url(@user)
     end
 
-    assert_redirected_to users_url
+    assert_redirected_to dashboard_create_user_url
   end
 end

@@ -52,11 +52,12 @@ class ActivitiesController < ApplicationController
   # DELETE /activities/1 or /activities/1.json
   def destroy
     # @ppg_measures = PpgMeasure.find_by id:
+    user_id = @activity.user_id
     @activity.destroy
 
     respond_to do |format|
       # format.html { redirect_to activities_url, notice: "Activity was successfully destroyed." }
-      format.html { redirect_to dashboard_view_activity_url, notice: "Actividad eliminada." }
+      format.html { redirect_to dashboard_view_activity_url, params: { id: user_id}, notice: "Actividad eliminada." }
       format.json { head :no_content }
     end
   end

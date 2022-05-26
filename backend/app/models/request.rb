@@ -9,4 +9,5 @@ class Request < ApplicationRecord
   validates :requestable_type, inclusion: { in: %w(Activity) }
   validates :requestable_type, inclusion: { in: %w(PpgMeasure) }
   validates :requestable_type, inclusion: { in: %w(Tag) }
+  validates :requestable_type, inclusion: { in: %w(User) }
 end

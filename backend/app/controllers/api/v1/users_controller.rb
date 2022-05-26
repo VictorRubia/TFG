@@ -1,10 +1,11 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :test_password, only: [:index,:get_api_key]
+  before_action :test_password, only: [:index,:get_api_key,:show]
 
   # GET /users
   def index
     @users = User.find_by( email: params[:email])
     render json: @users
+    @user.requests.create(method: :get, requestable_type: "User")
   end
 
   def get_api_key
@@ -28,6 +29,7 @@ class Api::V1::UsersController < ApplicationController
   def show
     @users = User.find(params[:id])
     render json: @users
+    @user.requests.create(method: :get, requestable_type: "User")
   end
 
   # POST /users
@@ -38,6 +40,7 @@ class Api::V1::UsersController < ApplicationController
     else
       render error: { error: 'Unable to create User.' }, status: 400
     end
+    @user.requests.create(method: :post, requestable_type: "User")
   end
   # PUT /users/:id
   def update
@@ -48,6 +51,7 @@ class Api::V1::UsersController < ApplicationController
     else
       render json: { error: 'Unable to update user. '}, status:400
     end
+    @user.requests.create(method: :put, requestable_type: "User")
   end
   # DELETE /users/:id
   def destroy
@@ -58,6 +62,7 @@ class Api::V1::UsersController < ApplicationController
     else
       render json: { error: 'Unable to delete User. '}, status: 400
     end
+    @user.requests.create(method: :delete, requestable_type: "User")
   end
   private
   def user_params

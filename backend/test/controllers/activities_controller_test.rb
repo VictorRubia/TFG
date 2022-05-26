@@ -5,36 +5,8 @@ class ActivitiesControllerTest < ActionDispatch::IntegrationTest
     @activity = activities(:one)
   end
 
-  test "should get index" do
-    get activities_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_activity_url
-    assert_response :success
-  end
-
-  test "should create activity" do
-    assert_difference("Activity.count") do
-      post activities_url, params: { activity: { end_d: @activity.end_d, name: @activity.name, patient_id: @activity.patient_id, start_d: @activity.start_d } }
-    end
-
-    assert_redirected_to activity_url(Activity.last)
-  end
-
-  test "should show activity" do
-    get activity_url(@activity)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_activity_url(@activity)
-    assert_response :success
-  end
-
   test "should update activity" do
-    patch activity_url(@activity), params: { activity: { end_d: @activity.end_d, name: @activity.name, patient_id: @activity.patient_id, start_d: @activity.start_d } }
+    patch activity_url(@activity), params: { activity: { end_d: @activity.end_d, name: @activity.name, user_id: @activity.user_id, start_d: @activity.start_d } }
     assert_redirected_to activity_url(@activity)
   end
 
@@ -43,6 +15,6 @@ class ActivitiesControllerTest < ActionDispatch::IntegrationTest
       delete activity_url(@activity)
     end
 
-    assert_redirected_to activities_url
+    assert_redirected_to dashboard_view_activity_url
   end
 end

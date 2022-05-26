@@ -16,7 +16,7 @@ class ActivitiesTest < ApplicationSystemTestCase
 
     fill_in "End d", with: @activity.end_d
     fill_in "Name", with: @activity.name
-    fill_in "Patient", with: @activity.patient_id
+    fill_in "User", with: @activity.user_id
     fill_in "Start d", with: @activity.start_d
     click_on "Create Activity"
 
@@ -30,7 +30,7 @@ class ActivitiesTest < ApplicationSystemTestCase
 
     fill_in "End d", with: @activity.end_d
     fill_in "Name", with: @activity.name
-    fill_in "Patient", with: @activity.patient_id
+    fill_in "User", with: @activity.user_id
     fill_in "Start d", with: @activity.start_d
     click_on "Update Activity"
 
