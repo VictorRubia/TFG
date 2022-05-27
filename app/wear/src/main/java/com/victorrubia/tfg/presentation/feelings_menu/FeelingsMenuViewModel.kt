@@ -15,17 +15,33 @@ import kotlinx.serialization.json.Json
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * [ViewModel] for [FeelingsMenuActivity]
+ * @property getCurrentActivityUseCase [GetCurrentActivityUseCase]
+ * @property addTagUseCase [AddTagUseCase]
+ */
 class FeelingsMenuViewModel(
     private val getCurrentActivityUseCase: GetCurrentActivityUseCase,
     private val addTagUseCase: AddTagUseCase,
 ) : ViewModel() {
 
+    /**
+     * Add Tag use case execution
+     *
+     * @param statusTags [Status] tags
+     * @param contextTags [Context] tags
+     * @param emotionsTags [Emotions] tags
+     * @param feelingsTags [Feelings] tags
+     */
     fun addTag(statusTags : String, contextTags : ArrayList<String>, emotionsTags : String, feelingsTags : String){
         CoroutineScope(Dispatchers.IO).launch {
             getCurrentActivityUseCase.execute()?.let { addTagUseCase.execute(Json.encodeToString(Status(statusTags, contextTags, emotionsTags, feelingsTags)), Date(), it.id) }
         }
     }
 
+    /**
+     * Function to show the announcement for a certain time
+     */
     fun delayAnnouncement() = liveData<Boolean> {
         delay(2500)
         emit(true)

@@ -7,9 +7,19 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+/**
+ * Module that provides all the necessary dependencies about the database.
+ */
 @Module
 class DataBaseModule {
 
+    /**
+     * Provides the database.
+     * Singleton annotation is necessary to make the database available to the whole application.
+     *
+     * @param context the context of the application.
+     * @return the database [TFGDatabase].
+     */
     @Singleton
     @Provides
     fun provideActivityDataBase(context : Context) : TFGDatabase{
@@ -17,24 +27,52 @@ class DataBaseModule {
             .build()
     }
 
+    /**
+     * Provides the activity dao.
+     * Singleton annotation is necessary to make the dao available to the whole application.
+     *
+     * @param tfgDatabase the database.
+     * @return the activity dao [ActivityDao].
+     */
     @Singleton
     @Provides
     fun provideActivityDao(tfgDatabase: TFGDatabase) : ActivityDao{
         return tfgDatabase.activityDao()
     }
 
+    /**
+     * Provides the user dao.
+     * Singleton annotation is necessary to make the dao available to the whole application.
+     *
+     * @param tfgDatabase the database.
+     * @return the user dao [UserDao].
+     */
     @Singleton
     @Provides
     fun provideUserDao(tfgDatabase: TFGDatabase) : UserDao{
         return tfgDatabase.userDao()
     }
 
+    /**
+     * Provides the PPGMeasure dao.
+     * Singleton annotation is necessary to make the dao available to the whole application.
+     *
+     * @param tfgDatabase the database.
+     * @return the PPGMeasure dao [PPGMeasureDao].
+     */
     @Singleton
     @Provides
     fun providePPGMeasureDao(tfgDatabase: TFGDatabase) : PPGMeasureDao {
         return tfgDatabase.ppgMeasureDao()
     }
 
+    /**
+     * Provides the Tag dao.
+     * Singleton annotation is necessary to make the dao available to the whole application.
+     *
+     * @param tfgDatabase the database.
+     * @return the Tag dao [TagDao].
+     */
     @Singleton
     @Provides
     fun provideTagDao(tfgDatabase: TFGDatabase) : TagDao {

@@ -33,10 +33,17 @@ import com.victorrubia.tfg.presentation.user_context_menu.UserContextMenuViewMod
 import com.victorrubia.tfg.presentation.user_context_menu.contextAnnouncement
 import com.victorrubia.tfg.ui.theme.WearAppTheme
 
+/**
+ * Activity that shows the emotions list menu with a previous
+ * announcement screen informing the user about the context.
+ */
 class EmotionsMenuActivity: ComponentActivity() {
 
+    // View model for the emotions menu
     private lateinit var emotionsMenuViewModel: EmotionsMenuViewModel
 
+    // companion object to create the Intent to start this activity
+    // and recovering the previously collected information.
     companion object{
         private const val STATUS_TILE = "statusTileSelected"
         private const val CONTEXT_TILES = "contextTilesSelected"
@@ -47,6 +54,7 @@ class EmotionsMenuActivity: ComponentActivity() {
             }
     }
 
+    // State variables to store the previously collected information
     private val statusTilesSelected : String by lazy {
         intent?.getSerializableExtra(STATUS_TILE) as String
     }
@@ -56,6 +64,10 @@ class EmotionsMenuActivity: ComponentActivity() {
         intent?.getSerializableExtra(CONTEXT_TILES) as ArrayList<String>
     }
 
+    /**
+     * Method to start the feelings activity and recover the previously collected information.
+     * @param emotion Selected emotion
+     */
     fun startFeelings(emotion: String){
         startActivity(FeelingsMenuActivity.intent(this,statusTilesSelected, contextTilesSelected, emotion))
         finish()
@@ -83,7 +95,11 @@ class EmotionsMenuActivity: ComponentActivity() {
     }
 }
 
-
+/**
+ * Composable function to show list of emotions.
+ *
+ * @param selectedItem Function to call when user is finished selecting emotion.
+ */
 @Composable
 fun EmotionsList(selectedItem: (String) -> Unit){
     val selectedTilesName = remember { mutableStateOf("") }
@@ -129,6 +145,9 @@ fun EmotionsList(selectedItem: (String) -> Unit){
     }
 }
 
+/**
+ * Composable function to show an announcement of application context
+ */
 @Composable
 fun emotionAnnouncement(){
     WearAppTheme{
@@ -162,6 +181,13 @@ fun emotionAnnouncement(){
     }
 }
 
+/**
+ * Composable function to show a card with the emotion name and icon
+ *
+ * @param text text to show in the card
+ * @param icon icon to show in the card
+ * @param selectedTileName name of the selected tile
+ */
 @Composable
 fun emotionsCards(text : String, icon : String, selectedTileName : MutableState<String>){
     AppCard(
@@ -212,6 +238,12 @@ fun emotionsCards(text : String, icon : String, selectedTileName : MutableState<
     )
 }
 
+/**
+ * Composable function to show a chip to end registering the emotion.
+ *
+ * @param selectedItem function to start a new activity [FeelingsMenuActivity]
+ * @param selectedTileName name of the selected tile
+ */
 @Composable
 fun finishedRegisteringEmotionsChip(selectedItem: (String) -> Unit, selectedTileName: MutableState<String>){
     Chip(

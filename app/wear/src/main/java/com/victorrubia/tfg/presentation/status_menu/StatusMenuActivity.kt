@@ -26,6 +26,9 @@ import com.victorrubia.tfg.R
 import com.victorrubia.tfg.presentation.user_context_menu.UserContextMenuActivity
 import com.victorrubia.tfg.ui.theme.WearAppTheme
 
+/**
+ * Activity that shows the status list menu
+ */
 class StatusMenuActivity :  ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +43,11 @@ class StatusMenuActivity :  ComponentActivity() {
     }
 }
 
-
+/**
+ * Composable function that shows the status list menu
+ *
+ * @param selectedItem function that navigates to contexts menu activity [UserContextMenuActivity] and saves the elected status
+ */
 @Composable
 fun StatusList(selectedItem: (String) -> Unit){
     val selectedTilesNames = remember { mutableStateOf("")  }
@@ -84,6 +91,13 @@ fun StatusList(selectedItem: (String) -> Unit){
     }
 }
 
+/**
+ * Composable function that shows the status card
+ *
+ * @param text name of the status
+ * @param icon image of the status
+ * @param selectedTileName function that saves the elected status
+ */
 @Composable
 fun statusCards(text : String, icon : Int, selectedTileName : MutableState<String>){
     AppCard(
@@ -133,8 +147,12 @@ fun statusCards(text : String, icon : Int, selectedTileName : MutableState<Strin
     )
 }
 
-
-
+/**
+ * Composable function that shows the finished registering status chip
+ *
+ * @param selectedItem selected item
+ * @param selectedTileName function that saves the elected status
+ */
 @Composable
 fun finishedRegisteringStatusChip(selectedItem: (String) -> Unit, selectedTileName: MutableState<String>){
     Chip(

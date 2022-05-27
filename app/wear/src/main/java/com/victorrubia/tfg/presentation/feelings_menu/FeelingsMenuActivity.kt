@@ -33,8 +33,13 @@ import com.victorrubia.tfg.presentation.emotions_menu.finishedRegisteringEmotion
 import com.victorrubia.tfg.ui.theme.WearAppTheme
 import javax.inject.Inject
 
+/**
+ * Activity that shows the menu of feelings.
+ */
 class FeelingsMenuActivity: ComponentActivity() {
 
+    // companion object to create the Intent to start this activity
+    // and recovering the previously collected information.
     companion object{
         private const val STATUS_TILE = "statusTileSelected"
         private const val CONTEXT_TILES = "contextTilesSelected"
@@ -47,6 +52,7 @@ class FeelingsMenuActivity: ComponentActivity() {
             }
     }
 
+    // State variables to store the previously collected information
     private val statusTilesSelected : String by lazy {
         intent?.getSerializableExtra(STATUS_TILE) as String
     }
@@ -60,12 +66,17 @@ class FeelingsMenuActivity: ComponentActivity() {
         intent?.getSerializableExtra(EMOTION_TILE) as String
     }
 
+    // Injector to inject the ViewModelFactory
     @Inject
     lateinit var factory: FeelingsMenuViewModelFactory
+    // ViewModel to interact with the database
     private lateinit var feelingsMenuViewModel: FeelingsMenuViewModel
 
+    /**
+     * Executes the register of tags and ends this Activity.
+     * @param feeling the feeling that the user has selected.
+     */
     private fun endRegister(feeling: String){
-        Log.d("MyTag", "Finalizo Tags")
         feelingsMenuViewModel.addTag(statusTilesSelected, contextTilesSelected, emotionTilesSelected, feeling)
         finish()
     }
@@ -94,6 +105,9 @@ class FeelingsMenuActivity: ComponentActivity() {
     }
 }
 
+/**
+ * Composable function that shows the announcement of the feeling register menu.
+ */
 @Composable
 fun feelingAnnouncement(){
     WearAppTheme{
@@ -127,6 +141,10 @@ fun feelingAnnouncement(){
     }
 }
 
+/**
+ * Composable function that shows the list of feelings.
+ * @param selectedItem function that receives the selected item and terminates the registering.
+ */
 @Composable
 fun FeelingsList(selectedItem: (String) -> Unit){
     val selectedTilesNames = remember { mutableStateOf("") }

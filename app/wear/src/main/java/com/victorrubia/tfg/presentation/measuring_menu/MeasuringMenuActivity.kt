@@ -28,10 +28,14 @@ import com.victorrubia.tfg.presentation.status_menu.StatusMenuActivity
 import com.victorrubia.tfg.ui.theme.WearAppTheme
 import javax.inject.Inject
 
+/**
+ * Activity that shows the menu to register tags or to stop measuring.
+ */
 class MeasuringMenuActivity: ComponentActivity() {
-
+    // Injector to inject the ViewModelFactory
     @Inject
     lateinit var factory: MeasuringMenuViewModelFactory
+    // ViewModel
     private lateinit var measuringMenuViewModel: MeasuringMenuViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +67,13 @@ class MeasuringMenuActivity: ComponentActivity() {
     }
 }
 
+/**
+ * Composable function that shows the main menu.
+ *
+ * @param internetStatus Boolean that indicates if the internet is available.
+ * @param stopMeasuring Function that stops the measuring.
+ * @param registerStatus Function that registers the status using tags.
+ */
 @Composable
 fun MainMenu(internetStatus: MutableState<Boolean>, stopMeasuring: () -> Unit, registerStatus: () -> Unit){
     var loading = remember { mutableStateOf(true) }
@@ -91,6 +102,14 @@ fun MainMenu(internetStatus: MutableState<Boolean>, stopMeasuring: () -> Unit, r
     }
 }
 
+/**
+ * Composable function that shows the button to stop the measuring.
+ *
+ * @param contentModifier Modifier to apply to the button.
+ * @param internetStatus Boolean that indicates if the internet is available.
+ * @param stopMeasuring Function that stops the measuring.
+ * @param loading MutableState that indicates if the button has been pressed.
+ */
 @Composable
 fun stopActivityButton(modifier : Modifier = Modifier, internetStatus: MutableState<Boolean>, stopMeasuring: () -> Unit, isStopped : MutableState<Boolean>){
     Column(
@@ -120,6 +139,13 @@ fun stopActivityButton(modifier : Modifier = Modifier, internetStatus: MutableSt
 
 }
 
+/**
+ * Composable function that shows the button to register tags.
+ *
+ * @param contentModifier Modifier to apply to the button.
+ * @param iconModifier Modifier to apply to the icon.
+ * @param registerStatus Function that registers the status using tags.
+ */
 @Composable
 fun registerStatusChip(modifier: Modifier = Modifier, iconModifier: Modifier = Modifier, registerStatus: () -> Unit){
     Chip(
@@ -142,6 +168,10 @@ fun registerStatusChip(modifier: Modifier = Modifier, iconModifier: Modifier = M
     )
 }
 
+/**
+ * Composable function that shows up when internet connection
+ * has been lost.
+ */
 @Composable
 fun noInternet(){
     Column(

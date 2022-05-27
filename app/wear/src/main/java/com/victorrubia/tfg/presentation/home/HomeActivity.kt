@@ -40,12 +40,17 @@ import com.victorrubia.tfg.ui.theme.WearAppTheme
 import java.util.*
 import javax.inject.Inject
 
+/**
+ * Activity that loads and retrieves the user's data from the phone and navigates to main menu.
+ */
 class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListener {
 
     @Inject
     lateinit var factory: HomeViewModelFactory
     private lateinit var homeViewModel: HomeViewModel
+    // Navigation controller for the navigation graph
     private lateinit var navController: NavHostController
+    // Variable to store connection status
     private var connectionStablised : Boolean = false
     private var iniciado : Boolean = false
 
@@ -57,6 +62,9 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
         }
     }
 
+    /**
+     * Method to check if the watch is compatible with the app.
+     */
     private fun navigationManagerCompatibility(navController: NavController){
         homeViewModel.compatibility(this).observe(this){
             if(it != null && it){
@@ -88,6 +96,7 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
         }
     }
 
+    // Method to handle the message received from the phone
     override fun onMessageReceived(p0: MessageEvent) {
         Log.i("MyTag", "Mensaje recibido: " + String(p0.data))
         if(p0.path.equals("error") && String(p0.data) == "errorNoUserLoggedIn"){
@@ -105,6 +114,12 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
 
 }
 
+/**
+ * Composable function to create the home screen.
+ *
+ * @param requestUser Function to request the user's data from the phone.
+ * @param delayLogin Function to delay the navigation to the main menu.
+ */
 @Composable
 fun HomeComponent(requestUser : () -> Unit, delayLogin : () -> Unit){
     requestUser()
@@ -138,6 +153,11 @@ fun HomeComponent(requestUser : () -> Unit, delayLogin : () -> Unit){
     }
 }
 
+/**
+ * Composable function to create the error screen when there is no internet connection.
+ *
+ * @param navController Navigation controller to navigate to the main menu.
+ */
 @Composable
 fun ErrorConnection(navController: NavController){
     WearAppTheme {
@@ -179,6 +199,11 @@ fun ErrorConnection(navController: NavController){
     }
 }
 
+/**
+ * Composable function to create the error screen when the watch is not compatible with the app.
+ *
+ * @param navController Navigation controller to navigate to the main menu.
+ */
 @Composable
 fun ErrorCompatibility(){
     WearAppTheme {
@@ -204,6 +229,12 @@ fun ErrorCompatibility(){
     }
 }
 
+/**
+ * Composable function to create the error screen when ther is no user logged
+ * in the mobile companion app.
+ *
+ * @param navController Navigation controller to navigate to the main menu.
+ */
 @Composable
 fun ErrorNoUser(navController: NavController){
     WearAppTheme {

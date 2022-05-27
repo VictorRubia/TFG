@@ -8,9 +8,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
 
+/**
+ * Dagger module that provides the TFG API service.
+ */
 @Module
 class NetModule(private val baseUrl : String) {
 
+    /**
+     * Provides the TFG API service implementation
+     * using retrofit to handle the HTTP calls.
+     *
+     * @return the TFG service implementation.
+     */
     @Singleton
     @Provides
     fun provideRetrofit() : Retrofit{
@@ -20,6 +29,12 @@ class NetModule(private val baseUrl : String) {
             .build()
     }
 
+    /**
+     * Provides the TFG service implementation.
+     *
+     * @param retrofit the retrofit instance to initialize the service.
+     * @return the TFG service implementation.
+     */
     @Singleton
     @Provides
     fun provideTFGService(retrofit: Retrofit) : TFGService{

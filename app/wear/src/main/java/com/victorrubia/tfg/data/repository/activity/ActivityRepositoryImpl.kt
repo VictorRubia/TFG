@@ -10,24 +10,47 @@ import java.time.Instant
 import java.time.ZoneId
 import java.util.*
 
+/**
+ * Implementation of the [ActivityRepository] interface that works with data sources.
+ *
+ * @property activityLocalDataSource the local data source
+ * @property activityRemoteDataSource the remote data source
+ * @property activityCacheDataSource the cache data source
+ */
 class ActivityRepositoryImpl(
     private val activityRemoteDataSource : ActivityRemoteDataSource,
     private val activityLocalDataSource: ActivityLocalDataSource,
     private val activityCacheDataSource: ActivityCacheDataSource
 ) : ActivityRepository {
 
+    /**
+     * {@inheritDoc}
+     */
     override suspend fun newActivity(name: String, startTimestamp: String): Activity {
         return newActivityAPI(name, startTimestamp)
     }
 
+    /**
+     * {@inheritDoc}
+     */
     override suspend fun getCurrentActivity(): Activity? {
         return getActivityFromCache()
     }
 
+    /**
+     * {@inheritDoc}
+     */
     override suspend fun endActivity(): Activity? {
         return endActivityAPI()
     }
 
+    /**
+     * Starts a new activity in the API.
+     *
+     * @param name the name of the activity
+     * @param startTimestamp the start timestamp of the activity
+     * @return the activity created
+     */
     suspend fun newActivityAPI(name: String, startTimestamp: String) : Activity {
         lateinit var activity : Activity
 
@@ -47,6 +70,11 @@ class ActivityRepositoryImpl(
         return activity
     }
 
+    /**
+     * Ends the current activity in the API.
+     *
+     * @return the activity ended
+     */
     suspend fun endActivityAPI() : Activity? {
         val activity: Activity? = activityCacheDataSource.getActivityFromCache()
 
@@ -65,6 +93,11 @@ class ActivityRepositoryImpl(
         return activity
     }
 
+    /**
+     * Gets the current activity from the local data source.
+     *
+     * @return the activity from the local data source
+     */
     suspend fun getActivityFromDB() : Activity?{
         var activity : Activity? = null
 
@@ -78,6 +111,11 @@ class ActivityRepositoryImpl(
         return activity
     }
 
+    /**
+     * Gets the current activity from the cache data source.
+     *
+     * @return the activity from the cache data source
+     */
     suspend fun getActivityFromCache() : Activity?{
         var activity : Activity? = null
 

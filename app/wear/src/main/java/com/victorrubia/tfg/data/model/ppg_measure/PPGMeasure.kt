@@ -15,6 +15,9 @@ import kotlinx.serialization.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * Object to serialize and deserialize Date objects when storing [PPGMeasure] in RoomDB with KSerializer
+ */
 object DateSerializer : KSerializer<Date> {
     override val descriptor = PrimitiveSerialDescriptor("Date", PrimitiveKind.STRING)
 
@@ -28,6 +31,13 @@ object DateSerializer : KSerializer<Date> {
     }
 }
 
+/**
+ * Class that represents a PPG measure
+ *
+ * @property id The id of the measure
+ * @property timestamp The timestamp of the measure
+ * @property value The value of the measure
+ */
 @Entity(tableName = "ppg_measures")
 @Serializable
 data class PPGMeasure(

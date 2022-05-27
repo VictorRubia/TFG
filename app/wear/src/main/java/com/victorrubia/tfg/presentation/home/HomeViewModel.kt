@@ -17,13 +17,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * [ViewModel] for [HomeActivity]
+ * @property requestUserUseCase [RequestUserUseCase]
+ * @property saveUserUseCase [SaveUserUseCase]
+ */
 class HomeViewModel(
-    private val newActivityUseCase: NewActivityUseCase,
     private val requestUserUseCase: RequestUserUseCase,
     private val saveUserUseCase: SaveUserUseCase,
-    private val getUserUseCase: GetUserUseCase
 ) : ViewModel() {
 
+    // Sensor variables
     private lateinit var sensorManager: SensorManager
     var sensorStatus = mutableStateOf(false)
 
@@ -32,6 +36,11 @@ class HomeViewModel(
         emit(true)
     }
 
+    /**
+     * Determines if device is compatible with the app
+     *
+     * @param context [Context]
+     */
     fun compatibility(context : Context) = liveData {
         var prueba : MutableLiveData<Boolean> = MutableLiveData(true)
         sensorManager = context.getSystemService(ComponentActivity.SENSOR_SERVICE) as SensorManager
@@ -45,12 +54,20 @@ class HomeViewModel(
         emit(prueba.value)
     }
 
+    /**
+     * Executes [RequestUserUseCase]
+     */
     fun requestUser(){
         CoroutineScope(Dispatchers.IO).launch {
             requestUserUseCase.execute()
         }
     }
 
+    /**
+     * Executes [SaveUserUseCase]
+     *
+     * @param user [User] to save
+     */
     fun saveUser(user : User){
         CoroutineScope(Dispatchers.IO).launch {
             saveUserUseCase.execute(user)

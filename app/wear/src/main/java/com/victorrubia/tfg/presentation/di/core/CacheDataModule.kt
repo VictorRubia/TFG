@@ -12,27 +12,58 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+/**
+ * Dagger module that provides the cache data sources.
+ */
 @Module
 class CacheDataModule {
 
+    /**
+     * Provides the [ActivityCacheDataSource].
+     * Singleton annotation is used to make sure that there is only one instance of the data source.
+     *
+     * @param ActivityCacheDataSourceImpl the implementation of the [ActivityCacheDataSource]
+     * @return the [ActivityCacheDataSource]
+     */
     @Singleton
     @Provides
     fun provideActivityCacheDataSource() : ActivityCacheDataSource{
         return ActivityCacheDataSourceImpl()
     }
 
+    /**
+     * Provides the [UserCacheDataSource].
+     * Singleton annotation is used to make sure that there is only one instance of the data source.
+     *
+     * @param UserCacheDataSourceImpl the implementation of the [UserCacheDataSource]
+     * @return the [UserCacheDataSource]
+     */
     @Singleton
     @Provides
     fun provideUserCacheDataSource() : UserCacheDataSource {
         return UserCacheDataSourceImpl()
     }
 
+    /**
+     * Provides the [PPGMeasureCacheDataSource].
+     * Singleton annotation is used to make sure that there is only one instance of the data source.
+     *
+     * @param PPGMeasureCacheDataSourceImpl the implementation of the [PPGMeasureCacheDataSource]
+     * @return the [PPGMeasureCacheDataSource]
+     */
     @Singleton
     @Provides
     fun providePPGMeasureCacheDataSource() : PPGMeasureCacheDataSource {
         return PPGMeasureCacheDataSourceImpl()
     }
 
+    /**
+     * Provides the [TagCacheDataSource].
+     * Singleton annotation is used to make sure that there is only one instance of the data source.
+     *
+     * @param TagCacheDataSourceImpl the implementation of the [TagCacheDataSource]
+     * @return the [TagCacheDataSource]
+     */
     @Singleton
     @Provides
     fun provideTagCacheDataSource() : TagCacheDataSource {

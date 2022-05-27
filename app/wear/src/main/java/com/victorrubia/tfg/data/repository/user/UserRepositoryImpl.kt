@@ -7,24 +7,46 @@ import com.victorrubia.tfg.data.repository.user.datasource.UserLocalDataSource
 import com.victorrubia.tfg.data.repository.user.datasource.UserRemoteDataSource
 import com.victorrubia.tfg.domain.repository.UserRepository
 
+/**
+ * Implementation of the [UserRepository] interface that works with data sources.
+ *
+ * @property userRemoteDataSource the remote data source
+ * @property userLocalDataSource the local data source
+ * @property userCacheDataSource the cache data source
+ */
 class UserRepositoryImpl(
     private val userRemoteDataSource: UserRemoteDataSource,
     private val userLocalDataSource: UserLocalDataSource,
     private val userCacheDataSource: UserCacheDataSource,
 ) : UserRepository {
 
+    /**
+     * {@inheritDoc}
+     */
     override suspend fun requestUser(){
         requestUserToPhone()
     }
 
+    /**
+     * {@inheritDoc}
+     */
     override suspend fun getUser(): User? {
         return getUserFromCache()
     }
 
+    /**
+     * {@inheritDoc}
+     */
     override suspend fun saveUser(user: User) {
         saveUserToCache(user)
     }
 
+    /**
+     * Tries to get the User information from the cache. If this fails, it tries to get it from the
+     * local data source.
+     *
+     * @return the [User] information
+     */
     suspend fun getUserFromCache() : User?{
         var user : User? = null
 
@@ -45,6 +67,12 @@ class UserRepositoryImpl(
         return user
     }
 
+    /**
+     * Tries to get the User information from the local data source. If this fails, it tries to get it
+     * from the remote data source.
+     *
+     * @return the [User] information
+     */
     suspend fun getUserFromDB() : User?{
         var user : User? = null
 
@@ -63,10 +91,18 @@ class UserRepositoryImpl(
         }
     }
 
+    /**
+     * Requests the [User] info to the companion app installed on a linked phone.
+     */
     suspend fun requestUserToPhone(){
         userRemoteDataSource.requestUser()
     }
 
+    /**
+     * Saves the [User] information to the local data source.
+     *
+     * @param user the [User] information
+     */
     suspend fun saveUserToDB(user : User){
         try {
             userLocalDataSource.clearAll()
@@ -77,6 +113,11 @@ class UserRepositoryImpl(
         }
     }
 
+    /**
+     * Saves the [User] information to the cache.
+     *
+     * @param user the [User] information
+     */
     suspend fun saveUserToCache(user : User){
         try {
             userCacheDataSource.clearAll()

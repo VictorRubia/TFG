@@ -9,25 +9,41 @@ import com.victorrubia.tfg.domain.repository.TagRepository
 import kotlinx.coroutines.delay
 import java.util.*
 
+/**
+ * Implementation of the [TagRepository] interface that combines [TagRemoteDataSource] and
+ * [TagLocalDataSource] to implement the required [TagRepository] methods.
+ *
+ * @property tagRemoteDataSource the remote data source that will be used to fetch data.
+ * @property tagLocalDataSource the local data source that will be used to store data.
+ * @property tagCacheDataSource the cache data source that will be used to store data.
+ */
 class TagRepositoryImpl(
     private val tagRemoteDataSource : TagRemoteDataSource,
     private val tagLocalDataSource: TagLocalDataSource,
     private val tagCacheDataSource: TagCacheDataSource
 ) : TagRepository {
 
+    /**
+     * {@inheritDoc}
+     */
     override suspend fun addTag(tag: String, datetime: Date, activityId: Int): Tag {
         return addTagToCache(tag, datetime, activityId)
     }
 
+    /**
+     * Sends a request to the remote data source to add a tag to the activity.
+     *
+     * @param tag the tag to be added.
+     * @param datetime the datetime of the tag.
+     * @param activityId the id of the activity.
+     * @return the tag that was added.
+     */
     suspend fun addTagToAPI(tag: String, datetime: Date, activityId: Int) : Tag{
         try {
-            Log.d("MyTag", "Mando tags porq me lo pide")
             val response = tagRemoteDataSource.addTag(tag, datetime, activityId)
             if(response.body() != null){
-            Log.d("MyTag", "Mando tags okey, procedo a borrarlos")
                 tagLocalDataSource.clearAll()
                 tagCacheDataSource.clearAll()
-            Log.d("MyTag", "Tags borrados ok")
             }
         }
         catch (exception : Exception){
@@ -51,6 +67,14 @@ class TagRepositoryImpl(
         return Tag(tag, datetime, activityId)
     }
 
+    /**
+     * Sends a request to the local data source to add a tag to the activity.
+     *
+     * @param tag the tag to be added.
+     * @param datetime the datetime of the tag.
+     * @param activityId the id of the activity.
+     * @return the tag that was added.
+     */
     suspend fun addTagToDB(tag: String, datetime: Date, activityId: Int) : Tag{
         try {
             tagLocalDataSource.saveTagToDB(Tag(tag, datetime, activityId))
@@ -62,6 +86,14 @@ class TagRepositoryImpl(
         return addTagToAPI(tag, datetime, activityId)
     }
 
+    /**
+     * Sends a request to the cache data source to add a tag to the activity.
+     *
+     * @param tag the tag to be added.
+     * @param datetime the datetime of the tag.
+     * @param activityId the id of the activity.
+     * @return the tag that was added.
+     */
     suspend fun addTagToCache(tag: String, datetime: Date, activityId: Int) : Tag{
         try {
             tagCacheDataSource.saveTagToCache(Tag(tag, datetime, activityId))

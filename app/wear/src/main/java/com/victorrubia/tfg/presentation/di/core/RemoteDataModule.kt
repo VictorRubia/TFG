@@ -18,28 +18,57 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+/**
+ * Dagger module that provides remote data sources dependencies.
+ */
 @Module
-//class RemoteDataModule(private val apiKey : UserLocalDataSource) {
-class RemoteDataModule() {
+class RemoteDataModule {
 
+    /**
+     * Provides activity remote data source.
+     *
+     * @param tfgService the TFG service
+     * @param userDataSource the user data source
+     * @return [ActivityRemoteDataSource]
+     */
     @Singleton
     @Provides
     fun provideActivityRemoteDataSource(tfgService: TFGService, userDataSource: UserCacheDataSource) : ActivityRemoteDataSource{
         return ActivityRemoteDataSourceImpl(tfgService, userDataSource)
     }
 
+    /**
+     * Provides user remote data source.
+     *
+     * @param context the context
+     * @return [UserRemoteDataSource]
+     */
     @Singleton
     @Provides
     fun provideUserRemoteDataSource(context: Context) : UserRemoteDataSource {
         return UserRemoteDataSourceImpl(context)
     }
 
+    /**
+     * Provides PPGMeasure remote data source.
+     *
+     * @param tfgService the TFG service
+     * @param userDataSource the user data source
+     * @return [PPGMeasureRemoteDataSource]
+     */
     @Singleton
     @Provides
     fun providePPGMeasureRemoteDataSource(tfgService: TFGService, userDataSource: UserCacheDataSource) : PPGMeasureRemoteDataSource {
         return PPGMeasureRemoteDataSourceImpl(tfgService, userDataSource)
     }
 
+    /**
+     * Provides tag remote data source.
+     *
+     * @param tfgService the TFG service
+     * @param userDataSource the user data source
+     * @return [TagRemoteDataSource]
+     */
     @Singleton
     @Provides
     fun provideTagRemoteDataSource(tfgService: TFGService, userDataSource: UserCacheDataSource) : TagRemoteDataSource {

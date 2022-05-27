@@ -9,9 +9,21 @@ import com.victorrubia.tfg.presentation.measuring_menu.MeasuringMenuViewModelFac
 import dagger.Module
 import dagger.Provides
 
+/**
+ * Dagger module to provide the [MeasuringMenuActivity] dependencies.
+ */
 @Module
 class MeasuringMenuModule {
 
+    /**
+     * Provides the [MeasuringMenuViewModelFactory] instance.
+     *
+     * @param getCurrentActivityUseCase The [GetCurrentActivityUseCase] instance.
+     * @param savePPGMeasureUseCase The [SavePPGMeasureUseCase] instance.
+     * @param endPPGMeasureUseCase The [EndPPGMeasureUseCase] instance.
+     * @param endActivityUseCase The [EndActivityUseCase] instance.
+     * @return The [MeasuringMenuViewModelFactory] instance.
+     */
     @MeasuringMenuScope
     @Provides
     fun provideMeasuringMenuViewModelFactory(endActivityUseCase: EndActivityUseCase,

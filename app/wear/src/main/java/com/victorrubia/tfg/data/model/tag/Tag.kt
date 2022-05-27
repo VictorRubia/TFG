@@ -8,6 +8,13 @@ import com.victorrubia.tfg.data.model.ppg_measure.DateSerializer
 import kotlinx.serialization.Serializable
 import java.util.*
 
+/**
+ * Tag class
+ *
+ * @property tag the tag
+ * @property datetime the date and time of the tag
+ * @property activityId the current activity id
+ */
 @Entity(tableName = "current_tags")
 @Serializable
 data class Tag(

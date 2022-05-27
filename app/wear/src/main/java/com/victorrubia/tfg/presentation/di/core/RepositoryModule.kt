@@ -1,6 +1,5 @@
 package com.victorrubia.tfg.presentation.di.core
 
-import android.content.Context
 import com.victorrubia.tfg.data.repository.activity.ActivityRepositoryImpl
 import com.victorrubia.tfg.data.repository.activity.datasource.ActivityCacheDataSource
 import com.victorrubia.tfg.data.repository.activity.datasource.ActivityLocalDataSource
@@ -25,9 +24,20 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+/**
+ * Dagger module that provides repository dependencies.
+ */
 @Module
 class RepositoryModule {
 
+    /**
+     * Provides the [ActivityRepository] implementation.
+     *
+     * @param activityCacheDataSource the [ActivityCacheDataSource] implementation.
+     * @param activityLocalDataSource the [ActivityLocalDataSource] implementation.
+     * @param activityRemoteDataSource the [ActivityRemoteDataSource] implementation.
+     * @return the [ActivityRepository] implementation.
+     */
     @Singleton
     @Provides
     fun provideActivityRepository(
@@ -42,6 +52,14 @@ class RepositoryModule {
         )
     }
 
+    /**
+     * Provides the [UserRepository] implementation.
+     *
+     * @param userRemoteDataSource the [UserRemoteDataSource] implementation.
+     * @param userLocalDataSource the [UserLocalDataSource] implementation.
+     * @param userCacheDataSource the [UserCacheDataSource] implementation.
+     * @return the [UserRepository] implementation.
+     */
     @Singleton
     @Provides
     fun provideUserRepository(
@@ -56,6 +74,14 @@ class RepositoryModule {
         )
     }
 
+    /**
+     * Provides the [PPGMeasureRepository] implementation.
+     *
+     * @param ppgMeasureCacheDataSource the [PPGMeasureCacheDataSource] implementation.
+     * @param ppgMeasureLocalDataSource the [PPGMeasureLocalDataSource] implementation.
+     * @param ppgMeasureRemoteDataSource the [PPGMeasureRemoteDataSource] implementation.
+     * @return the [PPGMeasureRepository] implementation.
+     */
     @Singleton
     @Provides
     fun providePPGMeasureRepository(
@@ -69,7 +95,15 @@ class RepositoryModule {
             ppgMeasureCacheDataSource,
         )
     }
-    
+
+    /**
+     * Provides the [TagRepository] implementation.
+     *
+     * @param tagCacheDataSource the [TagCacheDataSource] implementation.
+     * @param tagLocalDataSource the [TagLocalDataSource] implementation.
+     * @param tagRemoteDataSource the [TagRemoteDataSource] implementation.
+     * @return the [TagRepository] implementation.
+     */
     @Singleton
     @Provides
     fun provideTagRepository(

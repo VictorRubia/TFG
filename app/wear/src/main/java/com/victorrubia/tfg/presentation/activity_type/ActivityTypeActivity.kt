@@ -21,6 +21,11 @@ import androidx.wear.compose.material.*
 import com.victorrubia.tfg.presentation.activity_confirmation.ActivityConfirmationActivity
 import com.victorrubia.tfg.ui.theme.WearAppTheme
 
+/**
+ * ActivityTypeActivity
+ *
+ * Activity that shows the different types of activities that can be created
+ */
 class ActivityTypeActivity :  ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +41,12 @@ class ActivityTypeActivity :  ComponentActivity() {
     }
 }
 
+/**
+ * Composable function that shows a list with
+ * different types of activities that can be created.
+ *
+ * @param createActivity Function that starts the confirmation Activity
+ */
 @Composable
 fun ActivityTypeList(createActivity: (String) -> Unit){
     var loading = remember { mutableStateOf(true) }
@@ -68,6 +79,14 @@ fun ActivityTypeList(createActivity: (String) -> Unit){
     }
 }
 
+/**
+ * Composable function that shows a chip to create an activity
+ *
+ * @param text Text to show in the chip
+ * @param icon Icon to show in the chip
+ * @param isSelected Boolean that indicates if the chip is selected
+ * @param createActivity Function that starts the confirmation Activity
+ */
 @Composable
 fun activityTypeChip(text : String, icon : ImageVector, isSelected : MutableState<Boolean>, createActivity: (String) -> Unit){
     Chip(

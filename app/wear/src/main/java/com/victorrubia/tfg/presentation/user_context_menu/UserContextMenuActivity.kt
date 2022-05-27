@@ -35,10 +35,16 @@ import com.victorrubia.tfg.R
 import com.victorrubia.tfg.presentation.emotions_menu.EmotionsMenuActivity
 import com.victorrubia.tfg.ui.theme.WearAppTheme
 
+/**
+ * Activity that shows the user context menu
+ */
 class UserContextMenuActivity :  ComponentActivity() {
 
+    // The view model
     private lateinit var userContextMenuViewModel: UserContextMenuViewModel
 
+    // companion object to create the Intent to start this activity
+    // and recovering the previously collected information.
     companion object{
         private const val STATUS_TILE = "statusTileSelected"
         fun intent(context: Context, statusTile: String)=
@@ -47,10 +53,16 @@ class UserContextMenuActivity :  ComponentActivity() {
             }
     }
 
+    // State variables to store the previously collected information
     private val statusTilesSelected : String by lazy {
         intent?.getSerializableExtra(STATUS_TILE) as String
     }
 
+    /**
+     * Starts a new activity that shows the user context menu
+     *
+     * @param contextList the selected context list
+     */
     fun startEmotions(contextList: ArrayList<String>){
         startActivity(EmotionsMenuActivity.intent(this, statusTilesSelected, contextList)).apply { finish() }
     }
@@ -77,6 +89,9 @@ class UserContextMenuActivity :  ComponentActivity() {
     }
 }
 
+/**
+ * Composable function that shows the context register announcement
+ */
 @Composable
 fun contextAnnouncement(){
     WearAppTheme{
@@ -110,6 +125,11 @@ fun contextAnnouncement(){
     }
 }
 
+/**
+ * Composable function that shows the context list menu.
+ *
+ * @param selectedItem function that navigates to emotions list and saves previously selected tags.
+ */
 @Composable
 fun ContextList(selectedItem: (ArrayList<String>) -> Unit){
     val selectedTiles = remember { List(12){ mutableStateOf(false) } }
@@ -162,6 +182,14 @@ fun ContextList(selectedItem: (ArrayList<String>) -> Unit){
     }
 }
 
+/**
+ * Composable function that shows the cards for each context in the list.
+ *
+ * @param text text to be shown in the card.
+ * @param icon icon to be shown in the card.
+ * @param isSelected boolean that indicates if the card is selected or not.
+ * @param selectedTileNames list of selected tiles.
+ */
 @Composable
 fun contextCards(text : String, icon : Int, isSelected : MutableState<Boolean>, selectedTileNames : ArrayList<String>){
     AppCard(
@@ -212,7 +240,12 @@ fun contextCards(text : String, icon : Int, isSelected : MutableState<Boolean>, 
     )
 }
 
-
+/**
+ * Composable function that shows the button to finish the context selection.
+ *
+ * @param selectedItem function to be called when the button is pressed.
+ * @param selectedTilesNames list of selected tiles.
+ */
 @Composable
 fun finishedRegisteringContextChip(selectedItem: (ArrayList<String>) -> Unit, selectedTileNames: ArrayList<String>){
     Chip(

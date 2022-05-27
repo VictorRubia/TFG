@@ -12,21 +12,35 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * Implementation of the [UserRemoteDataSource] that communicates with the Wearable DataLayer API.
+ * This implementation is based on the Google Android Wearable API.
+ *
+ * @property context The application context.
+ */
 class UserRemoteDataSourceImpl(
-    context : Context
+    private var context: Context
 ) : UserRemoteDataSource {
 
+    // Best node to send the message to.
     private var bestNodeID: String? = null
+    // Boolean var to check if the best node has been found.
     private var _nodesConnected : MutableLiveData<Boolean?> = MutableLiveData<Boolean?>(false)
-    private var context = context
 
-
+    /**
+     * {@inheritDoc}
+     */
     override suspend fun requestUser() {
         updateBestNode(context)
         initMessageBroadcaster(context)
         broadcastMessage(context)
     }
 
+    /**
+     * Updates the best node ID to send the message to.
+     *
+     * @param context The application context.
+     */
     private fun updateBestNode(context: Context) {
         try {
             val info = Tasks.await(
@@ -45,6 +59,11 @@ class UserRemoteDataSourceImpl(
         }
     }
 
+    /**
+     * Initializes the message broadcaster.
+     *
+     * @param context The application context.
+     */
     private fun initMessageBroadcaster(context: Context?) {
 
         if (context != null) {
@@ -58,6 +77,11 @@ class UserRemoteDataSourceImpl(
 
     }
 
+    /**
+     * Broadcasts the api key request to the best node.
+     *
+     * @param context The application context.
+     */
     private fun broadcastMessage(context: Context?) {
         Handler(Looper.getMainLooper()).post {
             try {

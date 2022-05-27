@@ -6,9 +6,18 @@ import com.victorrubia.tfg.presentation.feelings_menu.FeelingsMenuViewModelFacto
 import dagger.Module
 import dagger.Provides
 
+/**
+ * Dagger module to provide dependencies for the [FeelingsMenuViewModelFactory].
+ */
 @Module
 class FeelingsMenuModule {
 
+    /**
+     * Provides the [FeelingsMenuViewModelFactory] instance.
+     * @param getCurrentActivityUseCase The [GetCurrentActivityUseCase] instance.
+     * @param addTagUseCase The [AddTagUseCase] instance.
+     * @return The [FeelingsMenuViewModelFactory] instance.
+     */
     @FeelingsMenuScope
     @Provides
     fun provideFeelingsMenuViewModelFactory(getCurrentActivityUseCase: GetCurrentActivityUseCase,

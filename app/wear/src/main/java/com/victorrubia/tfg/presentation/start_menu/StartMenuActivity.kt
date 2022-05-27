@@ -21,6 +21,9 @@ import com.victorrubia.tfg.R
 import com.victorrubia.tfg.presentation.activity_type.ActivityTypeActivity
 import com.victorrubia.tfg.ui.theme.WearAppTheme
 
+/**
+ * Activity that shows the start activity menu.
+ */
 class StartMenuActivity :  ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +39,11 @@ class StartMenuActivity :  ComponentActivity() {
     }
 }
 
+/**
+ * Composable function to show the start menu.
+ *
+ * @param startActivity Function to navigate to the activity [ActivityTypeActivity].
+ */
 @Composable
 fun StartMeasure(startActivity : () -> Unit){
     var loading by remember { mutableStateOf(true) }
