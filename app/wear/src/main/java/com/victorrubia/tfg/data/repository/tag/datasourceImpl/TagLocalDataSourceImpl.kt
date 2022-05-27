@@ -17,25 +17,19 @@ class TagLocalDataSourceImpl(
     private val tagDao: TagDao
 ) : TagLocalDataSource {
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun getTagsFromDB(): List<Tag> {
         return tagDao.getTags()
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun saveTagToDB(tag: Tag) {
         CoroutineScope(Dispatchers.IO).launch {
             tagDao.saveTag(tag)
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun clearAll() {
         CoroutineScope(Dispatchers.IO).launch {
             tagDao.deleteTags()

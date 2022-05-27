@@ -17,16 +17,12 @@ class ActivityRemoteDataSourceImpl(
     private val user : UserCacheDataSource
 ) : ActivityRemoteDataSource {
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun newActivity(name: String,
                                      startTimestamp: String) : Response<Activity> =
         tfgService.newActivity("Bearer ${user.getUserFromCache()!!.apiKey}", name, startTimestamp)
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun endActivity(activityId: Int, endTimestamp: String): Response<Activity> =
         tfgService.endActivity("Bearer ${user.getUserFromCache()!!.apiKey}", activityId, endTimestamp)
 }

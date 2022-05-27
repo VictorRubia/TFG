@@ -13,23 +13,17 @@ class PPGMeasureCacheDataSourceImpl : PPGMeasureCacheDataSource {
      */
     private var ppgMeasures : MutableList<PPGMeasure> = ArrayList()
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun getPPGMeasureFromCache(): List<PPGMeasure> {
         return ppgMeasures
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun addPPGMeasureToCache(ppgMeasure: PPGMeasure) {
         ppgMeasures.add(ppgMeasure)
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun clearAll() {
         ppgMeasures.clear()
     }

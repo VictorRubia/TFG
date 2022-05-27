@@ -12,24 +12,17 @@ class ActivityCacheDataSourceImpl : ActivityCacheDataSource {
      * Cache of current activity
      */
     private var activity : Activity? = null
-
-    /**
-     * {@inheritDoc}
-     */
+    
     override suspend fun getActivityFromCache(): Activity? {
         return activity
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun saveActivityToCache(activity: Activity) {
         this.activity = activity
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun clearAll() {
         this.activity = null
     }

@@ -20,23 +20,17 @@ class UserRepositoryImpl(
     private val userCacheDataSource: UserCacheDataSource,
 ) : UserRepository {
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun requestUser(){
         requestUserToPhone()
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun getUser(): User? {
         return getUserFromCache()
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun saveUser(user: User) {
         saveUserToCache(user)
     }

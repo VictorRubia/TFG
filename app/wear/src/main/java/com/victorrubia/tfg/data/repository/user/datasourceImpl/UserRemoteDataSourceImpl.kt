@@ -27,9 +27,7 @@ class UserRemoteDataSourceImpl(
     // Boolean var to check if the best node has been found.
     private var _nodesConnected : MutableLiveData<Boolean?> = MutableLiveData<Boolean?>(false)
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun requestUser() {
         updateBestNode(context)
         initMessageBroadcaster(context)

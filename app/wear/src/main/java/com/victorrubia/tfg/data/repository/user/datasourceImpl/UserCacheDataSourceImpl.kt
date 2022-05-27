@@ -13,23 +13,17 @@ class UserCacheDataSourceImpl : UserCacheDataSource {
      */
     private var user : User? = null
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun getUserFromCache(): User? {
         return user
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun saveUserToCache(user: User) {
         this.user = user
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun clearAll() {
         this.user = null
     }

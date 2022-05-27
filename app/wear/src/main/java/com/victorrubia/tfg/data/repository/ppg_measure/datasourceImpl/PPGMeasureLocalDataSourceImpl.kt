@@ -17,25 +17,19 @@ class PPGMeasureLocalDataSourceImpl(
     private val ppgMeasureDao: PPGMeasureDao
 ) : PPGMeasureLocalDataSource {
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun getPPGMeasureFromDB(): List<PPGMeasure> {
         return ppgMeasureDao.getPPGMeasures()
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun addPPGMeasureToDB(ppgMeasures: PPGMeasure) {
         CoroutineScope(Dispatchers.IO).launch{
             ppgMeasureDao.savePPGMeasure(ppgMeasures)
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun clearAll() {
         CoroutineScope(Dispatchers.IO).launch {
             ppgMeasureDao.deletePPGMeasures()

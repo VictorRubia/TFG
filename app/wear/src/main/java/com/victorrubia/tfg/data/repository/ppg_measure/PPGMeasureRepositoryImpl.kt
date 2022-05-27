@@ -33,9 +33,7 @@ class PPGMeasureRepositoryImpl(
      */
     private val internetStatus = mutableStateOf(true)
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun savePPGMeasure(ppgMeasure: PPGMeasure, activityId: Int): MutableState<Boolean> {
 
         try {
@@ -53,9 +51,7 @@ class PPGMeasureRepositoryImpl(
         return internetStatus
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun endPPGMeasure(activityId : Int) {
         try {
             sendPPGMeasureToAPI(ppgMeasureCacheDataSource.getPPGMeasureFromCache(), activityId)

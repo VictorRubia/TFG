@@ -23,9 +23,7 @@ class TagRepositoryImpl(
     private val tagCacheDataSource: TagCacheDataSource
 ) : TagRepository {
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun addTag(tag: String, datetime: Date, activityId: Int): Tag {
         return addTagToCache(tag, datetime, activityId)
     }

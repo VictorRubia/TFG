@@ -23,23 +23,14 @@ class ActivityRepositoryImpl(
     private val activityCacheDataSource: ActivityCacheDataSource
 ) : ActivityRepository {
 
-    /**
-     * {@inheritDoc}
-     */
     override suspend fun newActivity(name: String, startTimestamp: String): Activity {
         return newActivityAPI(name, startTimestamp)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override suspend fun getCurrentActivity(): Activity? {
         return getActivityFromCache()
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override suspend fun endActivity(): Activity? {
         return endActivityAPI()
     }

@@ -15,9 +15,7 @@ class PPGMeasureRemoteDataSourceImpl(
     private val user : UserCacheDataSource
 ) : PPGMeasureRemoteDataSource {
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun sendPPGMeasures(ppgMeasures: String, activityId : Int) =
         tfgService.addPPGMeasure("Bearer ${user.getUserFromCache()!!.apiKey}", ppgMeasures, activityId)
 }

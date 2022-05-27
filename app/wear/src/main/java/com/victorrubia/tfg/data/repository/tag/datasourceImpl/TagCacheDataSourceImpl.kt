@@ -13,23 +13,14 @@ class TagCacheDataSourceImpl : TagCacheDataSource {
      */
     private var tags : MutableList<Tag> = ArrayList()
 
-    /**
-     * {@inheritDoc}
-     */
     override suspend fun getTagsFromCache(): List<Tag> {
         return tags
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override suspend fun saveTagToCache(tag: Tag) {
         tags.add(tag)
     }
 
-    /**
-     * {@inheritDoc}
-     */
     override suspend fun clearAll() {
         tags.clear()
     }

@@ -17,25 +17,19 @@ class UserLocalDataSourceImpl(
     private val userDao : UserDao
 ) : UserLocalDataSource{
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun getUserFromDB(): User {
         return userDao.getUser()
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun saveUserToDB(user: User) {
         CoroutineScope(Dispatchers.IO).launch{
             userDao.saveUser(user)
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun clearAll() {
         CoroutineScope(Dispatchers.IO).launch {
             userDao.deleteUser()

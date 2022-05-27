@@ -19,9 +19,7 @@ class TagRemoteDataSourceImpl(
     private val user : UserCacheDataSource
 ) : TagRemoteDataSource{
 
-    /**
-     * {@inheritDoc}
-     */
+
     override suspend fun addTag(tag: String, datetime: Date, activityId: Int): Response<Tag> =
         tfgService.addTag("Bearer ${user.getUserFromCache()!!.apiKey}", tag, datetime, activityId)
 }
