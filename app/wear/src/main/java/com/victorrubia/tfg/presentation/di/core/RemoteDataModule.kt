@@ -1,9 +1,7 @@
 package com.victorrubia.tfg.presentation.di.core
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import com.victorrubia.tfg.data.api.TFGService
-import com.victorrubia.tfg.data.db.UserDao
 import com.victorrubia.tfg.data.repository.activity.datasource.ActivityRemoteDataSource
 import com.victorrubia.tfg.data.repository.activity.datasourceImpl.ActivityRemoteDataSourceImpl
 import com.victorrubia.tfg.data.repository.ppg_measure.datasource.PPGMeasureRemoteDataSource
@@ -11,7 +9,6 @@ import com.victorrubia.tfg.data.repository.ppg_measure.datasourceImpl.PPGMeasure
 import com.victorrubia.tfg.data.repository.tag.datasource.TagRemoteDataSource
 import com.victorrubia.tfg.data.repository.tag.datasourceImpl.TagRemoteDataSourceImpl
 import com.victorrubia.tfg.data.repository.user.datasource.UserCacheDataSource
-import com.victorrubia.tfg.data.repository.user.datasource.UserLocalDataSource
 import com.victorrubia.tfg.data.repository.user.datasource.UserRemoteDataSource
 import com.victorrubia.tfg.data.repository.user.datasourceImpl.UserRemoteDataSourceImpl
 import dagger.Module

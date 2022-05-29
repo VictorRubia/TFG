@@ -8,7 +8,6 @@ import com.victorrubia.tfg.data.repository.activity.datasource.ActivityRemoteDat
 import com.victorrubia.tfg.domain.repository.ActivityRepository
 import java.time.Instant
 import java.time.ZoneId
-import java.util.*
 
 /**
  * Implementation of the [ActivityRepository] interface that works with data sources.

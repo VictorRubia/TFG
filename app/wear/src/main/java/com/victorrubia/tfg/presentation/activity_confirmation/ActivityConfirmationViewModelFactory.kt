@@ -3,7 +3,6 @@ package com.victorrubia.tfg.presentation.activity_confirmation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.victorrubia.tfg.domain.usecase.NewActivityUseCase
-import com.victorrubia.tfg.presentation.home.HomeViewModel
 
 /**
  * Factory for creating a [ActivityConfirmationViewModel] with a constructor that takes a

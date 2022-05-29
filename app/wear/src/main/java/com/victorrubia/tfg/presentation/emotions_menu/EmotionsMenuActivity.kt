@@ -8,7 +8,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.*
+import androidx.compose.material.icons.rounded.AddReaction
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.CheckBox
+import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -28,9 +31,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.wear.compose.material.*
 import com.victorrubia.tfg.presentation.feelings_menu.FeelingsMenuActivity
-import com.victorrubia.tfg.presentation.user_context_menu.ContextList
-import com.victorrubia.tfg.presentation.user_context_menu.UserContextMenuViewModel
-import com.victorrubia.tfg.presentation.user_context_menu.contextAnnouncement
 import com.victorrubia.tfg.ui.theme.WearAppTheme
 
 /**

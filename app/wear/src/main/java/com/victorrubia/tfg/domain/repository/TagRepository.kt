@@ -1,7 +1,7 @@
 package com.victorrubia.tfg.domain.repository
 
 import com.victorrubia.tfg.data.model.tag.Tag
-import java.util.Date
+import java.util.*
 
 /**
  * Tag repository interface

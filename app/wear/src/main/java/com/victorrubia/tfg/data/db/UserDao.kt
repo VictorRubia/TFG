@@ -15,7 +15,7 @@ interface UserDao {
     /**
      * Save a [User] in the database. If the user already exists, replace it.
      *
-     * @param user
+     * @param user the user to be saved.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveUser(user: User)

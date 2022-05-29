@@ -9,8 +9,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.victorrubia.tfg.data.model.user.User
-import com.victorrubia.tfg.domain.usecase.GetUserUseCase
-import com.victorrubia.tfg.domain.usecase.NewActivityUseCase
 import com.victorrubia.tfg.domain.usecase.RequestUserUseCase
 import com.victorrubia.tfg.domain.usecase.SaveUserUseCase
 import kotlinx.coroutines.CoroutineScope

@@ -1,6 +1,5 @@
 package com.victorrubia.tfg.presentation.di
 
-import android.app.Application
 import com.victorrubia.tfg.presentation.di.activity_confirmation.ActivityConfirmationSubComponent
 import com.victorrubia.tfg.presentation.di.feelings_menu.FeelingsMenuSubComponent
 import com.victorrubia.tfg.presentation.di.home.HomeSubComponent

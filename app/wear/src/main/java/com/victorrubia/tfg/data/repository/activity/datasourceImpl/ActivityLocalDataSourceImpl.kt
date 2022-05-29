@@ -1,7 +1,7 @@
 package com.victorrubia.tfg.data.repository.activity.datasourceImpl
 
-import com.victorrubia.tfg.data.model.activity.Activity
 import com.victorrubia.tfg.data.db.ActivityDao
+import com.victorrubia.tfg.data.model.activity.Activity
 import com.victorrubia.tfg.data.repository.activity.datasource.ActivityLocalDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

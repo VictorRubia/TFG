@@ -1,22 +1,5 @@
 package com.victorrubia.tfg.presentation.home
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.google.common.truth.Truth.assertThat
-import com.victorrubia.tfg.data.model.user.User
-import com.victorrubia.tfg.data.repository.activity.FakeActivityRepository
-import com.victorrubia.tfg.data.repository.user.FakeUserRepository
-import com.victorrubia.tfg.domain.usecase.GetUserUseCase
-import com.victorrubia.tfg.domain.usecase.NewActivityUseCase
-import com.victorrubia.tfg.domain.usecase.RequestUserUseCase
-import com.victorrubia.tfg.domain.usecase.SaveUserUseCase
-import getOrAwaitValue
-
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import org.junit.runner.RunWith
-
 //@RunWith(AndroidJUnit4::class)
 class HomeViewModelTest {
 //    @get:Rule

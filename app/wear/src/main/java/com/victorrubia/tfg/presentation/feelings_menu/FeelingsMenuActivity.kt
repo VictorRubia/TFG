@@ -3,7 +3,6 @@ package com.victorrubia.tfg.presentation.feelings_menu
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,8 +25,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.wear.compose.material.*
 import com.victorrubia.tfg.presentation.di.Injector
-import com.victorrubia.tfg.presentation.emotions_menu.EmotionsList
-import com.victorrubia.tfg.presentation.emotions_menu.emotionAnnouncement
 import com.victorrubia.tfg.presentation.emotions_menu.emotionsCards
 import com.victorrubia.tfg.presentation.emotions_menu.finishedRegisteringEmotionsChip
 import com.victorrubia.tfg.ui.theme.WearAppTheme

@@ -5,7 +5,7 @@ import com.victorrubia.tfg.data.model.tag.Tag
 import com.victorrubia.tfg.data.repository.tag.datasource.TagRemoteDataSource
 import com.victorrubia.tfg.data.repository.user.datasource.UserCacheDataSource
 import retrofit2.Response
-import java.util.Date
+import java.util.*
 
 /**
  * Implementation of [TagRemoteDataSource] for that provides a means of communicating

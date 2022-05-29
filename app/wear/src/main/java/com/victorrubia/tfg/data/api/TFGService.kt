@@ -4,7 +4,7 @@ import com.victorrubia.tfg.data.model.activity.Activity
 import com.victorrubia.tfg.data.model.tag.Tag
 import retrofit2.Response
 import retrofit2.http.*
-import java.util.Date
+import java.util.*
 
 /**
  * Interface for the Retrofit service to connect to the backend.
