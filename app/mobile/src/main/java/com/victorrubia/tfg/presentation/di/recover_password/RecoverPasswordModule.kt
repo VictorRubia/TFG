@@ -5,8 +5,17 @@ import com.victorrubia.tfg.presentation.recover_password.RecoverPasswordViewMode
 import dagger.Module
 import dagger.Provides
 
+/**
+ * Dagger module to provide dependencies for the [RecoverPasswordModule].
+ */
 @Module
 class RecoverPasswordModule {
+
+    /**
+     * Provides the [RecoverPasswordViewModelFactory] instance.
+     * @param recoverPasswordUseCase The [RecoverPasswordUseCase] implementation.
+     * @return The [RecoverPasswordViewModelFactory] instance.
+     */
     @RecoverPasswordScope
     @Provides
     fun provideRecoverPasswordViewModelFactory(

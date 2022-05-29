@@ -10,7 +10,9 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-
+/**
+ * Dagger [AppModule] that provides objects which will live during the application lifecycle.
+ */
 @Module(subcomponents = [
     HomeSubComponent::class,
     LoggedSubComponent::class,
@@ -20,6 +22,11 @@ import javax.inject.Singleton
 ])
 class AppModule(private val context: Context) {
 
+    /**
+     * Provides the application [Context].
+     * @return the application [Context].
+     * Singleton annotation ensures that the object is created only once.
+     */
     @Singleton
     @Provides
     fun provideApplicationContext(): Context {

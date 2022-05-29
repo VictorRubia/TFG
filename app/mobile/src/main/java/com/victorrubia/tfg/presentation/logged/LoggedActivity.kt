@@ -17,6 +17,10 @@ import com.victorrubia.tfg.presentation.di.Injector
 import com.victorrubia.tfg.presentation.home.HomeActivity
 import javax.inject.Inject
 
+/**
+ * Activity that shows the logged user's information and allows him to log out.
+ * Furthermore, it allows him to see whether the wear device is connected or not.
+ */
 class LoggedActivity : AppCompatActivity() {
     @Inject
     lateinit var factory: LoggedViewModelFactory
@@ -35,12 +39,13 @@ class LoggedActivity : AppCompatActivity() {
 
         loggedViewModel.sendApiKeyToWear()
 
-//        loggedViewModel.initMessageBroadcaster(applicationContext)
-
         wearConnectionStatus()
 
     }
 
+    /**
+     * Displays whether the wear device is connected or not.
+     */
     private fun wearConnectionStatus(){
 
         val responseLiveData = loggedViewModel.isWearConnected()
@@ -61,6 +66,9 @@ class LoggedActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Displays the logged user's information.
+     */
     private fun displayContent(){
         val responsibleLiveData = loggedViewModel.getUser()
         responsibleLiveData.observe(this, Observer {
@@ -74,6 +82,9 @@ class LoggedActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * Logs out the user and starts the login activity.
+     */
     fun logOut(item : MenuItem){
         when (item.itemId){
             R.id.logout -> {

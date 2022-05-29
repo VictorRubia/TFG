@@ -8,9 +8,18 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+/**
+ * Dagger module that provides remote data sources dependencies.
+ */
 @Module
 class RemoteDataModule {
 
+    /**
+     * Provides user remote data source.
+     *
+     * @param context the context
+     * @return [UserRemoteDataSource]
+     */
     @Singleton
     @Provides
     fun provideUserRemoteDataSource(tfgService : TFGService, context: Context) : UserRemoteDatasource {

@@ -1,10 +1,10 @@
 package com.victorrubia.tfg.presentation.home
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +17,9 @@ import com.victorrubia.tfg.presentation.logged.LoggedActivity
 import com.victorrubia.tfg.presentation.recover_password.RecoverPasswordActivity
 import javax.inject.Inject
 
+/**
+ * Activity that shows the home screen where the user can choose to log in or recover password
+ */
 class HomeActivity : AppCompatActivity() {
     @Inject
     lateinit var factory: HomeViewModelFactory
@@ -48,6 +51,9 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Method that checks if the user is logged in and if so, starts the logged activity
+     */
     private fun loginUser(){
         val loggedPage = Intent(this, LoggedActivity::class.java)
         animacion.showLoading()

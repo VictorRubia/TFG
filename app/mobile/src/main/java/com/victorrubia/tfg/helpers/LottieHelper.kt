@@ -10,10 +10,16 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.airbnb.lottie.LottieAnimationView
 
+/**
+ * Helper class to manage the animation of the lottie animation
+ */
 class LottieHelper(animationView: LottieAnimationView) {
 
     var animation = animationView
 
+    /**
+     * Method to start the animation
+     */
     fun showLoading(){
         animation.visibility = View.VISIBLE
         animation.setMinAndMaxFrame(0, 59)
@@ -21,17 +27,26 @@ class LottieHelper(animationView: LottieAnimationView) {
         animation.repeatCount = ValueAnimator.INFINITE
     }
 
+    /**
+     * Method to show the animation when the user is logged in successfully
+     */
     fun showLoadingSuccessful(context : Context?, intent : Intent?){
         completeAnimationBeforeNewActivity(context, intent)
         animation.setMinAndMaxFrame(59, 89)
         animation.repeatCount = 0
     }
 
+    /**
+     * Method to show the animation when the login fails
+     */
     fun showLoadingError(){
         animation.setMinAndMaxFrame(90, 138)
         animation.repeatCount = 0
     }
 
+    /**
+     * Method to show the animation entirely before starting a new activity
+     */
     private fun completeAnimationBeforeNewActivity(context : Context?, intent : Intent?){
 
         animation.addAnimatorListener(object : Animator.AnimatorListener {

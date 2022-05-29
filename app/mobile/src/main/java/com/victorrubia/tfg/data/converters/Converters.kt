@@ -5,10 +5,13 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.victorrubia.tfg.data.model.user.UserDetails
 
+/**
+ * Converters for the UserDetails class
+ */
 class Converters {
 
     /**
-     * Convert a a list of Images to a Json
+     * Convert a UserDetails Object to a Json
      */
     @TypeConverter
     fun fromUserDetails(user: UserDetails?): String? {
@@ -16,7 +19,7 @@ class Converters {
     }
 
     /**
-     * Convert a json to a list of Images
+     * Convert a String to a UserDetails Object
      */
     @TypeConverter
     fun stringToUserDetails(jsonUser: String?): UserDetails? {

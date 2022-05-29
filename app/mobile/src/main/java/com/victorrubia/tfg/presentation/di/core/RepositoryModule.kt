@@ -1,6 +1,5 @@
 package com.victorrubia.tfg.presentation.di.core
 
-import android.content.Context
 import com.victorrubia.tfg.data.repository.user.UserRepositoryImpl
 import com.victorrubia.tfg.data.repository.user.datasource.UserCacheDataSource
 import com.victorrubia.tfg.data.repository.user.datasource.UserLocalDataSource
@@ -10,9 +9,20 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+/**
+ * Dagger module that provides repository dependencies.
+ */
 @Module
 class RepositoryModule {
 
+    /**
+     * Provides the [UserRepository] implementation.
+     *
+     * @param userRemoteDataSource the [UserRemoteDataSource] implementation.
+     * @param userLocalDataSource the [UserLocalDataSource] implementation.
+     * @param userCacheDataSource the [UserCacheDataSource] implementation.
+     * @return the [UserRepository] implementation.
+     */
     @Singleton
     @Provides
     fun provideUserRepository(

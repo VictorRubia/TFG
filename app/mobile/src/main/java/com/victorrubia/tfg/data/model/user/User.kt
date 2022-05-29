@@ -5,6 +5,12 @@ import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
 import com.victorrubia.tfg.data.converters.Converters
 
+/**
+ * User model
+ *
+ * @property apiKey API key
+ * @property userDetails User details
+ */
 @Entity(tableName = "current_user")
 data class User(
     @PrimaryKey

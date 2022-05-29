@@ -14,6 +14,10 @@ import com.victorrubia.tfg.domain.usecase.GetUserUseCase
 import com.victorrubia.tfg.presentation.di.Injector
 import javax.inject.Inject
 
+/**
+ * WearableListenerService to receive messages from the watch even when the app is not running.
+ * This is needed to send the user data to the watch.
+ */
 class WearService : WearableListenerService(), MessageClient.OnMessageReceivedListener {
 
     @Inject
@@ -26,6 +30,11 @@ class WearService : WearableListenerService(), MessageClient.OnMessageReceivedLi
 
     private val API_KEY_CAPABILITY_NAME = "api_key_sender"
 
+    /**
+     * When a message is received from the watch, this method is called.
+     *
+     * @param messageEvent The message received from the watch.
+     */
     override fun onMessageReceived(messageEvent: MessageEvent) {
         if (messageEvent.path == API_KEY_CAPABILITY_NAME) {
             Log.d("Servicio", "Received API Request");

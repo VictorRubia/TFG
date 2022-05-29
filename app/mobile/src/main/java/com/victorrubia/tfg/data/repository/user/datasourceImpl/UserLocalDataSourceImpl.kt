@@ -7,6 +7,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * Implementation of the [UserLocalDataSource] that saves data on the local database.
+ * @property userDao The [UserDao] that provides access to the local database.
+ */
 class UserLocalDataSourceImpl(
     private val userDao: UserDao
 ) : UserLocalDataSource {

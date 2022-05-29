@@ -8,9 +8,19 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+/**
+ * Module that provides all the necessary dependencies about the database.
+ */
 @Module
 class DataBaseModule {
 
+    /**
+     * Provides the database.
+     * Singleton annotation is necessary to make the database available to the whole application.
+     *
+     * @param context the context of the application.
+     * @return the database [TFGDatabase].
+     */
     @Singleton
     @Provides
     fun provideUserDataBase(context : Context) : TFGDatabase {
@@ -18,6 +28,13 @@ class DataBaseModule {
             .build()
     }
 
+    /**
+     * Provides the user dao.
+     * Singleton annotation is necessary to make the dao available to the whole application.
+     *
+     * @param tfgDatabase the database.
+     * @return the user dao [UserDao].
+     */
     @Singleton
     @Provides
     fun provideUserDao(tfgDatabase: TFGDatabase) : UserDao {

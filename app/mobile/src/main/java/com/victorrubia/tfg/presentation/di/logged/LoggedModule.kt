@@ -8,8 +8,20 @@ import com.victorrubia.tfg.presentation.logged.LoggedViewModelFactory
 import dagger.Module
 import dagger.Provides
 
+/**
+ * Dagger module to provide dependencies for the [LoggedViewModelFactory].
+ */
 @Module
 class LoggedModule {
+
+    /**
+     * Provides the [LoggedViewModelFactory] instance.
+     * @param getUserUseCase The [GetUserUseCase] implementation.
+     * @param isWearConnectedUseCase The [IsWearConnectedUseCase] implementation.
+     * @param removeLocalUserUseCase The [RemoveLocalUserUseCase] implementation.
+     * @param sendApiKeyToWearUseCase The [SendApiKeyToWearUseCase] implementation.
+     * @return The [LoggedViewModelFactory] instance.
+     */
     @LoggedScope
     @Provides
     fun provideLoggedViewModelFactory(

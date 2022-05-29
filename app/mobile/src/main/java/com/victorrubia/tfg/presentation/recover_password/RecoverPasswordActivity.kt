@@ -1,9 +1,9 @@
 package com.victorrubia.tfg.presentation.recover_password
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +14,9 @@ import com.victorrubia.tfg.helpers.LottieHelper
 import com.victorrubia.tfg.presentation.di.Injector
 import javax.inject.Inject
 
+/**
+ * Activity that allows the user to remind his password
+ */
 class RecoverPasswordActivity : AppCompatActivity() {
     @Inject
     lateinit var factory: RecoverPasswordViewModelFactory
@@ -44,6 +47,9 @@ class RecoverPasswordActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Process the filled in email and sends a request to the server, showing a loading animation and a message.
+     */
     private fun sendRequest(){
         animacion.showLoading()
         val responseLiveData = recoverPasswordViewModel.requestPasswordReminder(binding.recoverPasswordEmailText.text.toString())

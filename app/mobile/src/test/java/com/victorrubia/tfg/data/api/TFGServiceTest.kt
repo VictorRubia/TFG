@@ -54,7 +54,7 @@ class TFGServiceTest {
             enqueueMockResponse("userresponse.json")
             val responseBody = service.getUserInfo("victorjoserubia@gmail.com","4321").body()
             val userDetails = responseBody!!.userDetails
-            val apiKey = responseBody!!.apiKey
+            val apiKey = responseBody.apiKey
             assertThat(userDetails.name).isEqualTo("PruebaNombre")
             assertThat(userDetails.email).isEqualTo("victorjoserubia@gmail.com")
             assertThat(apiKey).isEqualTo("a849134f7fedc8031baeb4fee18b33d2")
