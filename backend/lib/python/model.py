@@ -21,7 +21,7 @@ trainFile=trainFile.drop(columns=['condition'])
 # rfc = RandomForestClassifier()
 knc = KNeighborsClassifier()
 # modeloRfc = rfc.fit(trainFile, targetTrain)
-modeloKNc = rfc.fit(trainFile, targetTrain)
+modeloKNc = knc.fit(trainFile, targetTrain)
 
 s = pickle.dumps(modeloKNc)
 
