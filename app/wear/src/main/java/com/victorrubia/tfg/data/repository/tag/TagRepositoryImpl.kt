@@ -46,20 +46,19 @@ class TagRepositoryImpl(
         }
         catch (exception : Exception){
             delay(15000)
-            addTagToAPI(tag, datetime, activityId)
-            Log.e("MyTag", exception.message.toString())
-        }
-        val tagsPendientes = tagLocalDataSource.getTagsFromDB()
-        if(tagsPendientes.isNotEmpty()){
-            Log.d("MyTag", "Mando tags porq tengo pendientes")
-            tagsPendientes.forEach{
-                try {
-                    tagRemoteDataSource.addTag(it.tag, it.datetime, it.activityId)
-                }
-                catch (exception : Exception){
-                    Log.e("MyTag", exception.message.toString())
+            val tagsPendientes = tagLocalDataSource.getTagsFromDB()
+            if(tagsPendientes.isNotEmpty()){
+                Log.d("MyTag", "Mando tags porq tengo pendientes")
+                tagsPendientes.forEach{
+                    try {
+                        tagRemoteDataSource.addTag(it.tag, it.datetime, it.activityId)
+                    }
+                    catch (exception : Exception){
+                        Log.e("MyTag", exception.message.toString())
+                    }
                 }
             }
+            Log.e("MyTag", exception.message.toString())
         }
 
         return Tag(tag, datetime, activityId)
