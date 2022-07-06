@@ -56,36 +56,6 @@ ActiveRecord::Schema.define(version: 2022_05_24_150909) do
     t.index ["user_id"], name: "index_activities_on_user_id"
   end
 
-  create_table "measures", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "patient_id", null: false
-    t.integer "hr"
-    t.decimal "grades", precision: 10
-    t.decimal "minutes", precision: 10
-    t.decimal "seconds", precision: 10
-    t.integer "steps"
-    t.float "accelerometer_X"
-    t.float "accelerometer_Y"
-    t.float "accelerometer_Z"
-    t.float "gyroscope_X"
-    t.float "gyroscope_Y"
-    t.float "gyroscope_Z"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["patient_id"], name: "index_measures_on_patient_id"
-  end
-
-  create_table "patients", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
-    t.string "surname"
-    t.string "username"
-    t.string "password_hash"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.text "private_api_key_ciphertext"
-    t.string "private_api_key_bidx"
-    t.index ["private_api_key_bidx"], name: "index_patients_on_private_api_key_bidx", unique: true
-  end
-
   create_table "ppg_measures", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.json "measurement"
     t.bigint "activity_id", null: false
@@ -139,7 +109,6 @@ ActiveRecord::Schema.define(version: 2022_05_24_150909) do
   add_foreign_key "account_remember_keys", "accounts", column: "id"
   add_foreign_key "account_verification_keys", "accounts", column: "id"
   add_foreign_key "activities", "users"
-  add_foreign_key "measures", "patients"
   add_foreign_key "ppg_measures", "activities"
   add_foreign_key "requests", "users"
   add_foreign_key "stresses", "activities"
