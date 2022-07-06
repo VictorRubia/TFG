@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   root "welcome#index"
   get 'activities/:id/export', to: 'activities#export'
   get 'activities/:id/ppg_measures', to: 'activities#ppg_measures'
+  get 'download_wearos_apk', to: 'welcome#download_wearos_apk'
+  get 'download_android_apk', to: 'welcome#download_android_apk'
   resources :activities
   constraints Rodauth::Rails.authenticated do
     get '/dashboard/index', to: 'dashboard#activity_user'
