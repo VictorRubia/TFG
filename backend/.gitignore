@@ -46,3 +46,4 @@ backend/config/credentials/development.key
 
 backend/config/credentials/test.key
 backend/data/
+/data/

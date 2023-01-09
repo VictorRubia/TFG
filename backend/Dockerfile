@@ -1,9 +1,11 @@
 # syntax=docker/dockerfile:1
 FROM ruby:3.1.0
-RUN apt-get update -qq && apt-get install -y build-essential npm yarn nodejs default-mysql-client default-libmysqlclient-dev pip
+RUN apt-get update -qq && apt-get install -y build-essential default-mysql-client default-libmysqlclient-dev pip
 RUN apt remove cmdtest -y
 RUN python3 -m pip install pandas matplotlib
 RUN python3 -m pip install -U scikit-learn
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
+RUN apt-get install nodejs
 RUN npm install -g npm@latest
 RUN npm install -g yarn
 WORKDIR /tfg
