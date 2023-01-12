@@ -19,7 +19,8 @@ android {
             useSupportLibrary true
         }
 
-        buildConfigField "String", "BASE_URL", "\"http://victorrubia.com:3000/api/v1/\""
+//        buildConfigField "String", "BASE_URL", "\"http://192.168.0.55:3000/api/v1/\""
+        buildConfigField "String", "BASE_URL", "\"http://172.20.10.2:3000/api/v1/\""
     }
 
     buildTypes {
@@ -45,6 +46,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.2.0-beta01"
     }
+    namespace 'com.victorrubia.tfg'
 }
 
 dependencies {

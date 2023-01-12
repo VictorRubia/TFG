@@ -1,6 +1,8 @@
 package com.victorrubia.tfg.presentation.home
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
@@ -73,6 +75,12 @@ class HomeActivity : ComponentActivity(), MessageClient.OnMessageReceivedListene
             .inject(this)
         homeViewModel = ViewModelProvider(this, factory)
             .get(HomeViewModel::class.java)
+
+        if (checkSelfPermission(Manifest.permission.BODY_SENSORS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions( Array(1){Manifest.permission.BODY_SENSORS}, 1);
+        } else {
+            Log.d("PERMISSION", "ALREADY GRANTED");
+        }
 
         Wearable.getMessageClient(this).addListener(this)
 

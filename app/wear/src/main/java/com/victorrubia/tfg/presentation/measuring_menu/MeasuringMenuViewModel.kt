@@ -53,6 +53,7 @@ class MeasuringMenuViewModel(
         for (currentSensor in sensorList) {
             if(currentSensor.stringType.contains("ppg") && sensorStatus){
                 ppgSensorId = currentSensor.type
+//                heartRateSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE)
                 heartRateSensor = sensorManager.getDefaultSensor(ppgSensorId)
                 sensorManager.registerListener(this, heartRateSensor, SensorManager.SENSOR_DELAY_NORMAL)
                 sensorStatus = false
